@@ -1,0 +1,91 @@
+﻿@model eFormRequest.Element
+@{ string style = "";}
+
+@if (@Model.GetType() == typeof(eFormRequest.DataElement))
+{
+    eFormRequest.DataElement @dataE = (eFormRequest.DataElement)Model;
+    <section id="cl@(Model.Id)">
+        <hr class="soften" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p class="lead black-color">
+                    @Model.Label
+                </p>
+            </div>
+            <table class="table">
+                @if (dataE.ApprovalEnabled)
+                {
+                    <tr>
+                        <td>
+                            ApprovalEnabled
+                        </td>
+                    </tr>
+                }
+                <tbody>
+                    @foreach (eFormRequest.FieldValue sub_item in @dataE.DataItemList)
+                    {
+                        if (!sub_item.Color.IsEmpty())
+                        {
+                            style = "background-color: #" + sub_item.Color + ";";
+                        } else
+                        {
+                            style = "";
+                        }
+                        <tr style="@(style)">
+                            <td>
+                                <strong>@sub_item.Label</strong>                                
+                            </td>
+                        </tr>
+                        <tr style="@(style)">
+                            <td>
+                                @*@sub_item.fieldType*@
+                                @switch (@sub_item.fieldType)
+                                {
+                                    case "CheckBox":
+                                        @Html.Partial("Fields/CheckBox", sub_item);
+                                        break;
+                                    case "Comment":
+                                        @Html.Partial("Fields/Comment", sub_item);
+                                        break;
+                                    case "FieldGroup":
+                                        @Html.Partial("Fields/FieldGroup", sub_item);
+                                        break;
+                                    case "MultiSelect":
+                                        @Html.Partial("Fields/MultiSelect", sub_item);
+                                        break;
+                                    case "Number":
+                                        @Html.Partial("Fields/Number", sub_item);
+                                        break;
+                                    case "Picture":
+                                        @Html.Partial("Fields/Picture", sub_item);
+                                        break;
+                                    case "Text":
+                                        @Html.Partial("Fields/Text", sub_item);
+                                        break;
+                                    case "Date":
+                                        @Html.Partial("Fields/Date", sub_item);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </td>
+                        </tr>
+                    }
+                    @if (dataE.ExtraFieldsEnabled)
+                    {
+                        <tr>
+                            <td>
+                                ExtraFieldsEnabled
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+else
+{
+    @Html.Partial("EditSection", Model);
+}
+

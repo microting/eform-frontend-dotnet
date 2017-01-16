@@ -1,0 +1,10 @@
+﻿@model eFormRequest.FieldValue
+
+@if (Model.Value == "checked" || Model.Value == "1")
+{
+    <input class="pull-right" type="checkbox" checked name="case[@(Model.Id)]" id="@(Model.Id)" value="1" />
+}
+else
+{
+    <input class="pull-right" type="checkbox" checked name="case[@(Model.Id)]" id="@(Model.Id)" />
+}

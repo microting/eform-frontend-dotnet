@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Edit case";
+}
+<br />
+<ol class="breadcrumb">@ViewBag.theCase.Label</ol>
+
+<form>
+    <div class="container-fluid">
+        <div class="bs-docs-container">
+            <div class="row">
+                <div class="col-md-9" role="main">
+                    @foreach (eFormRequest.Element item in @ViewBag.theCase.ElementList)
+                    {
+                        @Html.Partial("EditSection", item);
+                    }
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
