@@ -1,3 +1,5 @@
 ﻿@model eFormRequest.FieldValue
 
-@Model.Value
+@*@Model.Value*@
+
+<input class="form-control" type="number" name="f_[@(Model.Id)]" placeholder="@(Model.Value)" value="@(Model.Value)" id="fv_@(Model.Id)"/>

@@ -1,3 +1,16 @@
 ﻿@model eFormRequest.FieldValue
 
-@Model.Value
+@*@Model.Value*@
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="input-group date" data-date-format="DD/MM/YYYYY" id="datetimepicker_@(Model.Id)">
+                <input class="form-control" name="f_[@(Model.Id)]" type="text" value="@(Model.Value)" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

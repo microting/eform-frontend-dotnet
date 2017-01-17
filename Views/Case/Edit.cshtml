@@ -15,7 +15,32 @@
                     }
                 </div>
                 <div class="col-md-3">
-
+                    <div class="bs-docs-container hidden-print affix" id="mt-side-bar" role="complementary">
+                        <ul class="nav bs-docs-sidebar">
+                            <li class="active">
+                                <a href="#inspection_v1_4">
+                                    <i class="glyphicon-chevron-right">
+                                        @ViewBag.theCase.Label
+                                    </i>
+                                </a>
+                                <ul class="nav">
+                                    @foreach (eFormRequest.Element item in @ViewBag.theCase.ElementList)
+                                    {
+                                        <li class="">
+                                            <a href="#cl@(item.Id)">
+                                                <i class="glyphicon-chevron-right">
+                                                    @item.Label
+                                                </i>
+                                            </a>
+                                        </li>                                       
+                                    }
+                                </ul>
+                            </li>
+                            <li class="text-center">
+                                <button class="btn btn-ar btn-danger" id="submit_form">Gem</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
