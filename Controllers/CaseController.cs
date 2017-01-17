@@ -23,17 +23,10 @@ namespace eFormFrontendDotNet.Controllers
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string comToken = lines[0];
-            string comAddress = lines[1];
-
-            string subscriberToken = lines[3];
-            string subscriberAddress = lines[4];
-            string subscriberName = lines[5];
-
             string serverConnectionString = lines[7];
             string fileLocation = lines[8];
             bool logEnabled = bool.Parse(lines[9]);
-            Core core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            Core core = new Core();
 
             core.HandleCaseCreated += EventCaseCreated;
             core.HandleCaseRetrived += EventCaseRetrived;
@@ -45,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventMessage += EventMessage;
             core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
-            core.Start();
+            core.StartLimited(serverConnectionString, logEnabled);
             var theCase = core.CaseRead(id, null);
             ViewBag.theCase = theCase;
             return View();

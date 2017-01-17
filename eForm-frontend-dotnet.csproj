@@ -44,25 +44,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="eFormCommunicator, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="eFormCommunicator, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Microting\Microting\DLL\eFormCommunicator.dll</HintPath>
+      <HintPath>eform-sdk-dotnet\Complied\eFormCommunicator.dll</HintPath>
     </Reference>
-    <Reference Include="eFormRequest, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="eFormRequest, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Microting\Microting\DLL\eFormRequest.dll</HintPath>
+      <HintPath>eform-sdk-dotnet\Complied\eFormRequest.dll</HintPath>
     </Reference>
-    <Reference Include="eFormResponse, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="eFormResponse, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Microting\Microting\DLL\eFormResponse.dll</HintPath>
+      <HintPath>eform-sdk-dotnet\Complied\eFormResponse.dll</HintPath>
     </Reference>
-    <Reference Include="eFormSqlController, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="eFormSqlController, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Microting\Microting\DLL\eFormSqlController.dll</HintPath>
+      <HintPath>eform-sdk-dotnet\Complied\eFormSqlController.dll</HintPath>
     </Reference>
-    <Reference Include="eFormSubscriber, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="eFormSubscriber, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Microting\Microting\DLL\eFormSubscriber.dll</HintPath>
+      <HintPath>eform-sdk-dotnet\Complied\eFormSubscriber.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -97,6 +97,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microting, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>eform-sdk-dotnet\Complied\Microting.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -216,7 +220,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CaseController.cs" />
-    <Compile Include="Core.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
