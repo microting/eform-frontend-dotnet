@@ -1,9 +1,9 @@
 ﻿@model eFormRequest.Element
 @{ string style = "";}
 
-@if (@Model.GetType() == typeof(eFormRequest.DataElement))
+@if (@Model.GetType() == typeof(eFormRequest.CheckListValue))
 {
-    eFormRequest.DataElement @dataE = (eFormRequest.DataElement)Model;
+    eFormRequest.CheckListValue @dataE = (eFormRequest.CheckListValue)Model;
     <section id="cl@(Model.Id)">
         <hr class="soften" />
         <div class="panel panel-default">
@@ -13,33 +13,57 @@
                 </p>
             </div>
             <table class="table">
-                @if (dataE.ApprovalEnabled)
-                {
+                <tbody>
                     <tr>
                         <td>
-                            ApprovalEnabled
+                            @if (dataE.ApprovalEnabled)
+                            {
+                                if (dataE.Status == "approved")
+                                {
+                                    <div class="radio">
+                                        <input checked id="cl_v[@(dataE.Id)][1]" name="f[@(dataE.Id)]" type="radio" value="1" />
+                                        <label for="cl_v[@(dataE.Id)][1]">Godkendt</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="cl_v[@(dataE.Id)][2]" name="f[@(dataE.Id)]" type="radio" value="2" />
+                                        <label for="cl_v[@(dataE.Id)][2]">Ikke godkendt</label>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="radio">
+                                        <input id="cl_v[@(dataE.Id)][2]" name="f[@(dataE.Id)]" type="radio" value="2" />
+                                        <label for="cl_v[@(dataE.Id)][2]">Ikke godkendt</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input checked id="cl_v[@(dataE.Id)][1]" name="f[@(dataE.Id)]" type="radio" value="1" />
+                                        <label for="cl_v[@(dataE.Id)][1]">Godkendt</label>
+                                    </div>
+                                }
+                            }                            
                         </td>
                     </tr>
-                }
-                <tbody>
+
                     @foreach (eFormRequest.FieldValue sub_item in @dataE.DataItemList)
                     {
                         if (!sub_item.Color.IsEmpty())
                         {
                             style = "background-color: #" + sub_item.Color + ";";
-                        } else
+                        }
+                        else
                         {
                             style = "";
                         }
                         <tr style="@(style)">
                             <td>
-                                <strong>@sub_item.Label</strong>                                
+                                <strong>@sub_item.Label</strong>
                             </td>
                         </tr>
                         <tr style="@(style)">
                             <td>
                                 @*@sub_item.fieldType*@
-                                @switch (@sub_item.fieldType)
+                                @switch (@sub_item.FieldType)
                                 {
                                     case "CheckBox":
                                         @Html.Partial("Fields/CheckBox", sub_item);
@@ -80,7 +104,9 @@
                         </tr>
                     }
                 </tbody>
+
             </table>
+
         </div>
     </section>
 }

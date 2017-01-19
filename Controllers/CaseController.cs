@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventMessage += EventMessage;
             core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
-            core.StartLimited(serverConnectionString, logEnabled);
+            core.StartSqlOnly(serverConnectionString);
             var theCase = core.CaseRead(id, null);
             ViewBag.theCase = theCase;
             return View();
