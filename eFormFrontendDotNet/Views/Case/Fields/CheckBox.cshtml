@@ -3,12 +3,20 @@
 @if (Model.Value == "checked" || Model.Value == "1")
 {
     <div class="checkbox">
-        <input type="checkbox" checked name="f_[@(Model.Id)]" id="@(Model.Id)" value="1" />
+        <input id="@(Model.Id)" checked name="f_[@(Model.Id)]" type="checkbox" value="checked">
+        <label for="@(Model.Id)">
+
+        </label>
+        <br>
     </div>
 }
 else
 {
     <div class="checkbox">
-        <input type="checkbox" checked name="f_[@(Model.Id)]" id="@(Model.Id)" />
+        <input id="@(Model.Id)" name="f_[@(Model.Id)]" type="checkbox" value="checked">
+        <label for="@(Model.Id)">
+            
+        </label>
+        <br>
     </div>
 }

@@ -40,8 +40,6 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 i += 1;
             }
-                //var value1 = Request.Form.Get(keys[0]);
-            //var value2 = Request.Form.Get(keys[1]);
             return View();
         }
 
@@ -65,9 +63,17 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
             core.StartSqlOnly(serverConnectionString);
-            var theCase = core.CaseRead(id, null);
-            ViewBag.theCase = theCase;
-            return View();
+            try
+            {
+                var theCase = core.CaseRead(id, null);
+
+                ViewBag.theCase = theCase;
+                return View();
+            } catch
+            {
+                return RedirectToAction("Index");
+            }
+            
         }
 
         #region events
