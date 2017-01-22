@@ -252,7 +252,6 @@
     <Content Include="Content\images\sort_desc_disabled.png" />
     <Content Include="Content\mt_layout.css" />
     <Content Include="Content\mt_overrides_trumbowyg.css" />
-    <Content Include="Content\style-red2.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
