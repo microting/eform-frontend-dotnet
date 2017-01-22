@@ -297,6 +297,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\trumbowyg.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Case\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -328,6 +329,7 @@
     <Content Include="Views\Case\Fields\Text.cshtml" />
     <Content Include="Views\Case\Fields\Timer.cshtml" />
     <Content Include="Scripts\wow.min.js" />
+    <Content Include="Views\Case\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

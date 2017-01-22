@@ -19,6 +19,32 @@ namespace eFormFrontendDotNet.Controllers
             //return "hej";
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Update(String id)
+        {
+            var keys = Request.Form.AllKeys;
+            List<string> checkListValueList = new List<string>();
+            List<string> fieldValueList = new List<string>();
+            int i = 0;
+
+            foreach (string key in keys)
+            {
+                if (key.Contains("cl_"))
+                {
+                    
+                    checkListValueList.Add(key.Replace("cl_v[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
+                } else
+                {
+                    fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
+                }
+                i += 1;
+            }
+                //var value1 = Request.Form.Get(keys[0]);
+            //var value2 = Request.Form.Get(keys[1]);
+            return View();
+        }
+
         public ActionResult Edit(String id)
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
