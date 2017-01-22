@@ -2,11 +2,14 @@
 
 @*@Model.Value*@
 
+@{String value = DateTime.ParseExact(Model.Value, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture).ToString("dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);}
+
+
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
             <div class="input-group date" data-date-format="DD/MM/YYYYY" id="datetimepicker_@(Model.Id)">
-                <input class="form-control" name="f_[@(Model.Id)]" type="text" value="@(Model.Value)" />
+                <input class="form-control" name="f_[@(Model.Id)]" type="text" value="@(value)" />
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -14,3 +17,15 @@
         </div>
     </div>
 </div>
+<script>
+
+    //<![CDATA[
+    $(function () {
+        $('#datetimepicker_@(Model.Id)').datetimepicker({
+            defaultDate: '@(value)',
+            format: "DD/MM/YYYY"
+        });
+    });
+    //]]>
+
+</script>
