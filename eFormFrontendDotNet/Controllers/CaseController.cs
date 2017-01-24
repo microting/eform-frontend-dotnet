@@ -47,9 +47,8 @@ namespace eFormFrontendDotNet.Controllers
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string serverConnectionString = lines[7];
-            string fileLocation = lines[8];
-            bool logEnabled = bool.Parse(lines[9]);
+            string serverConnectionString = lines[0];
+
             Core core = new Core();
 
             core.HandleCaseCreated += EventCaseCreated;
