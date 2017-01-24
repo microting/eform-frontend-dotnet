@@ -11,12 +11,12 @@ namespace eFormFrontendDotNet.Controllers
 {
     public class CaseController : Controller
     {
+        object _lockLogFil = new object();
         // GET: Case
         public ActionResult Index(String check_list_id)
         //public String Index()
         {
             return View();
-            //return "hej";
         }
 
         [HttpPost]
@@ -149,18 +149,18 @@ namespace eFormFrontendDotNet.Controllers
 
         public void EventLog(object sender, EventArgs args)
         {
-            //lock (_lockLogFil)
-            //{
-            //    try
-            //    {
-            //        //DOSOMETHING: changed to fit your wishes and needs 
-            //        File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        EventException(ex, EventArgs.Empty);
-            //    }
-            //}
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    //DOSOMETHING: changed to fit your wishes and needs 
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
         }
 
         public void EventMessage(object sender, EventArgs args)

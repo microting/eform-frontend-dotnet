@@ -1,6 +1,20 @@
 ﻿@model eFormRequest.FieldValue
 
-<div class="radio">
-    <input checked id="f_[@(Model.Id)][1]" name="f_[@(Model.Id)]" type="radio" value="@Model.Value" />
-    <label for="f_[@(Model.Id)][1]">@Model.ValueReadable</label>
-</div>
+@foreach (eFormRequest.KeyValuePair item in @Model.KeyValuePairList)
+{
+    if (Model.Value == item.Key)
+    {
+        <div class="radio">
+            <input checked id="f_[@(Model.Id)][1]" name="f_[@(Model.Id)]" type="radio" value="@item.Key" />
+            <label for="f_[@(Model.Id)][1]">@item.Value</label>
+        </div>
+    }
+    else
+    {
+        <div class="radio">
+            <input id="f_[@(Model.Id)][1]" name="f_[@(Model.Id)]" type="radio" value="@item.Key" />
+            <label for="f_[@(Model.Id)][1]">@item.Value</label>
+        </div>
+    }
+}
+

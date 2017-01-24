@@ -97,7 +97,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microting, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microting, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\Microting.exe</HintPath>
     </Reference>
