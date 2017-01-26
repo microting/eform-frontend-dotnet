@@ -12,9 +12,7 @@ namespace eFormFrontendDotNet.Controllers
     public class CaseController : Controller
     {
         object _lockLogFil = new object();
-        // GET: Case
         public ActionResult Index(String check_list_id)
-        //public String Index()
         {
             return View();
         }
@@ -78,73 +76,32 @@ namespace eFormFrontendDotNet.Controllers
         #region events
         public void EventCaseCreated(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            // Does nothing for web implementation
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            // Does nothing for web implementation
         }
 
         public void EventCaseCompleted(object sender, EventArgs args)
         {
-            //lock (_lockLogic)
-            //{
-            //    try
-            //    {
-            //        Case_Dto trigger = (Case_Dto)sender;
-            //        int siteId = trigger.SiteId;
-            //        string caseType = trigger.CaseType;
-            //        string caseUid = trigger.CaseUId;
-            //        string mUId = trigger.MicrotingUId;
-            //        string checkUId = trigger.CheckUId;
-            //    }
-            //    catch
-            //    {
-
-            //    }
-            //}
+            // Does nothing for web implementation
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            // Does nothing for web implementation
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //File_Dto temp = (File_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
-            //string fileLocation = temp.FileLocation;
+            // Does nothing for web implementation
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //int siteId = int.Parse(sender.ToString());
+            // Does nothing for web implementation
         }
 
         public void EventLog(object sender, EventArgs args)
@@ -153,7 +110,6 @@ namespace eFormFrontendDotNet.Controllers
             {
                 try
                 {
-                    //DOSOMETHING: changed to fit your wishes and needs 
                     System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
                 }
                 catch (Exception ex)
@@ -165,20 +121,47 @@ namespace eFormFrontendDotNet.Controllers
 
         public void EventMessage(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Console.WriteLine(sender.ToString());
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
         }
 
         public void EventWarning(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Console.WriteLine("## WARNING ## " + sender.ToString() + " ## WARNING ##");
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), "## WARNING ## " + sender.ToString() + " ## WARNING ##" + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
         }
 
         public void EventException(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Exception ex = (Exception)sender;
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
         }
         #endregion
     }
