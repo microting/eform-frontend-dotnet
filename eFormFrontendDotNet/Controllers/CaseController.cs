@@ -1,19 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microting;
-using eFormRequest;
 
 namespace eFormFrontendDotNet.Controllers
 {
     public class CaseController : Controller
     {
         object _lockLogFil = new object();
-        public ActionResult Index(String check_list_id)
+        public ActionResult Index(string id)
         {
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+
+            string serverConnectionString = lines.First();
+
+            Core core = new Core();
+
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
+            core.StartSqlOnly(serverConnectionString);
+
+            try
+            {
+                //var all_cases = core.CaseReadAll(int.Parse(id), DateTime.Now.AddYears(-10), DateTime.Now.AddDays(2));
+                var all_cases = core.CaseReadAll(int.Parse(id), null, null);
+                ViewBag.all_cases = all_cases;
+                return View();
+            } catch (Exception ex)
+            {
+
+            }
             return View();
         }
 

@@ -1,1 +1,59 @@
-﻿
+﻿@{
+    ViewBag.Title = "All cases";
+}
+<br />
+<ol class="breadcrumb">@ViewBag.Title</ol>
+<div class="row"></div>
+<br />
+
+<table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="check_lists" width="100%" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
+    <thead>
+        <tr role="row">
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                #
+            </th>
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                Created at
+            </th>
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                Done at
+            </th>
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                Done by
+            </th>
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                Status
+            </th>
+            <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                Edit case
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (eFormSqlController.cases item in @ViewBag.all_cases)
+        {
+            <tr>
+                <td class="text-center">
+                    @item.id
+                </td>
+                <td class="text-center">
+                    @item.created_at
+                </td>
+                <td class="text-center">
+                    @item.done_at
+                </td>
+                <td class="text-center">
+                    @item.done_by_user_id
+                </td>
+                <td class="text-center">
+                    @item.status
+                </td>
+                <td class="text-center">
+                    <a href="/Case/Edit/@(item.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button"  data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
+                        <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.microting_uid)"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
