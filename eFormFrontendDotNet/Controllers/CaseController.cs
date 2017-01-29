@@ -19,7 +19,7 @@ namespace eFormFrontendDotNet.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Update(String id)
+        public ActionResult Update(string id)
         {
             var keys = Request.Form.AllKeys;
             List<string> checkListValueList = new List<string>();
@@ -41,11 +41,14 @@ namespace eFormFrontendDotNet.Controllers
             return View();
         }
 
-        public ActionResult Edit(String id)
+        public ActionResult Edit(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
+               
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string serverConnectionString = lines[0];
+            string serverConnectionString = lines.First();
 
             Core core = new Core();
 

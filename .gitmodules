@@ -1,3 +1,0 @@
-[submodule "eFormFrontendDotNet/eform-sdk-dotnet"]
-	path = eFormFrontendDotNet/eform-sdk-dotnet
-	url = git@github.com:microting/eform-sdk-dotnet.git

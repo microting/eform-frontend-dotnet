@@ -220,6 +220,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CaseController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -330,6 +331,7 @@
     <Content Include="Views\Case\Fields\Timer.cshtml" />
     <Content Include="Scripts\wow.min.js" />
     <Content Include="Views\Case\Update.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
