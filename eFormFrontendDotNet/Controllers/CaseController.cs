@@ -9,35 +9,25 @@ namespace eFormFrontendDotNet.Controllers
     public class CaseController : Controller
     {
         object _lockLogFil = new object();
-        public ActionResult Index(string id)
+        public ActionResult Index(int id)
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string serverConnectionString = lines.First();
+            string connectionStr = lines.First();
+            List<Models.cases> cases = null;
 
-            Core core = new Core();
-
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            core.StartSqlOnly(serverConnectionString);
-
-            try
+            using (var db = new Models.Case(connectionStr))
             {
-                //var all_cases = core.CaseReadAll(int.Parse(id), DateTime.Now.AddYears(-10), DateTime.Now.AddDays(2));
-                var all_cases = core.CaseReadAll(int.Parse(id), null, null);
-                ViewBag.all_cases = all_cases;
-                return View();
-            } catch (Exception ex)
-            {
-
+                try
+                {
+                    cases = db.cases.Where(x => x.check_list_id == id).ToList();
+                    ViewBag.cases = cases;
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
+                }
             }
             return View();
         }
@@ -51,29 +41,72 @@ namespace eFormFrontendDotNet.Controllers
             List<string> fieldValueList = new List<string>();
             int i = 0;
 
-            foreach (string key in keys)
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+
+            string connectionStr = lines.First();
+
+            using (var db = new Models.Field(connectionStr))
             {
-                if (key.Contains("cl_"))
+                try
                 {
-                    
-                    checkListValueList.Add(key.Replace("cl_v[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
-                } else
-                {
-                    fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
+                    foreach (string key in keys)
+                    {
+                        if (key.Contains("cl_"))
+                        {
+
+                            checkListValueList.Add(key.Replace("cl_v[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
+                        }
+                        else
+                        {
+                            int _field_id = int.Parse(key.Replace("f_[", "").Replace("]", ""));
+                            Models.fields field = db.fields.SingleOrDefault(x => x.id == _field_id);
+                            if (field.field_type_id == 10)
+                            {
+                                fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]).Replace(",", "|"));
+                            } else
+                            {
+                                fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]));
+                            }                            
+                        }
+                        i += 1;
+                    }
                 }
-                i += 1;
+                catch (Exception ex)
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
+                }
+            }
+
+            try
+            {
+                Core core = new Core();
+
+                core.HandleCaseCreated += EventCaseCreated;
+                core.HandleCaseRetrived += EventCaseRetrived;
+                core.HandleCaseCompleted += EventCaseCompleted;
+                core.HandleCaseDeleted += EventCaseDeleted;
+                core.HandleFileDownloaded += EventFileDownloaded;
+                core.HandleSiteActivated += EventSiteActivated;
+                core.HandleEventLog += EventLog;
+                core.HandleEventMessage += EventMessage;
+                core.HandleEventWarning += EventWarning;
+                core.HandleEventException += EventException;
+                core.StartSqlOnly(connectionStr);
+                core.CaseUpdate(int.Parse(id), fieldValueList);
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
             }
             return View();
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(nameof(id));
                
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string serverConnectionString = lines.First();
+            string connectionStr = lines.First();
 
             Core core = new Core();
 
@@ -87,15 +120,26 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventMessage += EventMessage;
             core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
-            core.StartSqlOnly(serverConnectionString);
+            core.StartSqlOnly(connectionStr);
             try
             {
-                var theCase = core.CaseRead(id, null);
+                string microting_uuid = null;
+                string microting_check_uid = null;
+                using (var db = new Models.Case(connectionStr))
+                {
+                    Models.cases my_case = db.cases.SingleOrDefault(x => x.id == id);
+                    microting_uuid = my_case.microting_uid;
+                    microting_check_uid = my_case.microting_check_uid;
+                }
+                var theCase = core.CaseRead(microting_uuid, microting_check_uid);
 
                 ViewBag.theCase = theCase;
+                ViewBag.case_id = id;
                 return View();
-            } catch
+            }
+            catch (Exception ex)
             {
+                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 return RedirectToAction("Index");
             }
             

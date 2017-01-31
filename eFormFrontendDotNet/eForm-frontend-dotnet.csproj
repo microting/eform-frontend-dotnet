@@ -104,6 +104,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -225,8 +227,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Case.cs" />
+    <Compile Include="Models\cases.cs" />
+    <Compile Include="Models\CheckList.cs" />
+    <Compile Include="Models\CheckListSite.cs" />
+    <Compile Include="Models\check_lists.cs" />
+    <Compile Include="Models\check_list_sites.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\fields.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Site.cs" />
+    <Compile Include="Models\sites.cs" />
+    <Compile Include="Models\Worker.cs" />
+    <Compile Include="Models\workers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tools.cs" />

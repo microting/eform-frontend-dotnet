@@ -1,10 +1,7 @@
 ﻿@{
     ViewBag.Title = "Edit case";
 }
-<br />
-<ol class="breadcrumb">@ViewBag.theCase.Label</ol>
-
-<form accept-charset="utf-8" action="/Case/Update" class="edit_case" id="edit_case" method="post">
+<form accept-charset="utf-8" action="/Case/Update/@(ViewBag.case_id)" class="edit_case" id="edit_case" method="post">
     <div class="container-fluid">
         <div class="bs-docs-container">
             <div class="row">

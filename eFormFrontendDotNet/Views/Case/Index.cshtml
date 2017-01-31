@@ -30,7 +30,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (eFormSqlController.cases item in @ViewBag.all_cases)
+        @foreach (eFormFrontendDotNet.Models.cases item in @ViewBag.cases)
         {
             <tr>
                 <td class="text-center">
@@ -49,8 +49,8 @@
                     @item.status
                 </td>
                 <td class="text-center">
-                    <a href="/Case/Edit/@(item.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button"  data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
-                        <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.microting_uid)"></span>
+                    <a href="/Case/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button"  data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
+                        <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.id)"></span>
                     </a>
                 </td>
             </tr>

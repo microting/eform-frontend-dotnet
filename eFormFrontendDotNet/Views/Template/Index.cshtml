@@ -12,13 +12,13 @@
                 #
             </th>
             <th class="col-md-2 text-center" rowspan="1" colspan="1">
-                Start date
+                Created at
             </th>
             <th class="col-md-2 text-center" rowspan="1" colspan="1">
-                End date
+                Updated at
             </th>
             <th class="col-md-5 text-center" rowspan="1" colspan="1">
-                Name
+                Label
             </th>
             <th class="col-md-2 text-center" rowspan="1" colspan="1">
                 Cases
@@ -26,24 +26,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (eFormRequest.MainElement item in @ViewBag.all_templates)
+        @foreach (eFormFrontendDotNet.Models.check_lists item in @ViewBag.check_lists)
         {
             <tr>
                 <td class="text-center">
-                    @item.Id
+                    @item.id
                 </td>
                 <td class="text-center">
-                    @item.StartDate
+                    @item.created_at
                 </td>
                 <td class="text-center">
-                    @item.EndDate
+                    @item.updated_at
                 </td>
                 <td class="text-center">
-                    @item.Label
+                    @item.label
                 </td>
                 <td class="text-center">
-                    <a href="/Case/Index/@(item.Id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.Id)" title="" type="button" data-original-title="Show cases">
-                        <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.Id)"></span>
+                    <a href="/Case/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
+                        <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.id)"></span>
                     </a>
                 </td>
             </tr>
