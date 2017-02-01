@@ -92,7 +92,7 @@ namespace eFormFrontendDotNet.Controllers
                 core.HandleEventWarning += EventWarning;
                 core.HandleEventException += EventException;
                 core.StartSqlOnly(connectionStr);
-                core.CaseUpdate(int.Parse(id), fieldValueList);
+                core.CaseUpdate(int.Parse(id), fieldValueList, checkListValueList);
             }
             catch (Exception ex)
             {

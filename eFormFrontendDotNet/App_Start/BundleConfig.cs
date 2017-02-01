@@ -40,6 +40,7 @@ namespace eFormFrontendDotNet
                       "~/Content/trumbowyg.min.css",
                       "~/Content/docs.min.css",
                       "~/Content/mt_overrides_trumbowyg.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/site.css"));
         }
     }
