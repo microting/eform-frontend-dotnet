@@ -14,8 +14,8 @@
     if (keyFound)
     {
         <div class="checkbox">
-            <input checked="checked" id="f_[@(Model.Id)][@item.Key]" name="f_[@(Model.Id)]" type="checkbox" value="@item.Key">
-            <label for="f_[@(Model.Id)][@item.Key]">
+            <input checked="checked" id="f_[@(Model.FieldId)][@item.Key]" name="f_[@(Model.FieldId)]" type="checkbox" value="@item.Key">
+            <label for="f_[@(Model.FieldId)][@item.Key]">
                 @item.Value
             </label>
             <br>
@@ -24,8 +24,8 @@
     else
     {
         <div class="checkbox">
-            <input id="f_[@(Model.Id)][@item.Key]" name="f_[@(Model.Id)]" type="checkbox" value="@item.Key">
-            <label for="f_[@(Model.Id)][@item.Key]">
+            <input id="f_[@(Model.FieldId)][@item.Key]" name="f_[@(Model.FieldId)]" type="checkbox" value="@item.Key">
+            <label for="f_[@(Model.FieldId)][@item.Key]">
                 @item.Value
             </label>
             <br>
