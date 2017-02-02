@@ -347,6 +347,7 @@
     <Content Include="Views\Case\Update.cshtml" />
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\Site\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
