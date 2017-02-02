@@ -32,6 +32,7 @@
         <tbody>
             @foreach (eFormFrontendDotNet.Models.check_lists item in @ViewBag.check_lists)
             {
+                bool deployed = false;
                 <tr>
                     <td class="text-center">
                         @item.id
@@ -49,17 +50,38 @@
                         @foreach (eFormFrontendDotNet.Models.cases deplyed_case in item.cases.ToList())
                         {
                             <span>
-                                @deplyed_case.site.name
+                                @if (deplyed_case.site != null)
+                                {
+                                    @deplyed_case.site.name
+                                    if (deplyed_case.workflow_state == "created")
+                                    {
+                                        deployed = true;
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.ToList())
+                                    {
+                                        @check_list_site.site.name
+                                        if (check_list_site.workflow_state == "created")
+                                        {
+                                            deployed = true;
+                                        }
+                                    }
+                                }
                             </span>
                         }
                     </td>
                     <td class="text-center">
-                        <a href="/Case/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
-                            <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.id)"></span>
-                        </a>
-                        <a href="/Template/Csv/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.id)" title="" type="button" data-original-title="Download CSV">
-                            <span class="fa fa-file-text-o"></span>
-                        </a>
+                        @if (item.cases.Count > 0)
+                        {
+                            <a href="/Case/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
+                                <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.id)"></span>
+                            </a>
+                            <a href="/Template/Csv/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.id)" title="" type="button" data-original-title="Download CSV">
+                                <span class="fa fa-file-text-o"></span>
+                            </a>
+                        }
                     </td>
                 </tr>
             }
