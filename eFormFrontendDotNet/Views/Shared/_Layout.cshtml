@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Microting eFormFrontendDotNet</title>
     @Styles.Render("~/Content/css")
-    @*@Scripts.Render("~/bundles/modernizr")*@
-
-    @*@Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
 
 </head>
@@ -39,6 +36,32 @@
                                 </li>
                             </ul>
                         </li>
+                    </ul>
+                </div>
+                <div class="navbar-header">
+                    <button aria-expanded="true" class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" style="position: absolute; top: -1px;" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="/" id="ar-brand" style="">
+
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav">
+                            <li class="">
+                                <a href="/">
+                                    eForms
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/Site">
+                                    Sites
+                                </a>
+                            </li>
+                        </ul>
+
                     </ul>
                 </div>
             </div>

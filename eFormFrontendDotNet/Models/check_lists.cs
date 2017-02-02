@@ -8,6 +8,12 @@ namespace eFormFrontendDotNet.Models
 
     public partial class check_lists
     {
+
+        public check_lists()
+        {
+            this.cases = new HashSet<cases>();
+        }
+
         public int id { get; set; }
 
         [StringLength(255)]
@@ -56,5 +62,7 @@ namespace eFormFrontendDotNet.Models
         public short? fast_navigation { get; set; }
 
         public short? download_entities { get; set; }
+
+        public virtual ICollection<cases> cases { get; set; }
     }
 }

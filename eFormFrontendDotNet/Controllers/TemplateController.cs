@@ -18,18 +18,16 @@ namespace eFormFrontendDotNet.Controllers
             string connectionStr = lines.First();
             List<Models.check_lists> check_lists = null;
 
-            using (var db = new Models.CheckList(connectionStr))
+            var db = new Models.CheckList(connectionStr);
+            try
             {
-                try
-                {
-                    check_lists = db.check_lists.Where(x => x.parent_id == 0).ToList();
-                    ViewBag.check_lists = check_lists;
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
-                }
+                check_lists = db.check_lists.Where(x => x.parent_id == 0).ToList();
+                ViewBag.check_lists = check_lists;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
             }
             return View();
         }       
@@ -54,6 +52,7 @@ namespace eFormFrontendDotNet.Controllers
             core.StartSqlOnly(connectionStr);
 
             string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
+            System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
             string file_path = Server.MapPath($"~/bin/output/{file_name}");
             core.CasesToCsv(id, null, null, file_path);
 

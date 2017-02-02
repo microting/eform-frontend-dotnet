@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Sites";
+}
+@*<br />
+<ol class="breadcrumb">@ViewBag.Title</ol>
+<div class="row"></div>*@
+<br />
+<div class="container-fluid">
+    <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="sites" width="100%" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
+        <thead>
+            <tr role="row">
+                <th class="col-md-1 text-center" rowspan="1" colspan="1">
+                    #
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Created at
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Updated at
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Name
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Microting_uid
+                </th>
+                <th class="col-md-1 text-center" rowspan="1" colspan="1">
+                    Customer nr
+                </th>
+                <th class="col-md-1 text-center" rowspan="1" colspan="1">
+                    OTP Code
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (eFormFrontendDotNet.Models.sites item in @ViewBag.sites)
+            {
+                <tr>
+                    <td class="text-center">
+                        @item.id
+                    </td>
+                    <td class="text-center">
+                        @item.created_at
+                    </td>
+                    <td class="text-center">
+                        @item.updated_at
+                    </td>
+                    <td class="text-center">
+                        @item.name
+                    </td>
+                    <td class="text-center">
+                        @item.microting_uid
+                    </td>
+                    <td class="text-center">
+                        @item.customer_no
+                    </td>
+                    <td class="text-center">
+                        @if (item.otp_code == "0")
+                        {
+                            <a href="/Site/Otp/@(item.id)" class="needs_tooltip btn btn-arbtn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Get new One Time Password">
+                                <span class="fa fa-key"></span>
+                            </a>
+                        }
+                        else
+                        {
+                            <span>
+                                @item.otp_code
+                            </span>                            
+                        }
+                        
+                    </td>
+                    <td class="text-center">
+                        <a href="/Site/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a href="/Site/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Delete site">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
