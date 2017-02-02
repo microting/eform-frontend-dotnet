@@ -6,7 +6,7 @@ using Microting;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class CaseController : Controller
+    public class CasesController : Controller
     {
         object _lockLogFil = new object();
         public ActionResult Index(int id)

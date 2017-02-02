@@ -60,7 +60,7 @@
                     <td class="text-center">
                         @if (item.otp_code == "0")
                         {
-                            <a href="/Site/Otp/@(item.id)" class="needs_tooltip btn btn-arbtn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Get new One Time Password">
+                            <a href="/Sites/Otp/@(item.id)" class="needs_tooltip btn btn-arbtn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Get new One Time Password">
                                 <span class="fa fa-key"></span>
                             </a>
                         }
@@ -73,10 +73,10 @@
                         
                     </td>
                     <td class="text-center">
-                        <a href="/Site/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
+                        <a href="/Sites/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
                             <span class="fa fa-pencil"></span>
                         </a>
-                        <a href="/Site/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Delete site">
+                        <a href="/Sites/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Delete site">
                             <span class="fa fa-trash"></span>
                         </a>
                     </td>

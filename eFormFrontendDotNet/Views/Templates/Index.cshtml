@@ -75,10 +75,10 @@
                     <td class="text-center">
                         @if (item.cases.Count > 0)
                         {
-                            <a href="/Case/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
+                            <a href="/Cases/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
                                 <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.id)"></span>
                             </a>
-                            <a href="/Template/Csv/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.id)" title="" type="button" data-original-title="Download CSV">
+                            <a href="/Templates/Csv/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.id)" title="" type="button" data-original-title="Download CSV">
                                 <span class="fa fa-file-text-o"></span>
                             </a>
                         }

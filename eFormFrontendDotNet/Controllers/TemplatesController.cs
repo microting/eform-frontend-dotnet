@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class TemplateController : Controller
+    public class TemplatesController : Controller
     {
         object _lockLogFil = new object();
 

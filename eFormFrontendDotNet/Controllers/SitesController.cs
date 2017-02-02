@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class SiteController : Controller
+    public class SitesController : Controller
     {
         // GET: Site
         public ActionResult Index()
@@ -74,14 +74,14 @@ namespace eFormFrontendDotNet.Controllers
                         i += 1;
                     }
                     db.SaveChanges();
-                    return Redirect("/Site");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
-            return Redirect("/Site");
+            return RedirectToAction("Index");
         }
     }
 }

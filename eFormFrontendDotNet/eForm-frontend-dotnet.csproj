@@ -221,9 +221,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\CaseController.cs" />
-    <Compile Include="Controllers\SiteController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\CasesController.cs" />
+    <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
+    <Compile Include="Controllers\WorkersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,6 +241,10 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Models\sites.cs" />
+    <Compile Include="Models\SiteWorker.cs" />
+    <Compile Include="Models\site_workers.cs" />
+    <Compile Include="Models\Worker.cs" />
+    <Compile Include="Models\workers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tools.cs" />
@@ -312,7 +317,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\trumbowyg.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Case\Index.cshtml" />
+    <Content Include="Views\Cases\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -326,31 +331,32 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Case\Edit.cshtml" />
-    <Content Include="Views\Case\EditSection.cshtml" />
-    <Content Include="Views\Case\Fields\CheckBox.cshtml" />
-    <Content Include="Views\Case\Fields\Comment.cshtml" />
-    <Content Include="Views\Case\Fields\Signature.cshtml" />
-    <Content Include="Views\Case\Fields\Date.cshtml" />
-    <Content Include="Views\Case\Fields\DummyAudio.cshtml" />
-    <Content Include="Views\Case\Fields\DummyComment.cshtml" />
-    <Content Include="Views\Case\Fields\DummyPicture.cshtml" />
-    <Content Include="Views\Case\Fields\FieldGroup.cshtml" />
-    <Content Include="Views\Case\Fields\MultiSelect.cshtml" />
-    <Content Include="Views\Case\Fields\Number.cshtml" />
-    <Content Include="Views\Case\Fields\Picture.cshtml" />
-    <Content Include="Views\Case\Fields\SingleSelect.cshtml" />
-    <Content Include="Views\Case\Fields\SingleSelectSearch.cshtml" />
-    <Content Include="Views\Case\Fields\Text.cshtml" />
-    <Content Include="Views\Case\Fields\Timer.cshtml" />
+    <Content Include="Views\Cases\Edit.cshtml" />
+    <Content Include="Views\Cases\EditSection.cshtml" />
+    <Content Include="Views\Cases\Fields\CheckBox.cshtml" />
+    <Content Include="Views\Cases\Fields\Comment.cshtml" />
+    <Content Include="Views\Cases\Fields\Signature.cshtml" />
+    <Content Include="Views\Cases\Fields\Date.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyAudio.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyComment.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyPicture.cshtml" />
+    <Content Include="Views\Cases\Fields\FieldGroup.cshtml" />
+    <Content Include="Views\Cases\Fields\MultiSelect.cshtml" />
+    <Content Include="Views\Cases\Fields\Number.cshtml" />
+    <Content Include="Views\Cases\Fields\Picture.cshtml" />
+    <Content Include="Views\Cases\Fields\SingleSelect.cshtml" />
+    <Content Include="Views\Cases\Fields\SingleSelectSearch.cshtml" />
+    <Content Include="Views\Cases\Fields\Text.cshtml" />
+    <Content Include="Views\Cases\Fields\Timer.cshtml" />
     <Content Include="Scripts\wow.min.js" />
-    <Content Include="Views\Case\Update.cshtml" />
-    <Content Include="Views\Template\Index.cshtml" />
-    <Content Include="Views\Site\Index.cshtml" />
-    <Content Include="Views\Site\Edit.cshtml" />
+    <Content Include="Views\Cases\Update.cshtml" />
+    <Content Include="Views\Templates\Index.cshtml" />
+    <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Sites\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Workers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
