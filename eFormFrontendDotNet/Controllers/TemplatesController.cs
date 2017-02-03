@@ -9,6 +9,7 @@ namespace eFormFrontendDotNet.Controllers
     public class TemplatesController : Controller
     {
         object _lockLogFil = new object();
+        Core core = null;
 
         // GET: Template
         public ActionResult Index()
@@ -28,16 +29,46 @@ namespace eFormFrontendDotNet.Controllers
             catch (Exception ex)
             {
                 System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
+                return RedirectToAction("Index");
             }
-            return View();
         }       
 
         public FileResult Csv(int id)
         {
+            Core core = getCore();
+
+            string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
+            System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
+            string file_path = Server.MapPath($"~/bin/output/{file_name}");
+            core.CasesToCsv(id, null, null, file_path);
+
+            return File(file_path, "text/csv", file_name);
+        }
+
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        public ActionResult Create()
+        {
+            string tamplate_xml = Request.Form.Get("eFormXML");
+
+            Core core = getCore();
+            eFormRequest.MainElement new_template =  core.TemplatFromXml(tamplate_xml);
+            core.TemplatCreate(new_template);
+
+            return RedirectToAction("Index");
+        }
+
+        #region coreFunctions
+        private Core getCore()
+        {
+
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
             string connectionStr = lines.First();
-            Core core = new Core();
+            this.core = new Core();
 
             core.HandleCaseCreated += EventCaseCreated;
             core.HandleCaseRetrived += EventCaseRetrived;
@@ -51,13 +82,9 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventException += EventException;
             core.StartSqlOnly(connectionStr);
 
-            string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
-            System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
-            string file_path = Server.MapPath($"~/bin/output/{file_name}");
-            core.CasesToCsv(id, null, null, file_path);
-
-            return File(file_path, "text/csv", file_name);
+            return core;
         }
+        #endregion
 
         #region events
         public void EventCaseCreated(object sender, EventArgs args)
@@ -150,5 +177,6 @@ namespace eFormFrontendDotNet.Controllers
             }
         }
         #endregion
+        
     }
 }

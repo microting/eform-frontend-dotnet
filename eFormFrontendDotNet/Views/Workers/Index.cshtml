@@ -1,0 +1,74 @@
+﻿<header class="main-header">
+    <div class="container-fluid">
+        <h1 class="page-title">
+            <div class="container">
+                Workers
+            </div>
+        </h1>
+        <div class="pull-right">
+            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title="" data-bootbox-confirm-label="Gem eForm" data-bootbox-confirm="load(/inspection/check_lists/new)" data-bootbox-title="Opret eForm" data-bootbox-additional-classes="full-width mt-has-form" data-onsuccess="$(&quot;.modal-body form#new_inspection_check_list&quot;).submit();" data-original-title="Create worker">Create worker</button>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="sites" width="100%" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
+        <thead>
+            <tr role="row">
+                <th class="col-md-1 text-center" rowspan="1" colspan="1">
+                    #
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Created at
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Updated at
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    First name
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Last name
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Microting_uid
+                </th>
+                <th class="col-md-2 text-center" rowspan="1" colspan="1">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (eFormFrontendDotNet.Models.workers item in @ViewBag.workers)
+            {
+                <tr>
+                    <td class="text-center">
+                        @item.id
+                    </td>
+                    <td class="text-center">
+                        @item.created_at
+                    </td>
+                    <td class="text-center">
+                        @item.updated_at
+                    </td>
+                    <td class="text-center">
+                        @item.first_name
+                    </td>
+                    <td class="text-center">
+                        @item.last_name
+                    </td>
+                    <td class="text-center">
+                        @item.microting_uid
+                    </td>
+                    <td class="text-center">
+                        <a href="/Workers/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="edit_site_@(item.id)" title="" type="button" data-original-title="Edit worker">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a href="/SitesWorkers/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="delete_worker_@(item.id)" title="" type="button" data-original-title="Delete worker">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

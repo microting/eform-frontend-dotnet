@@ -7,7 +7,7 @@
 .header-full-title {background-image: url('Content/image/logo_big.png');}
 .paper-back-full {background-image: url('Content/back.png');}
 .bx-wrapper .bx-loading {background-image: url('Content/bx_loader.gif');}
-.navbar-default .navbar-brand {background-image: url('Content/images/logo.png');}
+.navbar-default .navbar-brand {background-image: url('images/logo.png');}
 
 /*jquery.bxslider*/
 .bx-wrapper .bx-loading {background: url('Content/bx_loader.gif') center center no-repeat #fff;}
@@ -253,7 +253,7 @@ img.rotate_270, img.rotate-270 {
   float: left;
   overflow: hidden;
   padding-left: 75px;
-  background-image: url("/images/logo_big.png");
+  background-image: url("images/logo_big.png");
   background-repeat: no-repeat;
   background-position: left center;
 }
