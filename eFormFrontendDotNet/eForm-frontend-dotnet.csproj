@@ -235,6 +235,7 @@
     <Compile Include="Models\CheckListSite.cs" />
     <Compile Include="Models\check_lists.cs" />
     <Compile Include="Models\check_list_sites.cs" />
+    <Compile Include="Models\DataResponse.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\fields.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -315,6 +316,7 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.pnotify.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jquery.ujs.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

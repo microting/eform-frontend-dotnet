@@ -22,7 +22,7 @@ namespace eFormFrontendDotNet.Controllers
             var db = new Models.CheckList(connectionStr);
             try
             {
-                check_lists = db.check_lists.Where(x => x.parent_id == 0).ToList();
+                check_lists = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state != "removed").ToList();
                 ViewBag.check_lists = check_lists;
                 return View();
             }
@@ -52,7 +52,7 @@ namespace eFormFrontendDotNet.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create()
+        public JsonResult Create()
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
 
@@ -62,8 +62,36 @@ namespace eFormFrontendDotNet.Controllers
             {
                 core.TemplatCreate(new_template);
             }
+            Models.DataResponse response = new Models.DataResponse();
+            response.data = new Models.DataResponse.Data($"eForm \"{new_template.Label}\" created successfully", "success");
 
-            return RedirectToAction("Index");
+            return Json(response);
+        }
+
+        public JsonResult Delete(int id)
+        {
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+
+            string connectionStr = lines.First();
+            Models.check_lists check_list = null;
+            Models.DataResponse response = new Models.DataResponse();
+            response.model_id = id.ToString();
+
+            var db = new Models.CheckList(connectionStr);
+            try
+            {
+                check_list = db.check_lists.Single(x => x.id == id);
+                check_list.Remove();
+                db.SaveChanges();
+                response.data = new Models.DataResponse.Data($"eForm \"{check_list.label}\" deleted successfully", "success");
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
+                response.data = new Models.DataResponse.Data($"eForm \"{check_list.label}\" could not be deleted!", "error");
+            }                               
+
+            return Json(response);
         }
 
         #region coreFunctions

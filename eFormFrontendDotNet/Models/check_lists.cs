@@ -67,5 +67,10 @@ namespace eFormFrontendDotNet.Models
         public virtual ICollection<cases> cases { get; set; }
 
         public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+
+        public void Remove()
+        {
+            this.workflow_state = "removed";
+        }
     }
 }
