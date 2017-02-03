@@ -39,7 +39,7 @@ namespace eFormFrontendDotNet
                       "~/Scripts/bootbox.min.js",
                       "~/Scripts/trumbowyg.js",
                       "~/Scripts/mt_layout.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
@@ -52,8 +52,7 @@ namespace eFormFrontendDotNet
                       "~/Content/font-awesome.min.css",
                       "~/Content/jquery.pnotify.default.css",
                       "~/Content/jquery.pnotify.default.icons.css",
-                      "~/Content/jquery.fileupload.css",
-                      "~/Content/site.css"));
+                      "~/Content/jquery.fileupload.css"));
         }
     }
 }
