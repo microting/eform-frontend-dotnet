@@ -353,10 +353,11 @@
     <Content Include="Views\Templates\Index.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
     <Content Include="Views\Sites\Edit.cshtml" />
+    <Content Include="Views\Workers\Edit.cshtml" />
+    <Content Include="Views\Workers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Workers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

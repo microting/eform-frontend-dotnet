@@ -64,15 +64,9 @@ namespace eFormFrontendDotNet.Controllers
                 try
                 {
                     Models.sites site = db.sites.Single(x => x.id == id);
-                    var keys = Request.Form.AllKeys;
-                    int i = 0;
-                    foreach (string key in keys)
-                    {
-                        if (key.Contains("site['name']")) {
-                            site.name = Request.Form.Get(keys[i]);
-                        }
-                        i += 1;
-                    }
+
+                    site.name = Request.Form.Get("site['name']");
+                   
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }

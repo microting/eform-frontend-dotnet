@@ -17,20 +17,12 @@ namespace eFormFrontendDotNet.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<workers>()
-                .Property(e => e.first_name)
-                .IsUnicode(false);
+                .Property(e => e.created_at)
+                .HasPrecision(0);
 
             modelBuilder.Entity<workers>()
-                .Property(e => e.last_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.microting_uuid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.email)
-                .IsUnicode(false);
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
         }
     }
 }

@@ -10,16 +10,27 @@ namespace eFormFrontendDotNet.Models
     {
         public int id { get; set; }
 
-        [StringLength(100)]
+        [StringLength(255)]
+        public string workflow_state { get; set; }
+
+        public int? version { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? created_at { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
+
+        [Key]
+        public int? microting_uid { get; set; }
+
+        [StringLength(255)]
         public string first_name { get; set; }
 
-        [StringLength(100)]
+        [StringLength(255)]
         public string last_name { get; set; }
 
-        [StringLength(50)]
-        public string microting_uuid { get; set; }
-
-        [StringLength(50)]
+        [StringLength(255)]
         public string email { get; set; }
     }
 }

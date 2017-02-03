@@ -1,16 +1,7 @@
-﻿<header class="main-header">
-    <div class="container-fluid">
-        <h1 class="page-title">
-            <div class="container">
-                Edit:
-                @ViewBag.site.name
-            </div>
-        </h1>
-        <div class="pull-right">
-        </div>
-    </div>
-</header>
-<form accept-charset="utf-8" action="/Sites/Update/@(ViewBag.site_id)" class="edit_case" id="edit_case" method="post">
+﻿@{
+    ViewBag.Title = "Edit "+ ViewBag.worker.name;
+}
+<form accept-charset="utf-8" action="/Workers/Update/@(ViewBag.worker_id)" class="edit_case" id="edit_case" method="post">
     <div class="container-fluid">
         <div class="bs-docs-container">
             <div class="row">
@@ -22,10 +13,18 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <strong>Name</strong>
+                                        <strong>First name</strong>
                                     </td>
                                     <td>
-                                        <input class="form-control" placeholder="@(ViewBag.site.name)" type="text" value="@(ViewBag.site.name)" name="site['name']" id="site_name" />
+                                        <input class="form-control" placeholder="@(ViewBag.worker.first_name)" type="text" value="@(ViewBag.worker.first_name)" name="worker['first_name']" id="worker_first_name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Last name</strong>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="@(ViewBag.worker.last_name)" type="text" value="@(ViewBag.worker.last_name)" name="worker['last_name']" id="worker_last_name" />
                                     </td>
                                 </tr>
                             </tbody>
