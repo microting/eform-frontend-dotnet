@@ -50,13 +50,18 @@ namespace eFormFrontendDotNet.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create()
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
 
             Core core = getCore();
             eFormRequest.MainElement new_template =  core.TemplatFromXml(tamplate_xml);
-            core.TemplatCreate(new_template);
+            if (new_template != null)
+            {
+                core.TemplatCreate(new_template);
+            }
 
             return RedirectToAction("Index");
         }

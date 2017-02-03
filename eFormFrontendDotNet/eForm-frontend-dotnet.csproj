@@ -315,7 +315,6 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.pnotify.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
-    <Content Include="Scripts\jquery.ujs.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
