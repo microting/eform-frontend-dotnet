@@ -77,15 +77,16 @@ namespace eFormFrontendDotNet.Controllers
         public JsonResult Create()
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
-
+            Models.DataResponse response = new Models.DataResponse();
             Core core = getCore();
             eFormRequest.MainElement new_template =  core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
                 core.TemplatCreate(new_template);
+                response.data = new Models.DataResponse.Data($"eForm \"{new_template.Label}\" created successfully", "success");
             }
-            Models.DataResponse response = new Models.DataResponse();
-            response.data = new Models.DataResponse.Data($"eForm \"{new_template.Label}\" created successfully", "success");
+            response.data = new Models.DataResponse.Data($"eForm could not be created!", "error");
+
 
             return Json(response);
         }
