@@ -29,13 +29,9 @@ using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class SimpleSitesController : Controller
+    public class SimpleSitesController : ApplicationController
     {
 
-        Core core = null;
-        object _lockLogFil = new object();
-
-        // GET: SimpleSites
         public ActionResult Index()
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
@@ -45,12 +41,19 @@ namespace eFormFrontendDotNet.Controllers
             var db = new Models.Site(connectionStr);            
             try
             {
+                if (db.sites.Count() < 1)
+                {
+                    Core core = getCore();
+                    core.SiteLoadAllFromRemote();
+                    core.WorkerLoadAllFromRemote();
+                    core.SiteWorkerLoadAllFromRemote();
+                    core.UnitLoadAllFromRemote();
+                }
                 ViewBag.sites = db.sites.ToList();
                 return View();
             }
             catch (Exception ex)
             {
-                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
             }
             
 
@@ -83,139 +86,7 @@ namespace eFormFrontendDotNet.Controllers
                 response.data = new Models.DataResponse.Data($"Worker could not be created!", "error", "");
             }
 
-            //string tamplate_xml = Request.Form.Get("eFormXML");
-            //Models.DataResponse response = new Models.DataResponse();
-            //Core core = getCore();
-            //eFormRequest.MainElement new_template = core.TemplatFromXml(tamplate_xml);
-            //if (new_template != null)
-            //{
-            //    core.TemplatCreate(new_template);
-            //    response.data = new Models.DataResponse.Data($"eForm \"{new_template.Label}\" created successfully", "success");
-            //}
-            //response.data = new Models.DataResponse.Data($"eForm could not be created!", "error");
-
-
             return Json(response);
         }
-
-        #region core
-        #region coreFunctions
-        private Core getCore()
-        {
-
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-            this.core = new Core();
-
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            core.StartSqlOnly(connectionStr);
-
-            return core;
-        }
-        #endregion
-
-        #region events
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventLog(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventMessage(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventWarning(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), "## WARNING ## " + sender.ToString() + " ## WARNING ##" + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventException(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-        #endregion
-        #endregion
-
     }
 }

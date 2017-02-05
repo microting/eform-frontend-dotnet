@@ -28,9 +28,8 @@ using Microting;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class CasesController : Controller
+    public class CasesController : ApplicationController
     {
-        object _lockLogFil = new object();
         public ActionResult Index(int id)
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
@@ -48,7 +47,6 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
             return View();
@@ -95,30 +93,17 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
 
             try
             {
-                Core core = new Core();
+                Core core = getCore();
 
-                core.HandleCaseCreated += EventCaseCreated;
-                core.HandleCaseRetrived += EventCaseRetrived;
-                core.HandleCaseCompleted += EventCaseCompleted;
-                core.HandleCaseDeleted += EventCaseDeleted;
-                core.HandleFileDownloaded += EventFileDownloaded;
-                core.HandleSiteActivated += EventSiteActivated;
-                core.HandleEventLog += EventLog;
-                core.HandleEventMessage += EventMessage;
-                core.HandleEventWarning += EventWarning;
-                core.HandleEventException += EventException;
-                core.StartSqlOnly(connectionStr);
                 core.CaseUpdate(int.Parse(id), fieldValueList, checkListValueList);
             }
             catch (Exception ex)
             {
-                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
             }
             return View();
         }
@@ -130,19 +115,8 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
 
-            Core core = new Core();
+            Core core = getCore();
 
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            core.StartSqlOnly(connectionStr);
             try
             {
                 string microting_uuid = null;
@@ -161,103 +135,10 @@ namespace eFormFrontendDotNet.Controllers
             }
             catch (Exception ex)
             {
-                System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 return RedirectToAction("Index");
             }
             
         }
-
-        #region events
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventLog(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventMessage(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventWarning(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), "## WARNING ## " + sender.ToString() + " ## WARNING ##" + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventException(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-        #endregion
     }
 
 

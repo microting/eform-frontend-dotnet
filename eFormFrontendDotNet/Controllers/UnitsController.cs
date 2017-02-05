@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,8 @@ using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class UnitsController : Controller
+    public class UnitsController : ApplicationController
     {
-        // GET: Units
         public ActionResult Index()
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
@@ -46,10 +46,27 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
             return View();
+        }
+
+        public JsonResult RequestOtp(int id)
+        {
+            Models.DataResponse response = new Models.DataResponse();
+
+            try
+            {
+                Core core = getCore();
+                core.UnitRequestOtp(id);
+                response.data = new Models.DataResponse.Data($"Unit \"{id}\" OTP requested successfully", "success");
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                response.data = new Models.DataResponse.Data($"Unit \"{id}\" OTP request could not be completed!", "error");
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

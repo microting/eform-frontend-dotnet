@@ -70,16 +70,70 @@
                         @item.id
                     </td>
                     <td class="text-center">
-                        @item.site_workers.First().worker.first_name
+                        @try
+                        {
+                            <span>
+                                @item.site_workers.First().worker.first_name
+                            </span>
+                        }
+                        catch
+                        {
+                            <span>N/A</span>
+                        }
+
                     </td>
                     <td class="text-center">
-                        @item.site_workers.First().worker.last_name
+                        @try
+                        {
+                            <span>
+                                @item.site_workers.First().worker.last_name
+                            </span>
+                        }
+                        catch
+                        {
+                            <span>N/A</span>
+                        }
                     </td>
                     <td class="text-center">
-                        @item.units.First().microting_uid
+                        @try
+                        {
+                            <div>
+                                @item.units.First().microting_uid
+                            </div>                            
+                        }
+                        catch
+                        {
+                            <span>N/A</span>
+                        }
                     </td>
                     <td class="text-center">
-                        @item.units.First().customer_no / @item.units.First().otp_code
+                        @try
+                        {
+                            if (@item.units.First().otp_code != 0)
+                            {
+                                <div>
+                                    @item.units.First().customer_no / @item.units.First().otp_code
+                                </div>
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    <a href="/Units/RequestOtp/@(item.units.First().microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="request_otp@(item.id)" title="" type="button" data-original-title="Request OTP">
+                                        <span class="fa fa-key"></span>
+                                    </a>
+                                }
+                                catch
+                                {
+                                    <span>N/A</span>
+                                }
+
+                            }
+                        }
+                        catch
+                        {
+                            <span>N/A</span>
+                        }                        
                     </td>
                     <td class="text-center">
                         <a href="/SimpleSites/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
