@@ -35,11 +35,20 @@ namespace eFormFrontendDotNet.Models
         {
             public string message;
             public string status;
+            public string resultData;
 
             public Data(string message, string status)
             {
                 this.message = message;
                 this.status = status;
+                this.resultData = "";
+            }
+
+            public Data(string message, string status, string resultData)
+            {
+                this.message = message;
+                this.status = status;
+                this.resultData = resultData;
             }
         }
     }

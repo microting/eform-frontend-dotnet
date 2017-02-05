@@ -25,19 +25,13 @@
     <div class="container-fluid">
         <h1 class="page-title">
             <div class="container">
-                Sites
+                Units
             </div>
         </h1>
-        <div class="pull-right">
-            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title="" 
-                    data-bootbox-confirm-label="Save site" data-bootbox-confirm="load(/Sites/New)" 
-                    data-bootbox-title="Create site" data-bootbox-additional-classes="full-width mt-has-form" 
-                    data-onsuccess="$(&quot;.modal-body form#new_inspection_check_list&quot;).submit();" data-original-title="Create site">Create site</button>
-        </div>
     </div>
 </header>
 <div class="container-fluid">
-    <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="sites" width="100%" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="units" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
         <thead>
             <tr role="row">
                 <th class="col-md-1 text-center" rowspan="1" colspan="1">
@@ -50,7 +44,7 @@
                     Updated at
                 </th>
                 <th class="col-md-2 text-center" rowspan="1" colspan="1">
-                    Name
+                    Customer no &amp; OTP
                 </th>
                 <th class="col-md-2 text-center" rowspan="1" colspan="1">
                     Microting_uid
@@ -61,7 +55,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (eFormFrontendDotNet.Models.sites item in @ViewBag.sites)
+            @foreach (eFormFrontendDotNet.Models.units item in @ViewBag.units)
             {
                 <tr>
                     <td class="text-center">
@@ -74,18 +68,12 @@
                         @item.updated_at
                     </td>
                     <td class="text-center">
-                        @item.name
+                        @item.customer_no / @item.otp_code
                     </td>
                     <td class="text-center">
                         @item.microting_uid
                     </td>
                     <td class="text-center">
-                        <a href="/Sites/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
-                            <span class="fa fa-pencil"></span>
-                        </a>
-                        <a href="/Sites/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Delete site">
-                            <span class="fa fa-trash"></span>
-                        </a>
                     </td>
                 </tr>
             }

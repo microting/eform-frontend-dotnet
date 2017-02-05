@@ -28,15 +28,8 @@ namespace eFormFrontendDotNet.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class sites
+    public partial class cases
     {
-
-        public sites()
-        {
-            this.cases = new HashSet<cases>();
-            this.check_list_sites = new HashSet<check_list_sites>();
-        }
-
         public int id { get; set; }
 
         [StringLength(255)]
@@ -44,26 +37,49 @@ namespace eFormFrontendDotNet.Models
 
         public int? version { get; set; }
 
+        public int? status { get; set; }
+
         [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        [Key]
-        public int? microting_uid { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? done_at { get; set; }
+
+        [ForeignKey("site")]
+        public int? site_id { get; set; }
+
+        [ForeignKey("unit")]
+        public int? unit_id { get; set; }
+
+        [ForeignKey("worker")]
+        public int? done_by_user_id { get; set; }
+
+        [ForeignKey("check_list")]
+        public int? check_list_id { get; set; }
 
         [StringLength(255)]
-        public string name { get; set; }
+        public string type { get; set; }
 
-        [StringLength(50)]
-        public string customer_no { get; set; }
+        [StringLength(255)]
+        public string microting_uid { get; set; }
 
-        [StringLength(10)]
-        public string otp_code { get; set; }
+        [StringLength(255)]
+        public string microting_check_uid { get; set; }
 
-        public virtual ICollection<cases> cases { get; set; }
+        [StringLength(255)]
+        public string case_uid { get; set; }
 
-        public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+        public string custom { get; set; }
+
+        public virtual check_lists check_list { get; set; }
+
+        public virtual sites site { get; set; }
+
+        public virtual units unit { get; set; }
+
+        public virtual workers worker { get; set; }
     }
 }

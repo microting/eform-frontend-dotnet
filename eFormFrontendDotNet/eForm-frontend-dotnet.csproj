@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\eFormResponse.dll</HintPath>
     </Reference>
+    <Reference Include="eFormShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>eform-sdk-dotnet\Complied\eFormShared.dll</HintPath>
+    </Reference>
     <Reference Include="eFormSqlController, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\eFormSqlController.dll</HintPath>
@@ -230,30 +234,34 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CasesController.cs" />
+    <Compile Include="Controllers\SimpleSitesController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\WorkersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Case.cs" />
-    <Compile Include="Models\cases.cs" />
+    <Compile Include="Models\SiteWorker.cs" />
+    <Compile Include="Models\table\site_workers.cs" />
+    <Compile Include="Models\table\cases.cs" />
     <Compile Include="Models\CheckList.cs" />
     <Compile Include="Models\CheckListSite.cs" />
-    <Compile Include="Models\check_lists.cs" />
-    <Compile Include="Models\check_list_sites.cs" />
+    <Compile Include="Models\table\check_lists.cs" />
+    <Compile Include="Models\table\check_list_sites.cs" />
     <Compile Include="Models\DataResponse.cs" />
     <Compile Include="Models\Field.cs" />
-    <Compile Include="Models\fields.cs" />
+    <Compile Include="Models\table\fields.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Site.cs" />
-    <Compile Include="Models\sites.cs" />
-    <Compile Include="Models\SiteWorker.cs" />
-    <Compile Include="Models\site_workers.cs" />
+    <Compile Include="Models\table\sites.cs" />
+    <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\table\units.cs" />
     <Compile Include="Models\Worker.cs" />
-    <Compile Include="Models\workers.cs" />
+    <Compile Include="Models\table\workers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tools.cs" />
@@ -371,6 +379,10 @@
     <Content Include="Views\Workers\Edit.cshtml" />
     <Content Include="Views\Workers\Index.cshtml" />
     <Content Include="Views\Templates\New.cshtml" />
+    <Content Include="Views\SimpleSites\Edit.cshtml" />
+    <Content Include="Views\SimpleSites\Index.cshtml" />
+    <Content Include="Views\SimpleSites\New.cshtml" />
+    <Content Include="Views\Units\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,37 +27,21 @@ namespace eFormFrontendDotNet.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class CheckListSite : DbContext
+    public partial class Unit : DbContext
     {
-        public CheckListSite(string connectionString)
+        public Unit(string connectionString)
             : base(connectionString)
         {
         }
 
-        public virtual DbSet<check_list_sites> check_list_sites { get; set; }
+        public virtual DbSet<units> units { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer<CheckListSite>(null);
+            Database.SetInitializer<Unit>(null);
 
-            modelBuilder.Entity<check_list_sites>()
+            modelBuilder.Entity<units>()
                 .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.last_check_id)
                 .IsUnicode(false);
         }
     }

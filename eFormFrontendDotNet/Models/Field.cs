@@ -38,6 +38,8 @@ namespace eFormFrontendDotNet.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<Field>(null);
+
             modelBuilder.Entity<fields>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);

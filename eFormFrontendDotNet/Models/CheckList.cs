@@ -38,6 +38,8 @@ namespace eFormFrontendDotNet.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<CheckList>(null);
+
             modelBuilder.Entity<check_lists>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);

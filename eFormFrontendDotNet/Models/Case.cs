@@ -38,6 +38,8 @@ namespace eFormFrontendDotNet.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<Case>(null);
+
             modelBuilder.Entity<cases>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);

@@ -23,42 +23,47 @@
 namespace eFormFrontendDotNet.Models
 {
     using System;
-    using System.Data.Entity;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
+    using System.Data.Entity.Spatial;
 
-    public partial class CheckListSite : DbContext
+    public partial class sites
     {
-        public CheckListSite(string connectionString)
-            : base(connectionString)
+
+        public sites()
         {
+            this.cases = new HashSet<cases>();
+            this.units = new HashSet<units>();
+            this.site_workers = new HashSet<site_workers>();
+            this.check_list_sites = new HashSet<check_list_sites>();
         }
 
-        public virtual DbSet<check_list_sites> check_list_sites { get; set; }
+        public int id { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<CheckListSite>(null);
+        [Column(TypeName = "datetime2")]
+        public DateTime? created_at { get; set; }
 
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
 
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
+        [StringLength(255)]
+        public string name { get; set; }
 
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
+        [Key]
+        public int? microting_uid { get; set; }
 
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
+        public int? version { get; set; }
 
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.last_check_id)
-                .IsUnicode(false);
-        }
+        [StringLength(255)]
+        public string workflow_state { get; set; }
+
+        public virtual ICollection<cases> cases { get; set; }
+
+        public virtual ICollection<units> units { get; set; }
+
+        public virtual ICollection<site_workers> site_workers { get; set; }
+
+        public virtual ICollection<check_list_sites> check_list_sites { get; set; }
     }
 }

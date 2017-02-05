@@ -38,13 +38,19 @@ namespace eFormFrontendDotNet.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<sites>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
+            Database.SetInitializer<Site>(null);
 
             modelBuilder.Entity<sites>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
+                .Property(e => e.name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<sites>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
         }
     }
 }

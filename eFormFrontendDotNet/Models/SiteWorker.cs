@@ -29,8 +29,8 @@ namespace eFormFrontendDotNet.Models
 
     public partial class SiteWorker : DbContext
     {
-        public SiteWorker()
-            : base("name=SiteWorker")
+        public SiteWorker(string connectionString)
+            : base(connectionString)
         {
         }
 
@@ -38,6 +38,19 @@ namespace eFormFrontendDotNet.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<SiteWorker>(null);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
         }
     }
 }

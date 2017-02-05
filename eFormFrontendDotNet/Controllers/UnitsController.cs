@@ -1,4 +1,4 @@
-// The MIT License(MIT)
+﻿// The MIT License(MIT)
 //
 // Copyright(c) 2007-2017 microting
 //
@@ -20,33 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace eFormFrontendDotNet.Models
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace eFormFrontendDotNet.Controllers
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
-    public partial class Worker : DbContext
+    public class UnitsController : Controller
     {
-        public Worker(string connectionString)
-            : base(connectionString)
+        // GET: Units
+        public ActionResult Index()
         {
-        }
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-        public virtual DbSet<workers> workers { get; set; }
+            string connectionStr = lines.First();
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<Worker>(null);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
+            using (var db = new Models.Unit(connectionStr))
+            {
+                try
+                {
+                    ViewBag.units = db.units.ToList();
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
+                }
+            }
+            return View();
         }
     }
 }
