@@ -64,7 +64,7 @@
             @foreach (eFormFrontendDotNet.Models.check_lists item in @ViewBag.check_lists)
             {
                 bool deployed = false;
-                <tr id="eform_row_@(item.id)">
+                <tr id="row_@(item.id)">
                     <td class="text-center">
                         @item.id
                     </td>
@@ -115,9 +115,9 @@
                         }
                         <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button" 
                                 data-toggle="tooltip" data-placement="top" title="" data-href="/Templates/Delete/@(item.id)" 
-                                id="case_delete_@(item.id)" data-bootbox-confirm="eval(rowInfo(@(item.id),' @(item.created_at)','@(item.label)'))" 
-                                data-bootbox-title="Are you sure you want to delete the eForm? The action can not be undone!" 
-                                data-onsuccess="confirm_delete_case(@(item.id))" data-original-title="Delete eForm">
+                                id="delete_@(item.id)" data-bootbox-confirm="eval(rowInfo(@(item.id),' @(item.created_at)','@(item.label)'))" 
+                                data-bootbox-title="Are you sure you want to delete the eForm?<br> The action can not be undone!" 
+                                data-onsuccess="confirm_delete(@(item.id))" data-original-title="Delete eForm">
                             <span class="fa fa-trash-o"></span>
                         </button>
                     </td>
@@ -152,8 +152,8 @@
                "<div class='row'><div class='col-md-4'><label>Label:</label></div><div class='col-md-8'>" + label + "</div></div>";
     }
 
-    function confirm_delete_case(case_id) {
-        anchor_id = "case_delete_" + case_id;
+    function confirm_delete(case_id) {
+        anchor_id = "delete_" + case_id;
 
         $.ajax({
             url: $("#" + anchor_id).data("href"),
@@ -161,7 +161,7 @@
             dataType: 'json',
             headers: { 'X-CSRF-Token': "" }
         }).done(function (data, status, xhr) {
-            $("#eform_row_" + data.model_id).remove();
+            $("#row_" + data.model_id).remove();
         }).fail(function () {
         }).always(function () {
         });

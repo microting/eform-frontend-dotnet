@@ -38,6 +38,8 @@ namespace eFormFrontendDotNet.Models
         [ForeignKey("worker")]
         public int? worker_id { get; set; }
 
+        public int? microting_uid { get; set; }
+
         public int? version { get; set; }
 
         [StringLength(255)]

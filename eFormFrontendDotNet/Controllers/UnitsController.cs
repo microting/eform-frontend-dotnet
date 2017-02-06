@@ -41,7 +41,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 try
                 {
-                    ViewBag.units = db.units.ToList();
+                    ViewBag.units = db.units.Where(x => x.workflow_state != "removed").ToList();
                     return View();
                 }
                 catch (Exception ex)

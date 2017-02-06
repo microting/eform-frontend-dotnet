@@ -57,5 +57,9 @@ namespace eFormFrontendDotNet.Models
 
         public virtual ICollection<site_workers> site_workers { get; set; }
 
+        public string full_name()
+        {
+            return this.first_name + " " + this.last_name;
+        }
     }
 }

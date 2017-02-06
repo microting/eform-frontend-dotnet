@@ -49,9 +49,6 @@
                 <th class="col-md-2 text-center" rowspan="1" colspan="1">
                     Microting_uid
                 </th>
-                <th class="col-md-2 text-center" rowspan="1" colspan="1">
-                    Actions
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -68,12 +65,36 @@
                         @item.updated_at
                     </td>
                     <td class="text-center">
-                        @item.customer_no / @item.otp_code
+                        @try
+                        {
+                            if (@item.otp_code != 0)
+                            {
+                                <div>
+                                    @item.customer_no / @item.otp_code
+                                </div>
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    <a href="/Units/RequestOtp/@(item.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="request_otp@(item.id)" title="" type="button" data-original-title="Request OTP">
+                                        <span class="fa fa-key"></span>
+                                    </a>
+                                }
+                                catch
+                                {
+                                    <span>N/A</span>
+                                }
+
+                            }
+                        }
+                        catch
+                        {
+                            <span>N/A</span>
+                        }
                     </td>
                     <td class="text-center">
                         @item.microting_uid
-                    </td>
-                    <td class="text-center">
                     </td>
                 </tr>
             }

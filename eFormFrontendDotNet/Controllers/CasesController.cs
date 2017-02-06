@@ -41,7 +41,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 try
                 {
-                    cases = db.cases.Where(x => x.check_list_id == id).ToList();
+                    cases = db.cases.Where(x => x.check_list_id == id && x.workflow_state != "removed").ToList();
                     ViewBag.cases = cases;
                     return View();
                 }

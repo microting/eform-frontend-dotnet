@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class WorkersController : Controller
+    public class WorkersController : ApplicationController
     {
         // GET: Site
         public ActionResult Index()
@@ -41,12 +42,11 @@ namespace eFormFrontendDotNet.Controllers
             {
                 try
                 {
-                    ViewBag.workers = db.workers.ToList();
+                    ViewBag.workers = db.workers.Where(x => x.workflow_state != "removed").ToList();
                     return View();
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
 
@@ -63,13 +63,12 @@ namespace eFormFrontendDotNet.Controllers
             {
                 try
                 {
-                    ViewBag.worker = db.workers.Single(x => x.id == id);
+                    ViewBag.worker = db.workers.Single(x => x.microting_uid == id);
                     ViewBag.worker_id = id;
                     return View();
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
                 }
             }
             return View();
@@ -77,28 +76,47 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult Update(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-
-            using (var db = new Models.Worker(connectionStr))
+            try
             {
-                try
-                {
-                    Models.workers worker = db.workers.Single(x => x.id == id);
+                Core core = getCore();
+                var worker = core.WorkerRead(id);
+                string userFirstName = Request.Form.Get("worker['first_name']");
+                string userLastName = Request.Form.Get("worker['last_name']");
+                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.Email);
 
-                    worker.first_name = Request.Form.Get("worker['first_name']");
-                    worker.last_name = Request.Form.Get("worker['last_name']");                    
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    System.IO.File.AppendAllText(Server.MapPath("~/bin/log/log.txt"), ex.ToString() + Environment.NewLine);
-                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public JsonResult Delete(int id)
+        {
+            Models.DataResponse response = new Models.DataResponse();
+            response.model_id = id.ToString();
+
+            try
+            {
+                Core core = getCore();
+                var worker = core.WorkerRead(id);
+                if (core.WorkerDelete(id))
+                {
+                    response.data = new Models.DataResponse.Data($"Worker \"{worker.FirstName} {worker.LastName}\" deleted successfully", "success");
+                }
+                else
+                {
+                    response.data = new Models.DataResponse.Data($"Worker \"{worker.FirstName} {worker.LastName}\" could not be deleted!", "error");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.data = new Models.DataResponse.Data($"Worker with id \"{id}\" could not be deleted!", "error");
+            }
+
+            return Json(response);
         }
     }
 }

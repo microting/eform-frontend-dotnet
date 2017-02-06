@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
 
-            var db = new Models.Site(connectionStr);            
+            var db = new Models.Site(connectionStr);
             try
             {
                 if (db.sites.Count() < 1)
@@ -49,7 +49,7 @@ namespace eFormFrontendDotNet.Controllers
                     core.SiteWorkerLoadAllFromRemote();
                     core.UnitLoadAllFromRemote();
                 }
-                ViewBag.sites = db.sites.ToList();
+                ViewBag.sites = db.sites.Where(x => x.workflow_state != "removed").ToList();
                 return View();
             }
             catch (Exception ex)
@@ -72,8 +72,8 @@ namespace eFormFrontendDotNet.Controllers
             Core core = getCore();
             Models.DataResponse response = new Models.DataResponse();
 
-            string userFirstName  = Request.Form.Get("first_name");
-            string userLastName = Request.Form.Get("last_name");
+            string userFirstName = Request.Form.Get("worker['first_name']");
+            string userLastName = Request.Form.Get("worker['last_name']");
             string siteName = userFirstName + " " + userLastName;
 
             eFormShared.Simple_Site_Dto site = core.SiteCreateSimple(siteName, userFirstName, userLastName, null);
@@ -84,6 +84,85 @@ namespace eFormFrontendDotNet.Controllers
             } else
             {
                 response.data = new Models.DataResponse.Data($"Worker could not be created!", "error", "");
+            }
+
+            return Json(response);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+
+            string connectionStr = lines.First();
+
+            using (var db = new Models.Worker(connectionStr))
+            {
+                try
+                {
+                    ViewBag.worker = db.workers.Single(x => x.microting_uid == id);
+                    ViewBag.worker_id = id;
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return View();
+        }
+
+        public ActionResult Update(int id)
+        {
+            try
+            {
+                Core core = getCore();
+                var worker = core.WorkerRead(id);
+                string userFirstName = Request.Form.Get("worker['first_name']");
+                string userLastName = Request.Form.Get("worker['last_name']");
+                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.Email);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public JsonResult Delete(int id)
+        {
+            Models.DataResponse response = new Models.DataResponse();
+            response.model_id = id.ToString();
+
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+
+                string connectionStr = lines.First();
+
+
+                var db = new Models.Site(connectionStr);
+                Models.sites site = db.sites.Single(x => x.microting_uid == id);               
+                Core core = getCore();
+                Models.workers worker = null;
+                foreach (Models.site_workers site_worker in site.site_workers.Where(x => x.workflow_state != "removed").ToList())
+                {
+                    core.SiteWorkerDelete((int)site_worker.microting_uid);
+                    worker = site_worker.worker;
+                    core.WorkerDelete((int)worker.microting_uid);
+                }
+                if (core.SiteDelete(id))
+                {
+                    response.data = new Models.DataResponse.Data($"Worker \"{worker.full_name()}\" deleted successfully", "success");
+                }
+                else
+                {
+                    response.data = new Models.DataResponse.Data($"Worker \"{worker.full_name()}\" could not be deleted!", "error");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.data = new Models.DataResponse.Data($"Site with id \"{id}\" could not be deleted!", "error");
             }
 
             return Json(response);

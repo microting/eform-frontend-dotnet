@@ -68,7 +68,7 @@
         <tbody>
             @foreach (eFormFrontendDotNet.Models.workers item in @ViewBag.workers)
             {
-                <tr>
+                <tr id="row_@(item.microting_uid)">
                     <td class="text-center">
                         @item.id
                     </td>
@@ -88,15 +88,61 @@
                         @item.microting_uid
                     </td>
                     <td class="text-center">
-                        <a href="/Workers/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="edit_site_@(item.id)" title="" type="button" data-original-title="Edit worker">
+                        <a href="/Workers/Edit/@(item.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="edit_site_@(item.id)" title="" type="button" data-original-title="Edit worker">
                             <span class="fa fa-pencil"></span>
                         </a>
-                        <a href="/SitesWorkers/Delete/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="delete_worker_@(item.id)" title="" type="button" data-original-title="Delete worker">
-                            <span class="fa fa-trash"></span>
-                        </a>
+                        <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button"
+                                data-toggle="tooltip" data-placement="top" title="" data-href="/Workers/Delete/@(item.microting_uid)"
+                                id="delete_@(item.microting_uid)" data-bootbox-confirm="eval(rowInfo(@(item.microting_uid),' @(item.created_at)','@(item.first_name)','@(item.last_name)'))"
+                                data-bootbox-title="Are you sure you want to delete the worker?<br> The action can not be undone!"
+                                data-onsuccess="confirm_delete(@(item.microting_uid))" data-original-title="Delete worker">
+                            <span class="fa fa-trash-o"></span>
+                        </button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function(){
+        $(document).on("ajaxSuccess", function(event, xhr, settings){
+            switch (settings.type){
+                case 'GET':
+                    break;
+
+                case 'POST':
+                    show_notification(xhr.responseJSON.data);
+                    break;
+            }
+        });
+    });
+
+    function rowInfo(item_id, creation_date, first_name, last_name) {
+        for (var i = 0 ; i < arguments.length ; i++) {
+            if (arguments[i] === 'null' || arguments[i] === null) {
+                arguments[i] = '';
+            }
+        }
+
+        return "<div class='row'><div class='col-md-4'><label>#</label></div><div class='col-md-8'>" + item_id + "</div></div>" +
+               "<div class='row'><div class='col-md-4'><label>Creation_date</label></div><div class='col-md-8'>" + creation_date + "</div></div>" +
+               "<div class='row'><div class='col-md-4'><label>First name</label></div><div class='col-md-8'>" + first_name + "</div></div>" +
+               "<div class='row'><div class='col-md-4'><label>Last name:</label></div><div class='col-md-8'>" + last_name + "</div></div>";
+    }
+
+    function confirm_delete(case_id) {
+        anchor_id = "delete_" + case_id;
+
+        $.ajax({
+            url: $("#" + anchor_id).data("href"),
+            type: 'post',
+            dataType: 'json',
+            headers: { 'X-CSRF-Token': "" }
+        }).done(function (data, status, xhr) {
+            $("#row_" + data.model_id).remove();
+        }).fail(function () {
+        }).always(function () {
+        });
+    }
+</script>
