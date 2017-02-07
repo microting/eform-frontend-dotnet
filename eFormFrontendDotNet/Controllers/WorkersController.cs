@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using eFormCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,29 +95,54 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult Delete(int id)
         {
-            Models.DataResponse response = new Models.DataResponse();
-            response.model_id = id.ToString();
-
             try
             {
                 Core core = getCore();
                 var worker = core.WorkerRead(id);
                 if (core.WorkerDelete(id))
                 {
-                    response.data = new Models.DataResponse.Data($"Worker \"{worker.FirstName} {worker.LastName}\" deleted successfully", "success");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "success",
+                            message = $"Worker \"{worker.FirstName} {worker.LastName}\" deleted successfully",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    response.data = new Models.DataResponse.Data($"Worker \"{worker.FirstName} {worker.LastName}\" could not be deleted!", "error");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"Worker \"{worker.FirstName} {worker.LastName}\" could not be deleted!",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception ex)
             {
-                response.data = new Models.DataResponse.Data($"Worker with id \"{id}\" could not be deleted!", "error");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Worker with id \"{id}\" could not be deleted!",
+                        id = id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
-
-            return Json(response);
         }
     }
 }
