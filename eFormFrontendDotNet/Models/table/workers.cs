@@ -30,6 +30,8 @@ namespace eFormFrontendDotNet.Models
 
     public partial class workers
     {
+
+        [Key]
         public int id { get; set; }
 
         [Column(TypeName = "datetime2")]
@@ -38,7 +40,6 @@ namespace eFormFrontendDotNet.Models
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        [Key]
         public int? microting_uid { get; set; }
 
         [StringLength(255)]

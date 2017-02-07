@@ -136,16 +136,19 @@
                         }
                     </td>
                     <td class="text-center">
-                        <a href="/SimpleSites/Edit/@(item.site_workers.First().worker.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
-                            <span class="fa fa-pencil"></span>
-                        </a>
-                        <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button"
-                                data-toggle="tooltip" data-placement="top" title="" data-href="/SimpleSites/Delete/@(item.microting_uid)"
-                                id="delete_@(item.microting_uid)" data-bootbox-confirm="eval(rowInfo(@(item.microting_uid),' @(item.created_at)','@(item.site_workers.First().worker.first_name)','@(item.site_workers.First().worker.last_name)'))"
-                                data-bootbox-title="Are you sure you want to delete the site?<br> The action can not be undone!"
-                                data-onsuccess="confirm_delete_(@(item.microting_uid))" data-original-title="Delete site">
-                            <span class="fa fa-trash-o"></span>
-                        </button>
+                        @try
+                        {
+                            <a href="/SimpleSites/Edit/@(item.site_workers.First().worker.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
+                                <span class="fa fa-pencil"></span>
+                            </a>
+                            <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button"
+                                    data-toggle="tooltip" data-placement="top" title="" data-href="/SimpleSites/Delete/@(item.microting_uid)"
+                                    id="delete_@(item.microting_uid)" data-bootbox-confirm="eval(rowInfo(@(item.microting_uid),' @(item.created_at)','@(item.site_workers.First().worker.first_name)','@(item.site_workers.First().worker.last_name)'))"
+                                    data-bootbox-title="Are you sure you want to delete the site?<br> The action can not be undone!"
+                                    data-onsuccess="confirm_delete_(@(item.microting_uid))" data-original-title="Delete site">
+                                <span class="fa fa-trash-o"></span>
+                            </button>
+                        } catch { }
                     </td>
                 </tr>
             }

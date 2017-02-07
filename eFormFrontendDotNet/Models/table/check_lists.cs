@@ -37,6 +37,7 @@ namespace eFormFrontendDotNet.Models
             this.check_list_sites = new HashSet<check_list_sites>();
         }
 
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]

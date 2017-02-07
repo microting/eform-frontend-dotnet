@@ -39,6 +39,7 @@ namespace eFormFrontendDotNet.Models
             this.check_list_sites = new HashSet<check_list_sites>();
         }
 
+        [Key]
         public int id { get; set; }
 
         [Column(TypeName = "datetime2")]
@@ -50,7 +51,6 @@ namespace eFormFrontendDotNet.Models
         [StringLength(255)]
         public string name { get; set; }
 
-        [Key]
         public int? microting_uid { get; set; }
 
         public int? version { get; set; }

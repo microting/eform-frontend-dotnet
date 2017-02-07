@@ -30,9 +30,9 @@ namespace eFormFrontendDotNet.Models
 
     public partial class units
     {
+        [Key]
         public int id { get; set; }
 
-        [Key]
         public int? microting_uid { get; set; }
 
         public int? otp_code { get; set; }
