@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Microting;
+using eFormCore;
 using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
@@ -44,10 +44,10 @@ namespace eFormFrontendDotNet.Controllers
                 if (db.sites.Count() < 1)
                 {
                     Core core = getCore();
-                    core.SiteLoadAllFromRemote();
-                    core.WorkerLoadAllFromRemote();
-                    core.SiteWorkerLoadAllFromRemote();
-                    core.UnitLoadAllFromRemote();
+                    //core.SiteLoadAllFromRemote();
+                    //core.WorkerLoadAllFromRemote();
+                    //core.SiteWorkerLoadAllFromRemote();
+                    //core.UnitLoadAllFromRemote();
                 }
                 ViewBag.sites = db.sites.Where(x => x.workflow_state != "removed").ToList();
                 return View();
