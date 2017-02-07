@@ -44,32 +44,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="eFormCommunicator, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="eFormCommunicator">
       <HintPath>eform-sdk-dotnet\Compiled\eFormCommunicator.dll</HintPath>
     </Reference>
     <Reference Include="eFormCore">
       <HintPath>eform-sdk-dotnet\Compiled\eFormCore.dll</HintPath>
     </Reference>
-    <Reference Include="eFormRequest, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="eFormRequest">
       <HintPath>eform-sdk-dotnet\Compiled\eFormRequest.dll</HintPath>
     </Reference>
-    <Reference Include="eFormResponse, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="eFormResponse">
       <HintPath>eform-sdk-dotnet\Compiled\eFormResponse.dll</HintPath>
     </Reference>
-    <Reference Include="eFormShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="eFormShared">
       <HintPath>eform-sdk-dotnet\Compiled\eFormShared.dll</HintPath>
     </Reference>
-    <Reference Include="eFormSqlController, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="eFormSqlController">
       <HintPath>eform-sdk-dotnet\Compiled\eFormSqlController.dll</HintPath>
-    </Reference>
-    <Reference Include="eFormSubscriber, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>eform-sdk-dotnet\Compiled\eFormSubscriber.dll</HintPath>
     </Reference>
     <Reference Include="i18n, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b54a7283d4bad1bb, processorArchitecture=MSIL">
       <HintPath>..\packages\i18n.2.1.10\lib\net40\i18n.dll</HintPath>
@@ -252,7 +243,6 @@
     <Compile Include="Models\CheckListSite.cs" />
     <Compile Include="Models\table\check_lists.cs" />
     <Compile Include="Models\table\check_list_sites.cs" />
-    <Compile Include="Models\DataResponse.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\table\fields.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -384,6 +374,7 @@
     <Content Include="Views\SimpleSites\Index.cshtml" />
     <Content Include="Views\SimpleSites\New.cshtml" />
     <Content Include="Views\Units\Index.cshtml" />
+    <Content Include="Views\SimpleSites\OtpCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

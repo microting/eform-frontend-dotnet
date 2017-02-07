@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 using eFormCore;
+using eFormShared;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,19 +55,35 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult RequestOtp(int id)
         {
-            Models.DataResponse response = new Models.DataResponse();
-
             try
             {
                 Core core = getCore();
-                core.UnitRequestOtp(id);
-                response.data = new Models.DataResponse.Data($"Unit \"{id}\" OTP requested successfully", "success");
-                return Json(response, JsonRequestBehavior.AllowGet);
+                Unit_Dto unitDto = core.UnitRequestOtp(id);
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "success",
+                        message = $"Unit \"{id}\" OTP requested successfully",
+                        id = id,
+                        value = unitDto.CustomerNo.ToString() + " / " + unitDto.OtpCode.ToString()
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                response.data = new Models.DataResponse.Data($"Unit \"{id}\" OTP request could not be completed!", "error");
-                return Json(response, JsonRequestBehavior.AllowGet);
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Unit \"{id}\" OTP request could not be completed!",
+                        id = id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
         }
     }

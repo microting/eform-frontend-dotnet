@@ -106,7 +106,7 @@
                             <span>N/A</span>
                         }
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" id="unit_@(item.units.First().microting_uid)_td">
                         @try
                         {
                             if (@item.units.First().otp_code != 0)
@@ -119,9 +119,13 @@
                             {
                                 try
                                 {
-                                    <a href="/Units/RequestOtp/@(item.units.First().microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-danger" data-placement="top" data-toggle="tooltip" id="request_otp@(item.id)" title="" type="button" data-original-title="Request OTP">
-                                        <span class="fa fa-key"></span>
-                                    </a>
+                                    <button class="needs_tooltip btn btn-ar btn-sm btn-danger" data-bootbox-confirm-label="Save" 
+                                            data-bootbox-confirm="load(/SimpleSites/OtpCode/@(item.units.First().microting_uid))"
+                                            data-bootbox-title="Activate OTP code for : @(item.units.First().microting_uid)" 
+                                            data-onsuccess="generateOTP(@(item.units.First().microting_uid))" data-placement="top" 
+                                            data-toggle="tooltip" title="" type="button" data-original-title="">
+                                        <span class="fa fa-key" title="" data-original-title="Get OTP code"></span>
+                                    </button>
                                 }
                                 catch
                                 {
@@ -191,7 +195,26 @@
             dataType: 'json',
             headers: { 'X-CSRF-Token': "" }
         }).done(function (data, status, xhr) {
-            $("#row_" + data.model_id).remove();
+            var data = JSON.parse(data);
+            $("#row_" + data.data.id).remove();
+        }).fail(function () {
+        }).always(function () {
+        });
+    }
+
+    function generateOTP(unit_id) {
+        $.ajax({
+            url: "/Units/RequestOtp/" + unit_id,
+            type: 'get',
+            dataType: 'json',
+            headers: { 'X-CSRF-Token': "#{ form_authenticity_token }" }
+        }).done(function (data, status, xhr) {
+            var data = JSON.parse(data);
+            success_message(data.data.message);
+            id = '#unit_' + data.data.id + '_td';
+            $(id).html(data.data.value);
+            return false;
+
         }).fail(function () {
         }).always(function () {
         });

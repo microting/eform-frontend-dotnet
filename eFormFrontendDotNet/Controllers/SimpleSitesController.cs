@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web;
 using eFormCore;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace eFormFrontendDotNet.Controllers
 {
@@ -70,7 +71,6 @@ namespace eFormFrontendDotNet.Controllers
         public JsonResult Create()
         {
             Core core = getCore();
-            Models.DataResponse response = new Models.DataResponse();
 
             string userFirstName = Request.Form.Get("worker['first_name']");
             string userLastName = Request.Form.Get("worker['last_name']");
@@ -80,13 +80,33 @@ namespace eFormFrontendDotNet.Controllers
 
             if (site != null)
             {
-                response.data = new Models.DataResponse.Data($"Worker \"{site.Name}\" created successfully", "success", "");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Worker \"{site.Name}\" created successfully",
+                        id = site.MicrotingUid,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             } else
             {
-                response.data = new Models.DataResponse.Data($"Worker could not be created!", "error", "");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Worker could not be created!",
+                        id = 0,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
+
             }
 
-            return Json(response);
         }
 
         public ActionResult Edit(int id)
@@ -114,11 +134,21 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
+                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+                string connectionStr = lines.First();
+                var db = new Models.Worker(connectionStr);
+                Models.workers worker = db.workers.Single(x => x.microting_uid == id);
+                Models.sites site = worker.site_workers.First().site;
+
                 Core core = getCore();
-                var worker = core.WorkerRead(id);
+                
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
-                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.Email);
+                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.email);
+                if (result)
+                {
+                    result = core.SiteUpdate((int)site.microting_uid, userFirstName + " " + userLastName);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -130,8 +160,8 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult Delete(int id)
         {
-            Models.DataResponse response = new Models.DataResponse();
-            response.model_id = id.ToString();
+            //Models.DataResponse response = new Models.DataResponse();
+            //response.model_id = id.ToString();
 
             try
             {
@@ -152,20 +182,55 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 if (core.SiteDelete(id))
                 {
-                    response.data = new Models.DataResponse.Data($"Worker \"{worker.full_name()}\" deleted successfully", "success");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "success",
+                            message = $"Worker \"{worker.full_name()}\" deleted successfully",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    response.data = new Models.DataResponse.Data($"Worker \"{worker.full_name()}\" could not be deleted!", "error");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"Worker \"{worker.full_name()}\" could not be deleted!",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception ex)
             {
-                response.data = new Models.DataResponse.Data($"Site with id \"{id}\" could not be deleted!", "error");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Worker with id \"{id}\" could not be deleted!",
+                        id = id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
-
-            return Json(response);
         }
+
+        public ActionResult OtpCode(int id)
+        {
+            ViewBag.unit_id = id;
+            return View();
+        }
+
     }
 }

@@ -25,6 +25,7 @@ using System.Web.Mvc;
 using eFormCore;
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace eFormFrontendDotNet.Controllers
 {
@@ -72,18 +73,37 @@ namespace eFormFrontendDotNet.Controllers
         public JsonResult Create()
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
-            Models.DataResponse response = new Models.DataResponse();
+            //Models.DataResponse response = new Models.DataResponse();
             Core core = getCore();
             eFormRequest.MainElement new_template =  core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
                 core.TemplatCreate(new_template);
-                response.data = new Models.DataResponse.Data($"eForm \"{new_template.Label}\" created successfully", "success");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "success",
+                        message = $"eForm \"{new_template.Label}\" created successfully",
+                        id = new_template.Id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
+            } else
+            {
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"eForm could not be created!",
+                        id = new_template.Id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
-            response.data = new Models.DataResponse.Data($"eForm could not be created!", "error");
-
-
-            return Json(response);
         }
 
         public JsonResult Delete(int id)
@@ -92,8 +112,8 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
             Models.check_lists check_list = null;
-            Models.DataResponse response = new Models.DataResponse();
-            response.model_id = id.ToString();
+            //Models.DataResponse response = new Models.DataResponse();
+            //response.model_id = id.ToString();
 
             var db = new Models.CheckList(connectionStr);
             try
@@ -102,19 +122,47 @@ namespace eFormFrontendDotNet.Controllers
                 Core core = getCore();
                 if (core.TemplateDelete(id))
                 {
-                    response.data = new Models.DataResponse.Data($"eForm \"{check_list.label}\" deleted successfully", "success");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"eForm \"{check_list.label}\" deleted successfully",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 } else
                 {
-                    response.data = new Models.DataResponse.Data($"eForm \"{check_list.label}\" could not be deleted!", "error");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"eForm \"{check_list.label}\" could not be deleted!",
+                            id = id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
                 
             }
             catch (Exception ex)
             {
-                response.data = new Models.DataResponse.Data($"eForm \"{check_list.label}\" could not be deleted!", "error");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"eForm \"{check_list.label}\" could not be deleted!",
+                        id = id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }                               
-
-            return Json(response);
         }
     }
 }

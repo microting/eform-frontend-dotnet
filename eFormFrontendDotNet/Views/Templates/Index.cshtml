@@ -161,7 +161,8 @@
             dataType: 'json',
             headers: { 'X-CSRF-Token': "" }
         }).done(function (data, status, xhr) {
-            $("#row_" + data.model_id).remove();
+            var data = JSON.parse(data);
+            $("#row_" + data.data.id).remove();
         }).fail(function () {
         }).always(function () {
         });

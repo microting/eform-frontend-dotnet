@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using eFormCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,29 +94,54 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult Delete(int id)
         {
-            Models.DataResponse response = new Models.DataResponse();
-            response.model_id = id.ToString();
-
             try
             {
                 Core core = getCore();
                 var site = core.SiteRead(id);
                 if (core.SiteDelete(id))
                 {
-                    response.data = new Models.DataResponse.Data($"Site \"{site.Name}\" deleted successfully", "success");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "success",
+                            message = $"Site \"{site.Name}\" deleted successfully",
+                            id = site.MicrotingUid,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    response.data = new Models.DataResponse.Data($"Site \"{site.Name}\" could not be deleted!", "error");
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"Site \"{site.Name}\" could not be deleted!",
+                            id = site.MicrotingUid,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception ex)
             {
-                response.data = new Models.DataResponse.Data($"Site with id \"{id}\" could not be deleted!", "error");
+                JObject response = JObject.FromObject(new
+                {
+                    data = new
+                    {
+                        status = "error",
+                        message = $"Site with id \"{id}\" could not be deleted!",
+                        id = id,
+                        value = ""
+                    }
+                });
+                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
-
-            return Json(response);
         }
     }
 }
