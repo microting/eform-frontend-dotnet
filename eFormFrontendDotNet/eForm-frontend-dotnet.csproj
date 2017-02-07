@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\eFormResponse.dll</HintPath>
     </Reference>
+    <Reference Include="eFormShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>eform-sdk-dotnet\Complied\eFormShared.dll</HintPath>
+    </Reference>
     <Reference Include="eFormSqlController, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\eFormSqlController.dll</HintPath>
@@ -63,6 +67,14 @@
     <Reference Include="eFormSubscriber, Version=1.2.9.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\eFormSubscriber.dll</HintPath>
+    </Reference>
+    <Reference Include="i18n, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b54a7283d4bad1bb, processorArchitecture=MSIL">
+      <HintPath>..\packages\i18n.2.1.10\lib\net40\i18n.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="i18n.Domain, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b54a7283d4bad1bb, processorArchitecture=MSIL">
+      <HintPath>..\packages\i18n.2.1.10\lib\net40\i18n.Domain.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -100,6 +112,10 @@
     <Reference Include="Microting, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>eform-sdk-dotnet\Complied\Microting.exe</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -166,9 +182,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -221,25 +234,36 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\CaseController.cs" />
-    <Compile Include="Controllers\SiteController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CasesController.cs" />
+    <Compile Include="Controllers\SimpleSitesController.cs" />
+    <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
+    <Compile Include="Controllers\WorkersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Case.cs" />
-    <Compile Include="Models\cases.cs" />
+    <Compile Include="Models\SiteWorker.cs" />
+    <Compile Include="Models\table\site_workers.cs" />
+    <Compile Include="Models\table\cases.cs" />
     <Compile Include="Models\CheckList.cs" />
     <Compile Include="Models\CheckListSite.cs" />
-    <Compile Include="Models\check_lists.cs" />
-    <Compile Include="Models\check_list_sites.cs" />
+    <Compile Include="Models\table\check_lists.cs" />
+    <Compile Include="Models\table\check_list_sites.cs" />
+    <Compile Include="Models\DataResponse.cs" />
     <Compile Include="Models\Field.cs" />
-    <Compile Include="Models\fields.cs" />
+    <Compile Include="Models\table\fields.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Site.cs" />
-    <Compile Include="Models\sites.cs" />
+    <Compile Include="Models\table\sites.cs" />
+    <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\table\units.cs" />
+    <Compile Include="Models\Worker.cs" />
+    <Compile Include="Models\table\workers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tools.cs" />
@@ -265,14 +289,17 @@
     <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\images\sort_desc.png" />
     <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\jquery.fileupload.css" />
+    <Content Include="Content\jquery.pnotify.default.css" />
+    <Content Include="Content\jquery.pnotify.default.icons.css" />
     <Content Include="Content\mt_layout.css" />
     <Content Include="Content\mt_overrides_trumbowyg.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-switch.min.js" />
@@ -300,7 +327,13 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.fileupload-process.js" />
+    <Content Include="Scripts\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.pnotify.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jquery.ujs.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -308,11 +341,10 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\mt_layout.js" />
-    <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\trumbowyg.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Case\Index.cshtml" />
+    <Content Include="Views\Cases\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -324,30 +356,35 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Case\Edit.cshtml" />
-    <Content Include="Views\Case\EditSection.cshtml" />
-    <Content Include="Views\Case\Fields\CheckBox.cshtml" />
-    <Content Include="Views\Case\Fields\Comment.cshtml" />
-    <Content Include="Views\Case\Fields\Signature.cshtml" />
-    <Content Include="Views\Case\Fields\Date.cshtml" />
-    <Content Include="Views\Case\Fields\DummyAudio.cshtml" />
-    <Content Include="Views\Case\Fields\DummyComment.cshtml" />
-    <Content Include="Views\Case\Fields\DummyPicture.cshtml" />
-    <Content Include="Views\Case\Fields\FieldGroup.cshtml" />
-    <Content Include="Views\Case\Fields\MultiSelect.cshtml" />
-    <Content Include="Views\Case\Fields\Number.cshtml" />
-    <Content Include="Views\Case\Fields\Picture.cshtml" />
-    <Content Include="Views\Case\Fields\SingleSelect.cshtml" />
-    <Content Include="Views\Case\Fields\SingleSelectSearch.cshtml" />
-    <Content Include="Views\Case\Fields\Text.cshtml" />
-    <Content Include="Views\Case\Fields\Timer.cshtml" />
+    <Content Include="Views\Cases\Edit.cshtml" />
+    <Content Include="Views\Cases\EditSection.cshtml" />
+    <Content Include="Views\Cases\Fields\CheckBox.cshtml" />
+    <Content Include="Views\Cases\Fields\Comment.cshtml" />
+    <Content Include="Views\Cases\Fields\Signature.cshtml" />
+    <Content Include="Views\Cases\Fields\Date.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyAudio.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyComment.cshtml" />
+    <Content Include="Views\Cases\Fields\DummyPicture.cshtml" />
+    <Content Include="Views\Cases\Fields\FieldGroup.cshtml" />
+    <Content Include="Views\Cases\Fields\MultiSelect.cshtml" />
+    <Content Include="Views\Cases\Fields\Number.cshtml" />
+    <Content Include="Views\Cases\Fields\Picture.cshtml" />
+    <Content Include="Views\Cases\Fields\SingleSelect.cshtml" />
+    <Content Include="Views\Cases\Fields\SingleSelectSearch.cshtml" />
+    <Content Include="Views\Cases\Fields\Text.cshtml" />
+    <Content Include="Views\Cases\Fields\Timer.cshtml" />
     <Content Include="Scripts\wow.min.js" />
-    <Content Include="Views\Case\Update.cshtml" />
-    <Content Include="Views\Template\Index.cshtml" />
-    <Content Include="Views\Site\Index.cshtml" />
-    <Content Include="Views\Site\Edit.cshtml" />
+    <Content Include="Views\Cases\Update.cshtml" />
+    <Content Include="Views\Templates\Index.cshtml" />
+    <Content Include="Views\Sites\Index.cshtml" />
+    <Content Include="Views\Sites\Edit.cshtml" />
+    <Content Include="Views\Workers\Edit.cshtml" />
+    <Content Include="Views\Workers\Index.cshtml" />
+    <Content Include="Views\Templates\New.cshtml" />
+    <Content Include="Views\SimpleSites\Edit.cshtml" />
+    <Content Include="Views\SimpleSites\Index.cshtml" />
+    <Content Include="Views\SimpleSites\New.cshtml" />
+    <Content Include="Views\Units\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,7 +394,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>

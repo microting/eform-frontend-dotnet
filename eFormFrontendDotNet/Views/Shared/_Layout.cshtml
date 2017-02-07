@@ -1,12 +1,47 @@
-﻿<!DOCTYPE html>
+﻿@*
+    The MIT License(MIT)
+
+    Copyright(c) 2007-2017 microting
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+*@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Microting eFormFrontendDotNet</title>
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+        <script type="text/javascript">
+            const sMtLogLevel = "info";
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            const sMtLogLevel = "info";
+        </script>
+    }
 </head>
 <body>
     <div class="boxed">
@@ -49,37 +84,41 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <ul class="nav navbar-nav">
-                            <li class="">
-                                <a href="/">
-                                    eForms
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="/Site">
-                                    Sites
-                                </a>
-                            </li>
-                        </ul>
-
+                        <li class="">
+                            <a href="/">
+                                eForms
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/SimpleSites">
+                                "Workers"
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">Advanced</a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="">
+                                    <a href="/Sites">
+                                        Sites
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="/Workers">
+                                        Workers
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="/Units">
+                                        Units
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <header class="main-header">
-            <div class="container-fluid">
-                <h1 class="page-title">
-                    <div class="container">
-                        @ViewBag.Title
-
-                    </div>
-                </h1>
-                @*<div class="pull-right">
-                    <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title="" data-bootbox-confirm-label="Gem eForm" data-bootbox-confirm="load(/inspection/check_lists/new)" data-bootbox-title="Opret eForm" data-bootbox-additional-classes="full-width mt-has-form" data-onsuccess="$(&quot;.modal-body form#new_inspection_check_list&quot;).submit();" data-original-title="Opret eForm">Opret ny eForm</button>
-                </div>*@
-            </div>
-        </header>
-        @RenderBody()
+        @RenderBody()        
     </div>
     <div id="footer_placeholder" style="height: 148px; background-color: white"></div>
     <div id="my_footer_id_2" style="z-index: 999">

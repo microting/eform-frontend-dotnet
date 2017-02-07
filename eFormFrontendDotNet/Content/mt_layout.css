@@ -1,4 +1,28 @@
-﻿
+﻿ /*
+ The MIT License(MIT)
+
+ Copyright(c) 2007-2017 microting
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
+
+
 /* FIXES BEGIN */
 
 @font-face {font-family: 'Glyphicons Halflings'; src: url('fonts/glyphicons-halflings-regular.eot');src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');}
@@ -7,7 +31,7 @@
 .header-full-title {background-image: url('Content/image/logo_big.png');}
 .paper-back-full {background-image: url('Content/back.png');}
 .bx-wrapper .bx-loading {background-image: url('Content/bx_loader.gif');}
-.navbar-default .navbar-brand {background-image: url('Content/images/logo.png');}
+.navbar-default .navbar-brand {background-image: url('images/logo.png');}
 
 /*jquery.bxslider*/
 .bx-wrapper .bx-loading {background: url('Content/bx_loader.gif') center center no-repeat #fff;}
@@ -253,7 +277,7 @@ img.rotate_270, img.rotate-270 {
   float: left;
   overflow: hidden;
   padding-left: 75px;
-  background-image: url("/images/logo_big.png");
+  background-image: url("images/logo_big.png");
   background-repeat: no-repeat;
   background-position: left center;
 }

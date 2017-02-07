@@ -16,7 +16,7 @@ namespace eFormFrontendDotNet
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Template", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Templates", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
