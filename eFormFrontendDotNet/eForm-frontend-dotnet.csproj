@@ -203,6 +203,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\CasesController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SimpleSitesController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
@@ -351,6 +352,11 @@
     <Content Include="Views\SimpleSites\New.cshtml" />
     <Content Include="Views\Units\Index.cshtml" />
     <Content Include="Views\SimpleSites\OtpCode.cshtml" />
+    <Content Include="Views\settings\Create.cshtml" />
+    <Content Include="Views\settings\Delete.cshtml" />
+    <Content Include="Views\settings\Details.cshtml" />
+    <Content Include="Views\settings\Edit.cshtml" />
+    <Content Include="Views\settings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
