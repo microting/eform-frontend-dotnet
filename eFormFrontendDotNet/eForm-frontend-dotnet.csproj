@@ -212,6 +212,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Case.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\table\settings.cs" />
     <Compile Include="Models\SiteWorker.cs" />
     <Compile Include="Models\table\site_workers.cs" />
     <Compile Include="Models\table\cases.cs" />
