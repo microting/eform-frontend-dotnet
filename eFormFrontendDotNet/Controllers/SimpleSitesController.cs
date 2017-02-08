@@ -76,7 +76,7 @@ namespace eFormFrontendDotNet.Controllers
             string userLastName = Request.Form.Get("worker['last_name']");
             string siteName = userFirstName + " " + userLastName;
 
-            eFormShared.Simple_Site_Dto site = core.SiteCreateSimple(siteName, userFirstName, userLastName, null);
+            eFormShared.Site_Dto site = core.SiteCreateSimple(siteName, userFirstName, userLastName, null);
 
             if (site != null)
             {
@@ -85,8 +85,8 @@ namespace eFormFrontendDotNet.Controllers
                     data = new
                     {
                         status = "error",
-                        message = $"Worker \"{site.Name}\" created successfully",
-                        id = site.MicrotingUid,
+                        message = $"Worker \"{site.SiteName}\" created successfully",
+                        id = site.SiteId,
                         value = ""
                     }
                 });

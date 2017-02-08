@@ -81,7 +81,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 Core core = getCore();
                 var site = core.SiteRead(id);
-                core.SiteUpdate((int)site.MicrotingUid, Request.Form.Get("site['name']"));
+                core.SiteUpdate((int)site.SiteUId, Request.Form.Get("site['name']"));
 
                 return RedirectToAction("Index");
             }
@@ -105,8 +105,8 @@ namespace eFormFrontendDotNet.Controllers
                         data = new
                         {
                             status = "success",
-                            message = $"Site \"{site.Name}\" deleted successfully",
-                            id = site.MicrotingUid,
+                            message = $"Site \"{site.SiteName}\" deleted successfully",
+                            id = site.SiteUId,
                             value = ""
                         }
                     });
@@ -119,8 +119,8 @@ namespace eFormFrontendDotNet.Controllers
                         data = new
                         {
                             status = "error",
-                            message = $"Site \"{site.Name}\" could not be deleted!",
-                            id = site.MicrotingUid,
+                            message = $"Site \"{site.SiteName}\" could not be deleted!",
+                            id = site.SiteUId,
                             value = ""
                         }
                     });
