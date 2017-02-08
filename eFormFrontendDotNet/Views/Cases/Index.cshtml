@@ -70,19 +70,60 @@
                         @item.done_at
                     </td>
                     <td class="text-center">
-                        @item.done_by_user_id
+                        @try
+                        {
+                            @item.worker.full_name()
+                        }
+                        catch
+                        {
+                            @item.done_by_user_id
+                        }
+
                     </td>
                     <td class="text-center">
-                        @item.status
+                        @switch (item.status)
+                        {
+                            case 33:
+                                {
+                                    <div class="progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Creating"><div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%;">33%</div></div>
+                                    break;
+                                }
+                            case 66:
+                                {
+                                    <div class="progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ready for download by unit"><div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">66%</div></div>
+                                    break;
+                                }
+                            case 77:
+                                {
+                                    <div class="progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Fetched by unit"><div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">77%</div></div>
+                                    break;
+                                }
+                            case 100:
+                                {
+                                    <div class="progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Result retrieved from Microting"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div></div>
+                                    break;
+                                }
+                            default:
+                                {
+                                    <div class="progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contact your administrator for help!"><div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">N/A</div></div>
+                                    break;
+                                }
+                        }
+                        @*@item.status*@
                     </td>
+
+
                     <td class="text-center">
-                        <a href="/Cases/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
-                            <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.id)"></span>
-                        </a>
+                        @if (item.status == 100)
+                        {
+                            <a href="/Cases/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
+                                <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.id)"></span>
+                            </a>
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
 
+</div>

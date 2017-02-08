@@ -41,30 +41,66 @@
                         <td>
                             @if (dataE.ApprovalEnabled)
                             {
-                                if (dataE.Status == "approved")
+                                switch (dataE.Status)
                                 {
-                                    <div class="radio">
-                                        <input checked id="cl_v[@(dataE.Id)][1]" name="cl_v[@(dataE.Id)]" type="radio" value="1" />
-                                        <label for="cl_v[@(dataE.Id)][1]">Godkendt</label>
-                                    </div>
-                                    <div class="radio">
-                                        <input id="cl_v[@(dataE.Id)][2]" name="cl_v[@(dataE.Id)]" type="radio" value="2" />
-                                        <label for="cl_v[@(dataE.Id)][2]">Ikke godkendt</label>
-                                    </div>
+                                    case "approved":
+                                        {
+                                            <div class="radio">
+                                                <input checked id="cl_v[@(dataE.Id)][approved]" name="cl_v[@(dataE.Id)]" type="radio" value="approved" />
+                                                <label for="cl_v[@(dataE.Id)][approved]">Approved</label>
+                                            </div>
+                                            if (dataE.ReviewEnabled)
+                                            {
 
+                                                <div class="radio">
+                                                    <input id="cl_v[@(dataE.Id)][review]" name="cl_v[@(dataE.Id)]" type="radio" value="review" />
+                                                    <label for="cl_v[@(dataE.Id)][review]">Review</label>
+                                                </div>
+                                            }
+                                            <div class="radio">
+                                                <input id="cl_v[@(dataE.Id)][not_approved]" name="cl_v[@(dataE.Id)]" type="radio" value="not_approved" />
+                                                <label for="cl_v[@(dataE.Id)][not_approved]">Not approved</label>
+                                            </div>
+                                            break;
+                                        }
+                                    case "not_approved":
+                                        {
+                                            <div class="radio">
+                                                <input id="cl_v[@(dataE.Id)][approved]" name="cl_v[@(dataE.Id)]" type="radio" value="approved" />
+                                                <label for="cl_v[@(dataE.Id)][approved]">Approved</label>
+                                            </div>
+                                            if (dataE.ReviewEnabled)
+                                            {
+
+                                                <div class="radio">
+                                                    <input id="cl_v[@(dataE.Id)][review]" name="cl_v[@(dataE.Id)]" type="radio" value="review" />
+                                                    <label for="cl_v[@(dataE.Id)][review]">Review</label>
+                                                </div>
+                                            }
+                                            <div class="radio">
+                                                <input checked id = "cl_v[@(dataE.Id)][not_approved]" name="cl_v[@(dataE.Id)]" type="radio" value="not_approved" />
+                                                <label for="cl_v[@(dataE.Id)][not_approved]">Not approved</label>
+                                            </div>
+                                            break;
+                                        }
+                                    case "review":
+                                        {
+                                            <div class="radio">
+                                                <input id="cl_v[@(dataE.Id)][1]" name="cl_v[@(dataE.Id)]" type="radio" value="approved" />
+                                                <label for="cl_v[@(dataE.Id)][approved]">Approved</label>
+                                            </div>
+                                            <div class="radio">
+                                                <input checked id="cl_v[@(dataE.Id)][review]" name="cl_v[@(dataE.Id)]" type="radio" value="review" />
+                                                <label for="cl_v[@(dataE.Id)][review]">Review</label>
+                                            </div>
+                                            <div class="radio">
+                                                <input id="cl_v[@(dataE.Id)][not_approved]" name="cl_v[@(dataE.Id)]" type="radio" value="not_approved" />
+                                                <label for="cl_v[@(dataE.Id)][not_approved]">Not approved</label>
+                                            </div>
+                                            break;
+                                        }
                                 }
-                                else
-                                {
-                                    <div class="radio">
-                                        <input id="cl_v[@(dataE.Id)][2]" name="cl_v[@(dataE.Id)]" type="radio" value="2" />
-                                        <label for="cl_v[@(dataE.Id)][2]">Ikke godkendt</label>
-                                    </div>
-                                    <div class="radio">
-                                        <input checked id="cl_v[@(dataE.Id)][1]" name="cl_v[@(dataE.Id)]" type="radio" value="1" />
-                                        <label for="cl_v[@(dataE.Id)][1]">Godkendt</label>
-                                    </div>
-                                }
-                            }                            
+                            }
                         </td>
                     </tr>
 

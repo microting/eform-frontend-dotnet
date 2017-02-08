@@ -37,17 +37,15 @@ namespace eFormFrontendDotNet.Controllers
             string connectionStr = lines.First();
             List<Models.cases> cases = null;
 
-            using (var db = new Models.Case(connectionStr))
+            var db = new Models.Case(connectionStr);
+            try
             {
-                try
-                {
-                    cases = db.cases.Where(x => x.check_list_id == id && x.workflow_state != "removed").ToList();
-                    ViewBag.cases = cases;
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                }
+                cases = db.cases.Where(x => x.check_list_id == id && x.workflow_state != "removed").ToList();
+                ViewBag.cases = cases;
+                return View();
+            }
+            catch (Exception ex)
+            {
             }
             return View();
         }
@@ -101,11 +99,17 @@ namespace eFormFrontendDotNet.Controllers
                 Core core = getCore();
 
                 core.CaseUpdate(int.Parse(id), fieldValueList, checkListValueList);
+                using (var db = new Models.Case(connectionStr))
+                {
+                    int caseId = int.Parse(id);
+                    string checkListId = db.cases.Single(x => x.id == caseId).check_list_id.ToString();
+                    return Redirect($"/Cases/Index/{checkListId}");
+                }
             }
             catch (Exception ex)
             {
+                return RedirectToRoute("Templates");
             }
-            return View();
         }
 
         public ActionResult Edit(int id)
