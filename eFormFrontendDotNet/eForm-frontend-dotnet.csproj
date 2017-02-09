@@ -353,11 +353,11 @@
     <Content Include="Views\SimpleSites\New.cshtml" />
     <Content Include="Views\Units\Index.cshtml" />
     <Content Include="Views\SimpleSites\OtpCode.cshtml" />
-    <Content Include="Views\settings\Create.cshtml" />
-    <Content Include="Views\settings\Delete.cshtml" />
-    <Content Include="Views\settings\Details.cshtml" />
-    <Content Include="Views\settings\Edit.cshtml" />
-    <Content Include="Views\settings\Index.cshtml" />
+    <Content Include="Views\Settings\Create.cshtml" />
+    <Content Include="Views\Settings\Delete.cshtml" />
+    <Content Include="Views\Settings\Details.cshtml" />
+    <Content Include="Views\Settings\Edit.cshtml" />
+    <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\Templates\DeployTo.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\ForgotPassword.cshtml" />
