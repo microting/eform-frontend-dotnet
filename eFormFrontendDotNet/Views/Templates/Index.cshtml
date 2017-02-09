@@ -78,12 +78,13 @@
                         @item.label
                     </td>
                     <td class="text-center">
-                        @foreach (eFormFrontendDotNet.Models.cases deplyed_case in item.cases.ToList())
+                        @*@foreach (eFormFrontendDotNet.Models.cases deplyed_case in item.cases.ToList())
                         {
                             <span>
                                 @if (deplyed_case.site != null)
                                 {
                                     @deplyed_case.site.name
+                                    <br />
                                     if (deplyed_case.workflow_state == "created")
                                     {
                                         deployed = true;
@@ -94,11 +95,12 @@
                                     
                                 }
                             </span>
-                        }
+                        }*@
 
-                        @foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.ToList())
+                        @foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
                         {
                             @check_list_site.site.name
+                            <br />
                             if (check_list_site.workflow_state == "created")
                             {
                                 deployed = true;
@@ -107,7 +109,7 @@
 
                         @if (deployed)
                         {
-                            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
+                            <button class="needs_tooltip btn btn-ar btn-sm btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
                                     data-bootbox-title='Edit deployment' data-bootbox-additional-classes="full-width mt-has-form"
                                     data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Edit deployment'>
@@ -116,7 +118,7 @@
                         }
                         else
                         {
-                            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
+                            <button class="needs_tooltip btn btn-ar btn-sm btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
                                     data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
                                     data-bootbox-title='New deployment' data-bootbox-additional-classes="full-width mt-has-form"
                                     data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Deploy to'>

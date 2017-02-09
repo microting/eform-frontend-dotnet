@@ -28,15 +28,15 @@
     if (Model.Value == item.Key)
     {
         <div class="radio">
-            <input checked id="f_[@(Model.FieldId)][1]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
-            <label for="f_[@(Model.FieldId)][1]">@item.Value</label>
+            <input checked id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
+            <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
         </div>
     }
     else
     {
         <div class="radio">
-            <input id="f_[@(Model.FieldId)][1]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
-            <label for="f_[@(Model.FieldId)][1]">@item.Value</label>
+            <input id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
+            <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
         </div>
     }
 }

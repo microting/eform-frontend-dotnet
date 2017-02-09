@@ -205,8 +205,6 @@ namespace eFormFrontendDotNet.Controllers
                 deployedSiteIds.Add((int)cls.site_id);
             }
 
-
-            //List<Models.sites> requestedSites = new List<Models.sites>();
             var site_db = new Models.Site(connectionStr);
             int i = 0;
             var keys = Request.Form.AllKeys;
@@ -214,16 +212,16 @@ namespace eFormFrontendDotNet.Controllers
             {
                 int site_id = int.Parse(Request.Form.Get(keys[i]));
                 requestedSiteIds.Add(site_id);
-                //requestedSites.Add(site_db.sites.Single(x => x.id == site_id));
                 i++;
             }
 
             if (requestedSiteIds.Count == 0)
             {
-                foreach (int siteId in deployedSiteIds)
+                foreach (Models.check_list_sites cls in checkListSites)
                 {
-                    int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
-                    sitesToBeRetractedFrom.Add(_siteId);
+                    //int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
+                    int mUid = int.Parse(cls.microting_uid);
+                    sitesToBeRetractedFrom.Add(mUid);
                 }
             } else
             {
@@ -238,36 +236,17 @@ namespace eFormFrontendDotNet.Controllers
             }
             if (deployedSiteIds.Count != 0)
             {
-                foreach (int siteId in deployedSiteIds)
+                //foreach (int siteId in deployedSiteIds)
+                foreach (Models.check_list_sites cls in checkListSites)
                 {
-                    if (!requestedSiteIds.Contains(siteId))
+                    if (!requestedSiteIds.Contains((int)cls.site_id))
                     {
-                        int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
-                        sitesToBeRetractedFrom.Add(_siteId);
+                        //int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
+                        int mUid = int.Parse(cls.microting_uid);
+                        sitesToBeRetractedFrom.Add(mUid);
                     }
                 }
             }
-
-            //if (requestedSites.Count == 0)
-            //{
-            //    foreach (Models.check_list_sites cls in sitesDeployed)
-            //    {
-            //        sitesToBeRetractedFrom.Add((int)cls.site.microting_uid);
-            //    }
-            //} else
-            //{
-            //    foreach (Models.sites site in requestedSites)
-            //    {
-            //        bool match_found = false;
-            //        foreach (Models.check_list_sites cls in sitesDeployed)
-            //        {
-            //            if (cls.site_id == site.id)
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //}
 
             Core core = getCore();
 
@@ -276,6 +255,11 @@ namespace eFormFrontendDotNet.Controllers
             mainElement.EndDate = DateTime.Now.AddYears(10).ToString("MM/dd/yyyy");
             mainElement.StartDate = DateTime.Now.ToString("MM/dd/yyyy");
             core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
+
+            foreach (int mUid in sitesToBeRetractedFrom)
+            {
+                core.CaseDelete(mUid.ToString());
+            }
             
 
             JObject response = JObject.FromObject(new
