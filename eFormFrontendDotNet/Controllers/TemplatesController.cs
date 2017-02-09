@@ -177,7 +177,7 @@ namespace eFormFrontendDotNet.Controllers
             Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
 
             ViewBag.check_list = check_list;
-            ViewBag.check_list_sites = check_list.check_list_sites.Select(x => x.site_id);
+            ViewBag.check_list_sites = check_list.check_list_sites.ToList();
 
             var db = new Models.Site(connectionStr);
 
@@ -273,12 +273,10 @@ namespace eFormFrontendDotNet.Controllers
 
             eFormRequest.MainElement mainElement = core.TemplatRead(id);
             mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
-            mainElement.EndDate = DateTime.Now.AddYears(10).ToString("dd-MM/yyyy H:mm:ss"); // This needs to be in the format of 
-                                                                                            //foreach (int siteId in sitesToBeDeployedTo)
-                                                                                            //{
+            mainElement.EndDate = DateTime.Now.AddYears(10).ToString("MM/dd/yyyy");
+            mainElement.StartDate = DateTime.Now.ToString("MM/dd/yyyy");
             core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
-            //}
-            //core.CaseCreate
+            
 
             JObject response = JObject.FromObject(new
             {

@@ -23,7 +23,7 @@
 *@
 @model eFormRequest.FieldValue
 
-@foreach (eFormRequest.KeyValuePair item in @Model.KeyValuePairList)
+@foreach (eFormShared.KeyValuePair item in @Model.KeyValuePairList)
 {
     Boolean keyFound = false;
     foreach(string _value in Model.Value.Split('|'))
