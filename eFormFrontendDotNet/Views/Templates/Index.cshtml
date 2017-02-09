@@ -53,7 +53,7 @@
                     Label
                 </th>
                 <th class="col-md-2 text-center" rowspan="1" colspan="1">
-                    Deployed to
+                    Deployment
                 </th>
                 <th class="col-md-1 text-center" rowspan="1" colspan="1">
                     Actions
@@ -91,16 +91,37 @@
                                 }
                                 else
                                 {
-                                    foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.ToList())
-                                    {
-                                        @check_list_site.site.name
-                                        if (check_list_site.workflow_state == "created")
-                                        {
-                                            deployed = true;
-                                        }
-                                    }
+                                    
                                 }
                             </span>
+                        }
+
+                        @foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.ToList())
+                        {
+                            @check_list_site.site.name
+                            if (check_list_site.workflow_state == "created")
+                            {
+                                deployed = true;
+                            }
+                        }
+
+                        @if (deployed)
+                        {
+                            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
+                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
+                                    data-bootbox-title='Edit deployment' data-bootbox-additional-classes="full-width mt-has-form"
+                                    data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Edit deployment'>
+                                Edit deployment
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="needs_tooltip btn btn-ar btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
+                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
+                                    data-bootbox-title='New deployment' data-bootbox-additional-classes="full-width mt-has-form"
+                                    data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Deploy to'>
+                                Select workers
+                            </button>
                         }
                     </td>
                     <td class="text-center">
@@ -128,13 +149,14 @@
 </div>
 <script>
     $(document).ready(function(){
-        $(document).on("ajaxSuccess", function(event, xhr, settings){
+        $(document).on("ajaxSuccess", function (event, xhr, settings) {
+            var data = JSON.parse(xhr.responseJSON);
             switch (settings.type){
                 case 'GET':
                     break;
 
                 case 'POST':
-                    show_notification(xhr.responseJSON.data);
+                    success_message(data.data.message);
                     break;
             }
         });

@@ -49,7 +49,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 return RedirectToAction("Index");
             }
-        }       
+        }
 
         public FileResult Csv(int id)
         {
@@ -75,7 +75,7 @@ namespace eFormFrontendDotNet.Controllers
             string tamplate_xml = Request.Form.Get("eFormXML");
             //Models.DataResponse response = new Models.DataResponse();
             Core core = getCore();
-            eFormRequest.MainElement new_template =  core.TemplatFromXml(tamplate_xml);
+            eFormRequest.MainElement new_template = core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
                 core.TemplatCreate(new_template);
@@ -90,7 +90,8 @@ namespace eFormFrontendDotNet.Controllers
                     }
                 });
                 return Json(response.ToString(), JsonRequestBehavior.AllowGet);
-            } else
+            }
+            else
             {
                 JObject response = JObject.FromObject(new
                 {
@@ -133,7 +134,8 @@ namespace eFormFrontendDotNet.Controllers
                         }
                     });
                     return Json(response.ToString(), JsonRequestBehavior.AllowGet);
-                } else
+                }
+                else
                 {
                     JObject response = JObject.FromObject(new
                     {
@@ -147,7 +149,7 @@ namespace eFormFrontendDotNet.Controllers
                     });
                     return Json(response.ToString(), JsonRequestBehavior.AllowGet);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -162,7 +164,133 @@ namespace eFormFrontendDotNet.Controllers
                     }
                 });
                 return Json(response.ToString(), JsonRequestBehavior.AllowGet);
-            }                               
+            }
+        }
+
+        public ActionResult DeployTo(int id)
+        {
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            string connectionStr = lines.First();
+
+            var cl_db = new Models.CheckList(connectionStr);
+
+            Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
+
+            ViewBag.check_list = check_list;
+            ViewBag.check_list_sites = check_list.check_list_sites.Select(x => x.site_id);
+
+            var db = new Models.Site(connectionStr);
+
+            ViewBag.sites = db.sites.ToList();
+
+            return View();
+        }
+
+        public JsonResult Deploy(int id)
+        {
+            List<int> deployedSiteIds = new List<int>();
+            List<int> requestedSiteIds = new List<int>();
+
+            List<int> sitesToBeRetractedFrom = new List<int>();
+            List<int> sitesToBeDeployedTo = new List<int>();
+
+            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            string connectionStr = lines.First();
+
+            var cl_db = new Models.CheckList(connectionStr);
+            Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
+            List<Models.check_list_sites> checkListSites = check_list.check_list_sites.ToList();
+            foreach (Models.check_list_sites cls in checkListSites)
+            {
+                deployedSiteIds.Add((int)cls.site_id);
+            }
+
+
+            //List<Models.sites> requestedSites = new List<Models.sites>();
+            var site_db = new Models.Site(connectionStr);
+            int i = 0;
+            var keys = Request.Form.AllKeys;
+            foreach (string key in keys)
+            {
+                int site_id = int.Parse(Request.Form.Get(keys[i]));
+                requestedSiteIds.Add(site_id);
+                //requestedSites.Add(site_db.sites.Single(x => x.id == site_id));
+                i++;
+            }
+
+            if (requestedSiteIds.Count == 0)
+            {
+                foreach (int siteId in deployedSiteIds)
+                {
+                    int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
+                    sitesToBeRetractedFrom.Add(_siteId);
+                }
+            } else
+            {
+                foreach (int siteId in requestedSiteIds)
+                {
+                    if (!deployedSiteIds.Contains(siteId))
+                    {
+                        int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
+                        sitesToBeDeployedTo.Add(_siteId);
+                    }
+                }
+            }
+            if (deployedSiteIds.Count != 0)
+            {
+                foreach (int siteId in deployedSiteIds)
+                {
+                    if (!requestedSiteIds.Contains(siteId))
+                    {
+                        int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
+                        sitesToBeRetractedFrom.Add(_siteId);
+                    }
+                }
+            }
+
+            //if (requestedSites.Count == 0)
+            //{
+            //    foreach (Models.check_list_sites cls in sitesDeployed)
+            //    {
+            //        sitesToBeRetractedFrom.Add((int)cls.site.microting_uid);
+            //    }
+            //} else
+            //{
+            //    foreach (Models.sites site in requestedSites)
+            //    {
+            //        bool match_found = false;
+            //        foreach (Models.check_list_sites cls in sitesDeployed)
+            //        {
+            //            if (cls.site_id == site.id)
+            //            {
+
+            //            }
+            //        }
+            //    }
+            //}
+
+            Core core = getCore();
+
+            eFormRequest.MainElement mainElement = core.TemplatRead(id);
+            mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
+            mainElement.EndDate = DateTime.Now.AddYears(10).ToString("dd-MM/yyyy H:mm:ss"); // This needs to be in the format of 
+                                                                                            //foreach (int siteId in sitesToBeDeployedTo)
+                                                                                            //{
+            core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
+            //}
+            //core.CaseCreate
+
+            JObject response = JObject.FromObject(new
+            {
+                data = new
+                {
+                    status = "error",
+                    message = $"eForm \"{check_list.label}\" deployed successfully!",
+                    id = id,
+                    value = ""
+                }
+            });
+            return Json(response.ToString(), JsonRequestBehavior.AllowGet);
         }
     }
 }
