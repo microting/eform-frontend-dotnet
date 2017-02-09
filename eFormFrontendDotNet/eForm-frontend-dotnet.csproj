@@ -359,6 +359,10 @@
     <Content Include="Views\settings\Edit.cshtml" />
     <Content Include="Views\settings\Index.cshtml" />
     <Content Include="Views\Templates\DeployTo.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Auth\ForgotPassword.cshtml" />
+    <Content Include="Views\Auth\ChangePassword.cshtml" />
+    <Content Include="Views\Auth\PasswordReset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,45 @@
+﻿<header class="main-header">
+    <div class="container">
+        <h1 class="page-title">
+            <div class="container">
+                Log in
+            </div>
+        </h1>
+    </div>
+</header>
+<div class="container">
+    <form accept-charset="UTF-8" action="/users/sign_in?locale=da" class="new_user" id="new_user" method="post">
+        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div><div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" style="margin-top:50px;">
+
+            <div class="input-group" style="margin-bottom: 25px">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                </span>
+                <input class="form-control" id="login-email" name="user[email]" placeholder="E-mail" type="text" value="">
+            </div>
+            <div class="input-group" style="margin-bottom: 25px">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-lock"></i>
+                </span>
+                <input class="form-control" id="login-password" name="user[password]" placeholder="Adgangskode" type="password">
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <a href="/users/password/new?locale=da">Glemt din adgangskode?</a>
+                    </div>
+                    <div class="col-lg-5 text-right">
+                        <div class="buttons">
+                            <button class="btn btn-ar btn-primary pull-right" href="#" id="submit_form">
+                                Log ind
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+
+</div>
