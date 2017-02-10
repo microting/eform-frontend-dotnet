@@ -52,6 +52,7 @@ namespace eFormFrontendDotNet
                       "~/Content/font-awesome.min.css",
                       "~/Content/jquery.pnotify.default.css",
                       "~/Content/jquery.pnotify.default.icons.css",
+                      "~/Content/sticky_footer.css",
                       "~/Content/jquery.fileupload.css"));
         }
     }
