@@ -35,21 +35,8 @@ namespace eFormFrontendDotNet.Controllers
     {
         public ActionResult Index()
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-
-            using (var db = new Models.Unit(connectionStr))
-            {
-                try
-                {
-                    ViewBag.units = db.units.Where(x => x.workflow_state != "removed").ToList();
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
+            Core core = getCore();
+            ViewBag.units = core.UnitGetAll();
             return View();
         }
 

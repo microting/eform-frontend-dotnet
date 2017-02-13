@@ -35,28 +35,10 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult Index()
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
+            Core core = getCore();
 
-            var db = new Models.Site(connectionStr);
-            try
-            {
-                if (db.sites.Count() < 1)
-                {
-                    Core core = getCore();
-                    //core.SiteLoadAllFromRemote();
-                    //core.WorkerLoadAllFromRemote();
-                    //core.SiteWorkerLoadAllFromRemote();
-                    //core.UnitLoadAllFromRemote();
-                }
-                ViewBag.sites = db.sites.Where(x => x.workflow_state != "removed").ToList();
-                return View();
-            }
-            catch (Exception ex)
-            {
-            }
-            
+            ViewBag.sites = core.SimpleSiteGetAll();            
 
             return View();
         }

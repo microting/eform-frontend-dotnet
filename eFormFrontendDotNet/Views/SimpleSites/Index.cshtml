@@ -63,17 +63,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (eFormFrontendDotNet.Models.sites item in @ViewBag.sites)
+            @foreach (eFormShared.Site_Dto item in @ViewBag.sites)
             {
-                <tr id="row_@(item.microting_uid)">
+                <tr id="row_@(item.SiteId)">
                     <td class="text-center">
-                        @item.microting_uid
+                        @item.SiteId
                     </td>
                     <td class="text-center">
                         @try
                         {
                             <span>
-                                @item.site_workers.First().worker.first_name
+                                @item.FirstName
                             </span>
                         }
                         catch
@@ -86,7 +86,7 @@
                         @try
                         {
                             <span>
-                                @item.site_workers.First().worker.last_name
+                                @item.LastName
                             </span>
                         }
                         catch
@@ -98,7 +98,7 @@
                         @try
                         {
                             <div>
-                                @item.units.First().microting_uid
+                                @item.UnitId
                             </div>
                         }
                         catch
@@ -108,12 +108,12 @@
                     </td>
                     @try
                     {
-                        <td class="text-center" id="unit_@(item.units.First().microting_uid)_td">
+                        <td class="text-center" id="unit_@(item.UnitId)_td">
 
-                            @if (@item.units.First().otp_code != 0)
+                            @if (@item.OtpCode != 0)
                             {
                                 <div>
-                                    @item.units.First().customer_no / @item.units.First().otp_code
+                                    @item.CustomerNo / @item.OtpCode
                                 </div>
                             }
                             else
@@ -121,9 +121,9 @@
                                 try
                                 {
                                     <button class="needs_tooltip btn btn-ar btn-sm btn-danger" data-bootbox-confirm-label="Save"
-                                            data-bootbox-confirm="load(/SimpleSites/OtpCode/@(item.units.First().microting_uid))"
-                                            data-bootbox-title="Activate OTP code for : @(item.units.First().microting_uid)"
-                                            data-onsuccess="generateOTP(@(item.units.First().microting_uid))" data-placement="top"
+                                            data-bootbox-confirm="load(/SimpleSites/OtpCode/@(item.UnitId))"
+                                            data-bootbox-title="Activate OTP code for : @(item.UnitId)"
+                                            data-onsuccess="generateOTP(@(item.UnitId))" data-placement="top"
                                             data-toggle="tooltip" title="" type="button" data-original-title="">
                                         <span class="fa fa-key" title="" data-original-title="Get OTP code"></span>
                                     </button>
@@ -145,14 +145,14 @@
                     <td class="text-center">
                         @try
                         {
-                            <a href="/SimpleSites/Edit/@(item.site_workers.First().worker.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.id)" title="" type="button" data-original-title="Edit site">
+                            <a href="/SimpleSites/Edit/@(item.WorkerUid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="eidt_site_@(item.WorkerUid)" title="" type="button" data-original-title="Edit site">
                                 <span class="fa fa-pencil"></span>
                             </a>
                             <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button"
-                                    data-toggle="tooltip" data-placement="top" title="" data-href="/SimpleSites/Delete/@(item.microting_uid)"
-                                    id="delete_@(item.microting_uid)" data-bootbox-confirm="eval(rowInfo(@(item.microting_uid),' @(item.created_at)','@(item.site_workers.First().worker.first_name)','@(item.site_workers.First().worker.last_name)'))"
+                                    data-toggle="tooltip" data-placement="top" title="" data-href="/SimpleSites/Delete/@(item.SiteId)"
+                                    id="delete_@(item.SiteId)" data-bootbox-confirm="eval(rowInfo(@(item.SiteId),'@(item.FirstName)','@(item.LastName)'))"
                                     data-bootbox-title="Are you sure you want to delete the site?<br> The action can not be undone!"
-                                    data-onsuccess="confirm_delete_(@(item.microting_uid))" data-original-title="Delete site">
+                                    data-onsuccess="confirm_delete_(@(item.SiteId))" data-original-title="Delete site">
                                 <span class="fa fa-trash-o"></span>
                             </button>
                         }
@@ -177,7 +177,7 @@
         });
     });
 
-    function rowInfo(item_id, creation_date, first_name, last_name) {
+    function rowInfo(item_id, first_name, last_name) {
         for (var i = 0 ; i < arguments.length ; i++) {
             if (arguments[i] === 'null' || arguments[i] === null) {
                 arguments[i] = '';
@@ -185,7 +185,6 @@
         }
 
         return "<div class='row'><div class='col-md-4'><label>#</label></div><div class='col-md-8'>" + item_id + "</div></div>" +
-               "<div class='row'><div class='col-md-4'><label>Creation_date</label></div><div class='col-md-8'>" + creation_date + "</div></div>" +
                "<div class='row'><div class='col-md-4'><label>First name</label></div><div class='col-md-8'>" + first_name + "</div></div>" +
                "<div class='row'><div class='col-md-4'><label>Last name:</label></div><div class='col-md-8'>" + last_name + "</div></div>";
     }

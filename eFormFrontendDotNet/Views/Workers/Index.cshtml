@@ -42,9 +42,6 @@
     <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="workers" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
         <thead>
             <tr role="row">
-                <th class="col-md-1 text-center" rowspan="1" colspan="1">
-                    #
-                </th>
                 <th class="col-md-2 text-center" rowspan="1" colspan="1">
                     Created at
                 </th>
@@ -66,36 +63,33 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (eFormFrontendDotNet.Models.workers item in @ViewBag.workers)
+            @foreach (eFormShared.Worker_Dto item in @ViewBag.workers)
             {
-                <tr id="row_@(item.microting_uid)">
+                <tr id="row_@(item.WorkerUId)">
                     <td class="text-center">
-                        @item.id
+                        @item.CreatedAt
                     </td>
                     <td class="text-center">
-                        @item.created_at
+                        @item.UpdatedAt
                     </td>
                     <td class="text-center">
-                        @item.updated_at
+                        @item.FirstName
                     </td>
                     <td class="text-center">
-                        @item.first_name
+                        @item.LastName
                     </td>
                     <td class="text-center">
-                        @item.last_name
+                        @item.WorkerUId
                     </td>
                     <td class="text-center">
-                        @item.microting_uid
-                    </td>
-                    <td class="text-center">
-                        <a href="/Workers/Edit/@(item.microting_uid)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="edit_site_@(item.id)" title="" type="button" data-original-title="Edit worker">
+                        <a href="/Workers/Edit/@(item.WorkerUId)" class="needs_tooltip btn btn-ar btn-sm btn-default" data-placement="top" data-toggle="tooltip" id="edit_site_@(item.WorkerUId)" title="" type="button" data-original-title="Edit worker">
                             <span class="fa fa-pencil"></span>
                         </a>
                         <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button"
-                                data-toggle="tooltip" data-placement="top" title="" data-href="/Workers/Delete/@(item.microting_uid)"
-                                id="delete_@(item.microting_uid)" data-bootbox-confirm="eval(rowInfo(@(item.microting_uid),' @(item.created_at)','@(item.first_name)','@(item.last_name)'))"
+                                data-toggle="tooltip" data-placement="top" title="" data-href="/Workers/Delete/@(item.WorkerUId)"
+                                id="delete_@(item.WorkerUId)" data-bootbox-confirm="eval(rowInfo(@(item.WorkerUId),' @(item.CreatedAt)','@(item.FirstName)','@(item.LastName)'))"
                                 data-bootbox-title="Are you sure you want to delete the worker?<br> The action can not be undone!"
-                                data-onsuccess="confirm_delete(@(item.microting_uid))" data-original-title="Delete worker">
+                                data-onsuccess="confirm_delete(@(item.WorkerUId))" data-original-title="Delete worker">
                             <span class="fa fa-trash-o"></span>
                         </button>
                     </td>

@@ -35,43 +35,19 @@ namespace eFormFrontendDotNet.Controllers
         // GET: Site
         public ActionResult Index()
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
+            Core core = getCore();
 
-            using (var db = new Models.Site(connectionStr))
-            {
-                try
-                {
-                    ViewBag.sites = db.sites.Where(x => x.workflow_state != "removed").ToList();
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
+            ViewBag.sites = core.SiteGetAll();
 
             return View();
         }
 
         public ActionResult Edit(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            Core core = getCore();
 
-            string connectionStr = lines.First();
-
-            using (var db = new Models.Site(connectionStr))
-            {
-                try
-                {
-                    ViewBag.site = db.sites.Single(x => x.microting_uid == id);
-                    ViewBag.site_id = id;
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
+            ViewBag.site = core.SiteRead(id);
             return View();
         }
 

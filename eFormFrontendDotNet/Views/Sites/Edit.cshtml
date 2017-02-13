@@ -26,14 +26,14 @@
         <h1 class="page-title">
             <div class="container">
                 Edit:
-                @ViewBag.site.name
+                @ViewBag.site.SiteName
             </div>
         </h1>
         <div class="pull-right">
         </div>
     </div>
 </header>
-<form accept-charset="utf-8" action="/Sites/Update/@(ViewBag.site_id)" class="edit_case" id="edit_case" method="post">
+<form accept-charset="utf-8" action="/Sites/Update/@(ViewBag.site.SiteUId)" class="edit_case" id="edit_case" method="post">
     <div class="container-fluid">
         <div class="bs-docs-container">
             <div class="row">
@@ -48,7 +48,7 @@
                                         <strong>Name</strong>
                                     </td>
                                     <td>
-                                        <input class="form-control" placeholder="@(ViewBag.site.name)" type="text" value="@(ViewBag.site.name)" name="site['name']" id="site_name" />
+                                        <input class="form-control" placeholder="@(ViewBag.site.SiteName)" type="text" value="@(ViewBag.site.SiteName)" name="site['name']" id="site_name" />
                                     </td>
                                 </tr>
                             </tbody>
