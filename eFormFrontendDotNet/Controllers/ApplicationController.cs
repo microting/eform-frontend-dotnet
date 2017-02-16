@@ -1,4 +1,5 @@
 ﻿using eFormCore;
+using eFormFrontendDotNet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,29 +13,84 @@ namespace eFormFrontendDotNet.Controllers
         object _lockLogFil = new object();
         Core core = null;
 
+        #region ExceptionHandling
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            this.Session["ErrorException"] = filterContext.Exception;
+
+            filterContext.ExceptionHandled = true;
+
+            if (filterContext.Exception.Message.Contains("Could not find file") && filterContext.Exception.Message.Contains("Input.txt"))
+            {
+                filterContext.Result = this.RedirectToAction("ConnectionMissing", "Settings");
+            }
+            else
+            {
+                if (filterContext.Exception.Message.Contains("Core is not running"))
+                {
+                    filterContext.Result = this.RedirectToAction("Index", "Settings");
+                }
+            }
+
+            base.OnException(filterContext);
+        }
+        #endregion
+
         #region core
         #region coreFunctions
         public Core getCore()
         {
-
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
             string connectionStr = lines.First();
+
+            Setting db = new Setting(connectionStr);
+
             this.core = new Core();
+            bool running = false;
+            if (db.settings.Single(x => x.name == "comToken").value.Length > 31)
+            {
+                if (db.settings.Single(x => x.name == "comAddress").value.Contains("https"))
+                {
+                    if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
+                    {
+                        if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
+                        {
+                            if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
+                            {
+                                if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
+                                {
+                                    if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                    {
+                                        core.HandleCaseCreated += EventCaseCreated;
+                                        core.HandleCaseRetrived += EventCaseRetrived;
+                                        core.HandleCaseCompleted += EventCaseCompleted;
+                                        core.HandleCaseDeleted += EventCaseDeleted;
+                                        core.HandleFileDownloaded += EventFileDownloaded;
+                                        core.HandleSiteActivated += EventSiteActivated;
+                                        core.HandleEventLog += EventLog;
+                                        core.HandleEventMessage += EventMessage;
+                                        core.HandleEventWarning += EventWarning;
+                                        core.HandleEventException += EventException;
+                                        running = core.StartSqlOnly(connectionStr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            core.StartSqlOnly(connectionStr);
+            if (running)
+            {
+                return core;
+            }
+            else
+            {
+                throw new Exception("Core is not running");
+                //return null;
+            }
 
-            return core;
         }
         #endregion
 
@@ -79,6 +135,10 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message.Contains("Could not find a part of the path"))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
+                    }
                     EventException(ex, EventArgs.Empty);
                 }
             }
@@ -94,6 +154,10 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message.Contains("Could not find a part of the path"))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
+                    }
                     EventException(ex, EventArgs.Empty);
                 }
             }
@@ -109,6 +173,10 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message.Contains("Could not find a part of the path"))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
+                    }
                     EventException(ex, EventArgs.Empty);
                 }
             }
@@ -124,6 +192,10 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message.Contains("Could not find a part of the path"))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
+                    }
                     EventException(ex, EventArgs.Empty);
                 }
             }

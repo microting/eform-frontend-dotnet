@@ -28,22 +28,83 @@
     <div class="container-fluid">
         <h1 class="page-title">
             <div class="container">
-                bin/input.txt missing!
+                Database connection information missing!
             </div>
         </h1>
         <div class="pull-right">
         </div>
     </div>
 </header>
-<div class="container">
-    <h3>
-        We did not find a input.txt file in the bin folder.
-    </h3>    
-    <span>
+@*<div class="container">
+        <h3>
+            We did not find a input.txt file in the bin folder.
+        </h3>
         The content should look like this:
-    </span>
-    <br />
-    <span>
+        <br />
         Data Source={{COMPUTER_NAME}}\SQLEXPRESS;Initial Catalog={{DATABASE_NAME}};Integrated Security=True
-    </span>
+    </div>*@
+<form accept-charset="utf-8" action="/Settings/ConnectionString" class="edit_case" id="edit_case" method="post">
+    <div class="container-fluid">
+        <div class="bs-docs-container">
+            <div class="row">
+                <div class="col-md-9" role="main">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Connection information to database
+                        </div>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <strong>Data Source</strong>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="{{COMPUTER_NAME}}\SQLEXPRESS" type="text" value="" name="connection['source']" id="site_name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Initial Catalog</strong>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="{{DATABASE_NAME}}" type="text" value="" name="connection['catalog']" id="site_name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Authentication type</strong>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Integrated Security=True" type="text" value="" name="connection['auth']" id="site_name" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="bs-docs-container hidden-print affix" id="mt-side-bar" role="complementary">
+                        <button class="btn btn-ar btn-danger" id="submit_form">Gem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="alert alert-info" role="alert">
+                <strong>INFO:</strong>
+                The connection string can also be but in
+                @Server.MapPath("~/bin/input.txt")
+                @*~/bin/input.txt*@
+                <br />
+                <strong>Example:</strong>
+                Data Source={{COMPUTER_NAME}}\SQLEXPRESS;Initial Catalog={{DATABASE_NAME}};Integrated Security=True
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
 </div>

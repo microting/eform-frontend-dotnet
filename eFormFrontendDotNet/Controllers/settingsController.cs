@@ -47,7 +47,7 @@ namespace eFormFrontendDotNet.Controllers
                     {
                         if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
                         {
-                            if (db.settings.Single(x => x.name == "organizationId").value.Length > 100)
+                            if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
                             {
                                 if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
                                 {
@@ -188,7 +188,29 @@ namespace eFormFrontendDotNet.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> ConnectionMissing()
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult ConnectionString()
+        {
+            string source = Request.Form.Get("connection['source']");
+            string catalog = Request.Form.Get("connection['catalog']");
+            string auth = Request.Form.Get("connection['auth']");
+
+            string result = "Data Source=" + source + ";Initial Catalog=" + catalog + ";" + auth;
+            System.IO.File.AppendAllText(Server.MapPath("~/bin/Input.txt"), result);
+            try
+            {
+                Core core = getCore();
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ConnectionMissing()
         {
             return View();
         }
