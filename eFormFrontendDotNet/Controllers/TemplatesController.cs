@@ -33,33 +33,41 @@ namespace eFormFrontendDotNet.Controllers
     {
         public ActionResult Index()
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-            List<Models.check_lists> check_lists = null;
-
-            var db = new Models.CheckList(connectionStr);
             try
             {
-                check_lists = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state != "removed").ToList();
-                ViewBag.check_lists = check_lists;
-                return View();
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException.Message.Contains("Cannot open database"))
-                {
-                    try
-                    {
-                        Core core = getCore();
-                    } catch (Exception ex2)
-                    {
+                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-                    }
-                    return Redirect("Settings");
+                string connectionStr = lines.First();
+                List<Models.check_lists> check_lists = null;
+
+                var db = new Models.CheckList(connectionStr);
+                try
+                {
+                    check_lists = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state != "removed").ToList();
+                    ViewBag.check_lists = check_lists;
+                    return View();
                 }
-                return RedirectToAction("Index");
+                catch (Exception ex)
+                {
+                    if (ex.InnerException.Message.Contains("Cannot open database"))
+                    {
+                        try
+                        {
+                            Core core = getCore();
+                        }
+                        catch (Exception ex2)
+                        {
+
+                        }
+                        return Redirect("Settings");
+                    }
+                    return RedirectToAction("Index");
+                }
+            } catch (Exception ex)
+            {
+                return Redirect("Settings/ConnectionMissing");
             }
+            
         }
 
         public FileResult Csv(int id)

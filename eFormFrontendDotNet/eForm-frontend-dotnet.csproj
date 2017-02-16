@@ -381,6 +381,7 @@
     <Content Include="Views\Auth\ForgotPassword.cshtml" />
     <Content Include="Views\Auth\ChangePassword.cshtml" />
     <Content Include="Views\Auth\PasswordReset.cshtml" />
+    <Content Include="Views\Settings\ConnectionMissing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

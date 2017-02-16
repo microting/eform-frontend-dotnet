@@ -159,6 +159,11 @@ namespace eFormFrontendDotNet.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> ConnectionMissing()
+        {
+            return View();
+        }
+
         private void SettingAdd(int id, string name, string value, string connectionStr)
         {
             using (var db = new Setting(connectionStr))
