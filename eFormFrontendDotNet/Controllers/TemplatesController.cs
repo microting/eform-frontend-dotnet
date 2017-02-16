@@ -47,6 +47,17 @@ namespace eFormFrontendDotNet.Controllers
             }
             catch (Exception ex)
             {
+                if (ex.InnerException.Message.Contains("Cannot open database"))
+                {
+                    try
+                    {
+                        Core core = getCore();
+                    } catch (Exception ex2)
+                    {
+
+                    }
+                    return Redirect("Settings");
+                }
                 return RedirectToAction("Index");
             }
         }
@@ -252,8 +263,8 @@ namespace eFormFrontendDotNet.Controllers
 
             eFormRequest.MainElement mainElement = core.TemplatRead(id);
             mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
-            mainElement.EndDate = DateTime.Now.AddYears(10).ToString("MM/dd/yyyy");
-            mainElement.StartDate = DateTime.Now.ToString("MM/dd/yyyy");
+            mainElement.EndDate = DateTime.Now.AddYears(10);
+            mainElement.StartDate = DateTime.Now;
             core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
 
             foreach (int mUid in sitesToBeRetractedFrom)

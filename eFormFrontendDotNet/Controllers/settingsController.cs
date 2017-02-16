@@ -22,6 +22,21 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
             Setting db = new Setting(connectionStr);
+            if (db.settings.Count() < 11)
+            {
+                SettingAdd(1, "firstRunDone", "false", connectionStr);
+                SettingAdd(2, "knownSitesDone", "false", connectionStr);
+                SettingAdd(3, "logLevel", "true", connectionStr);
+                SettingAdd(4, "comToken", "", connectionStr);
+                SettingAdd(5, "comAddress", "", connectionStr);
+                SettingAdd(6, "comAddressBasic", "", connectionStr);
+                SettingAdd(7, "organizationId", "", connectionStr);
+                SettingAdd(8, "subscriberToken", "", connectionStr);
+                SettingAdd(9, "subscriberAddress", "", connectionStr);
+                SettingAdd(10, "subscriberName", "", connectionStr);
+                SettingAdd(11, "fileLocation", "datafolder/", connectionStr);
+
+            }
             return View(await db.settings.ToListAsync());
         }
 
@@ -142,6 +157,20 @@ namespace eFormFrontendDotNet.Controllers
             db.settings.Remove(settings);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        private void SettingAdd(int id, string name, string value, string connectionStr)
+        {
+            using (var db = new Setting(connectionStr))
+            {
+                settings set = new settings();
+                set.id = id;
+                set.name = name;
+                set.value = value;
+
+                db.settings.Add(set);
+                db.SaveChanges();
+            }
         }
 
     }
