@@ -8,10 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eFormFrontendDotNet.Models;
+using eFormCore;
 
 namespace eFormFrontendDotNet.Controllers
 {
-    public class SettingsController : Controller
+    public class SettingsController : ApplicationController
     {
         //private 
 
@@ -24,7 +25,7 @@ namespace eFormFrontendDotNet.Controllers
             Setting db = new Setting(connectionStr);
             if (db.settings.Count() < 11)
             {
-                SettingAdd(1, "firstRunDone", "false", connectionStr);
+                SettingAdd(1, "firstRunDone", "true", connectionStr);
                 SettingAdd(2, "knownSitesDone", "false", connectionStr);
                 SettingAdd(3, "logLevel", "true", connectionStr);
                 SettingAdd(4, "comToken", "", connectionStr);
@@ -36,6 +37,34 @@ namespace eFormFrontendDotNet.Controllers
                 SettingAdd(10, "subscriberName", "", connectionStr);
                 SettingAdd(11, "fileLocation", "datafolder/", connectionStr);
 
+            }
+            Site site = new Site(connectionStr);
+            if (site.sites.Count() < 1)
+            {
+                if (db.settings.Single(x => x.name == "comToken").value.Length > 31)
+                {
+                    if (db.settings.Single(x => x.name == "comAddress").value.Contains("https"))
+                    {
+                        if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
+                        {
+                            if (db.settings.Single(x => x.name == "organizationId").value.Length > 100)
+                            {
+                                if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
+                                {
+                                    if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
+                                    {
+                                        if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                        {
+                                            Core core = getCore();
+                                            core.Close();
+                                            core.Start(connectionStr);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             return View(await db.settings.ToListAsync());
         }
