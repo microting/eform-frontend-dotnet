@@ -47,21 +47,25 @@ namespace eFormFrontendDotNet.Controllers
                     {
                         if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
                         {
-                            if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
+                            if (db.settings.Single(x => x.name == "organizationId").value != "")
                             {
-                                if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
+                                if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
                                 {
-                                    if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
+                                    if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
                                     {
-                                        if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                        if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
                                         {
-                                            Core core = getCore();
-                                            core.Close();
-                                            core.Start(connectionStr);
+                                            if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                            {
+                                                Core core = getCore(true);
+                                                core.Close();
+                                                core.Start(connectionStr);
+                                            }
                                         }
                                     }
                                 }
                             }
+
                         }
                     }
                 }
@@ -200,7 +204,7 @@ namespace eFormFrontendDotNet.Controllers
             System.IO.File.AppendAllText(Server.MapPath("~/bin/Input.txt"), result);
             try
             {
-                Core core = getCore();
+                Core core = getCore(true);
             }
             catch
             {

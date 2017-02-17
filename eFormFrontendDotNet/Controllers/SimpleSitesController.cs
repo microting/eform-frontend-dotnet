@@ -36,7 +36,7 @@ namespace eFormFrontendDotNet.Controllers
         public ActionResult Index()
         {
 
-            Core core = getCore();
+            Core core = getCore(false);
 
             ViewBag.sites = core.SimpleSiteGetAll();            
 
@@ -52,7 +52,7 @@ namespace eFormFrontendDotNet.Controllers
         [ValidateInput(false)]
         public JsonResult Create()
         {
-            Core core = getCore();
+            Core core = getCore(false);
 
             string userFirstName = Request.Form.Get("worker['first_name']");
             string userLastName = Request.Form.Get("worker['last_name']");
@@ -122,7 +122,7 @@ namespace eFormFrontendDotNet.Controllers
                 Models.workers worker = db.workers.Single(x => x.microting_uid == id);
                 Models.sites site = worker.site_workers.First().site;
 
-                Core core = getCore();
+                Core core = getCore(false);
                 
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
@@ -154,7 +154,7 @@ namespace eFormFrontendDotNet.Controllers
 
                 var db = new Models.Site(connectionStr);
                 Models.sites site = db.sites.Single(x => x.microting_uid == id);               
-                Core core = getCore();
+                Core core = getCore(false);
                 Models.workers worker = null;
                 foreach (Models.site_workers site_worker in site.site_workers.Where(x => x.workflow_state != "removed").ToList())
                 {

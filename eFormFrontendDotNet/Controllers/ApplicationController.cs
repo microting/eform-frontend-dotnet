@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
         #region core
         #region coreFunctions
-        public Core getCore()
+        public Core getCore(bool firstRun)
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
@@ -48,31 +48,40 @@ namespace eFormFrontendDotNet.Controllers
 
             this.core = new Core();
             bool running = false;
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
+
+            if (firstRun)
+            {
+                running = core.StartSqlOnly(connectionStr);
+            }
+
             if (db.settings.Single(x => x.name == "comToken").value.Length > 31)
             {
                 if (db.settings.Single(x => x.name == "comAddress").value.Contains("https"))
                 {
                     if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
                     {
-                        if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
+                        if (db.settings.Single(x => x.name == "organizationId").value != "")
                         {
-                            if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
+                            if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
                             {
-                                if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
+                                if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
                                 {
-                                    if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                    if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
                                     {
-                                        core.HandleCaseCreated += EventCaseCreated;
-                                        core.HandleCaseRetrived += EventCaseRetrived;
-                                        core.HandleCaseCompleted += EventCaseCompleted;
-                                        core.HandleCaseDeleted += EventCaseDeleted;
-                                        core.HandleFileDownloaded += EventFileDownloaded;
-                                        core.HandleSiteActivated += EventSiteActivated;
-                                        core.HandleEventLog += EventLog;
-                                        core.HandleEventMessage += EventMessage;
-                                        core.HandleEventWarning += EventWarning;
-                                        core.HandleEventException += EventException;
-                                        running = core.StartSqlOnly(connectionStr);
+                                        if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
+                                        {
+                                            running = core.StartSqlOnly(connectionStr);
+                                        }
                                     }
                                 }
                             }

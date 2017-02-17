@@ -96,7 +96,7 @@ namespace eFormFrontendDotNet.Controllers
 
             try
             {
-                Core core = getCore();
+                Core core = getCore(false);
 
                 core.CaseUpdate(int.Parse(id), fieldValueList, checkListValueList);
                 using (var db = new Models.Case(connectionStr))
@@ -119,7 +119,7 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
 
-            Core core = getCore();
+            Core core = getCore(false);
 
             try
             {

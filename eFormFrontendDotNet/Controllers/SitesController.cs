@@ -36,7 +36,7 @@ namespace eFormFrontendDotNet.Controllers
         public ActionResult Index()
         {
 
-            Core core = getCore();
+            Core core = getCore(false);
 
             ViewBag.sites = core.SiteGetAll();
 
@@ -45,7 +45,7 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult Edit(int id)
         {
-            Core core = getCore();
+            Core core = getCore(false);
 
             ViewBag.site = core.SiteRead(id);
             return View();
@@ -55,7 +55,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                Core core = getCore();
+                Core core = getCore(false);
                 var site = core.SiteRead(id);
                 core.SiteUpdate((int)site.SiteUId, Request.Form.Get("site['name']"));
 
@@ -72,7 +72,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                Core core = getCore();
+                Core core = getCore(false);
                 var site = core.SiteRead(id);
                 if (core.SiteDelete(id))
                 {

@@ -53,7 +53,7 @@ namespace eFormFrontendDotNet.Controllers
                     {
                         try
                         {
-                            Core core = getCore();
+                            Core core = getCore(false);
                         }
                         catch (Exception ex2)
                         {
@@ -72,7 +72,7 @@ namespace eFormFrontendDotNet.Controllers
 
         public FileResult Csv(int id)
         {
-            Core core = getCore();
+            Core core = getCore(false);
 
             string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
             System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
@@ -93,7 +93,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
             //Models.DataResponse response = new Models.DataResponse();
-            Core core = getCore();
+            Core core = getCore(false);
             eFormRequest.MainElement new_template = core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
@@ -139,7 +139,7 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 check_list = db.check_lists.Single(x => x.id == id);
-                Core core = getCore();
+                Core core = getCore(false);
                 if (core.TemplateDelete(id))
                 {
                     JObject response = JObject.FromObject(new
@@ -267,7 +267,7 @@ namespace eFormFrontendDotNet.Controllers
                 }
             }
 
-            Core core = getCore();
+            Core core = getCore(false);
 
             eFormRequest.MainElement mainElement = core.TemplatRead(id);
             mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.

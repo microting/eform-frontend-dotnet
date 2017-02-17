@@ -35,7 +35,7 @@ namespace eFormFrontendDotNet.Controllers
     {
         public ActionResult Index()
         {
-            Core core = getCore();
+            Core core = getCore(false);
             ViewBag.units = core.UnitGetAll();
             return View();
         }
@@ -44,7 +44,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                Core core = getCore();
+                Core core = getCore(false);
                 Unit_Dto unitDto = core.UnitRequestOtp(id);
                 JObject response = JObject.FromObject(new
                 {
