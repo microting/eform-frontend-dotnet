@@ -59,7 +59,14 @@ namespace eFormFrontendDotNet.Controllers
                                             {
                                                 Core core = getCore(true);
                                                 core.Close();
-                                                core.Start(connectionStr);
+                                                try
+                                                {
+                                                    core.Start(connectionStr);
+                                                } catch
+                                                {
+                                                    // We do not do anything, since this is only run on initial startup and it's suppose to crash.
+                                                }
+                                                
                                             }
                                         }
                                     }
