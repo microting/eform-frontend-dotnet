@@ -57,16 +57,17 @@ namespace eFormFrontendDotNet.Controllers
                                         {
                                             if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
                                             {
-                                                Core core = getCore(true);
-                                                core.Close();
                                                 try
                                                 {
+                                                    Core core = getCore(true);
+                                                    core.Close();
                                                     core.Start(connectionStr);
-                                                } catch
+                                                }
+                                                catch
                                                 {
                                                     // We do not do anything, since this is only run on initial startup and it's suppose to crash.
                                                 }
-                                                
+
                                             }
                                         }
                                     }
