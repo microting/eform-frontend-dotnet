@@ -14,10 +14,9 @@ You need to create an account for Microting API and get your access credentials.
 
  - Call Microting at +45 66 11 10 66 to get started.
 
-
 ## Development recommendations
 
-  - Visual Studio 2008
+  - Visual Studio 2015
   - MS SQL Server Management Studio
 
 ## License
