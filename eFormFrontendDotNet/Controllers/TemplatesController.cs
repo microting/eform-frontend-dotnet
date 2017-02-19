@@ -63,11 +63,12 @@ namespace eFormFrontendDotNet.Controllers
                     }
                     return RedirectToAction("Index");
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Redirect("Settings/ConnectionMissing");
             }
-            
+
         }
 
         public FileResult Csv(int id)
@@ -196,7 +197,7 @@ namespace eFormFrontendDotNet.Controllers
             Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
 
             ViewBag.check_list = check_list;
-            ViewBag.check_list_sites = check_list.check_list_sites.ToList();
+            ViewBag.check_list_sites = check_list.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
 
             var db = new Models.Site(connectionStr);
 
@@ -218,7 +219,7 @@ namespace eFormFrontendDotNet.Controllers
 
             var cl_db = new Models.CheckList(connectionStr);
             Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
-            List<Models.check_list_sites> checkListSites = check_list.check_list_sites.ToList();
+            List<Models.check_list_sites> checkListSites = check_list.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
             foreach (Models.check_list_sites cls in checkListSites)
             {
                 deployedSiteIds.Add((int)cls.site_id);
@@ -242,7 +243,8 @@ namespace eFormFrontendDotNet.Controllers
                     int mUid = int.Parse(cls.microting_uid);
                     sitesToBeRetractedFrom.Add(mUid);
                 }
-            } else
+            }
+            else
             {
                 foreach (int siteId in requestedSiteIds)
                 {
@@ -279,7 +281,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 core.CaseDelete(mUid.ToString());
             }
-            
+
 
             JObject response = JObject.FromObject(new
             {
