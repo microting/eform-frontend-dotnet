@@ -144,7 +144,7 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.Contains("Could not find a part of the path"))
+                    if (ex.Message.Contains("bin") && ex.Message.Contains("log.txt"))
                     {
                         System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
                     }
@@ -163,7 +163,7 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.Contains("Could not find a part of the path"))
+                    if (ex.Message.Contains("bin") && ex.Message.Contains("log.txt"))
                     {
                         System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
                     }
@@ -182,7 +182,7 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.Contains("Could not find a part of the path"))
+                    if (ex.Message.Contains("bin") && ex.Message.Contains("log.txt"))
                     {
                         System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
                     }
@@ -201,7 +201,7 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.Contains("Could not find a part of the path"))
+                    if (ex.Message.Contains("bin") && ex.Message.Contains("log.txt"))
                     {
                         System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/log"));
                     }

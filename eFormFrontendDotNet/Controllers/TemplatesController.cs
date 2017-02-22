@@ -95,7 +95,7 @@ namespace eFormFrontendDotNet.Controllers
             string tamplate_xml = Request.Form.Get("eFormXML");
             //Models.DataResponse response = new Models.DataResponse();
             Core core = getCore(false);
-            eFormRequest.MainElement new_template = core.TemplatFromXml(tamplate_xml);
+            eFormData.MainElement new_template = core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
                 core.TemplatCreate(new_template);
@@ -271,7 +271,7 @@ namespace eFormFrontendDotNet.Controllers
 
             Core core = getCore(false);
 
-            eFormRequest.MainElement mainElement = core.TemplatRead(id);
+            eFormData.MainElement mainElement = core.TemplatRead(id);
             mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
             mainElement.EndDate = DateTime.Now.AddYears(10);
             mainElement.StartDate = DateTime.Now;

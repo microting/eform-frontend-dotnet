@@ -37,7 +37,7 @@
         <div class="bs-docs-container">
             <div class="row">
                 <div class="col-md-9" role="main">
-                    @foreach (eFormRequest.Element item in @ViewBag.theCase.ElementList)
+                    @foreach (eFormData.Element item in @ViewBag.theCase.ElementList)
                     {
                         @Html.Partial("EditSection", item);
                     }
@@ -52,7 +52,7 @@
                                     </i>
                                 </a>
                                 <ul class="nav">
-                                    @foreach (eFormRequest.Element item in @ViewBag.theCase.ElementList)
+                                    @foreach (eFormData.Element item in @ViewBag.theCase.ElementList)
                                     {
                                         <li class="">
                                             <a href="#cl@(item.Id)">
