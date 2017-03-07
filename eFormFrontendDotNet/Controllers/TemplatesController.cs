@@ -35,16 +35,10 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-                string connectionStr = lines.First();
-                List<Models.check_lists> check_lists = null;
-
-                var db = new Models.CheckList(connectionStr);
                 try
                 {
-                    check_lists = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state != "removed").ToList();
-                    ViewBag.check_lists = check_lists;
+                    Core core = getCore();
+                    ViewBag.templates = core.TemplateSimpleReadAll();
                     return View();
                 }
                 catch (Exception ex)
@@ -53,7 +47,7 @@ namespace eFormFrontendDotNet.Controllers
                     {
                         try
                         {
-                            Core core = getCore(false);
+                            Core core = getCore();
                         }
                         catch (Exception ex2)
                         {
@@ -73,7 +67,7 @@ namespace eFormFrontendDotNet.Controllers
 
         public FileResult Csv(int id)
         {
-            Core core = getCore(false);
+            Core core = getCore();
 
             string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
             System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
@@ -94,7 +88,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
             //Models.DataResponse response = new Models.DataResponse();
-            Core core = getCore(false);
+            Core core = getCore();
             eFormData.MainElement new_template = core.TemplatFromXml(tamplate_xml);
             if (new_template != null)
             {
@@ -129,18 +123,11 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult Delete(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            Models.check_lists check_list = null;
-            //Models.DataResponse response = new Models.DataResponse();
-            //response.model_id = id.ToString();
-
-            var db = new Models.CheckList(connectionStr);
+            Core core = getCore();
+            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
             try
             {
-                check_list = db.check_lists.Single(x => x.id == id);
-                Core core = getCore(false);
                 if (core.TemplateDelete(id))
                 {
                     JObject response = JObject.FromObject(new
@@ -148,7 +135,7 @@ namespace eFormFrontendDotNet.Controllers
                         data = new
                         {
                             status = "error",
-                            message = $"eForm \"{check_list.label}\" deleted successfully",
+                            message = $"eForm \"{templateDto.Label}\" deleted successfully",
                             id = id,
                             value = ""
                         }
@@ -162,7 +149,7 @@ namespace eFormFrontendDotNet.Controllers
                         data = new
                         {
                             status = "error",
-                            message = $"eForm \"{check_list.label}\" could not be deleted!",
+                            message = $"eForm \"{templateDto.Label}\" could not be deleted!",
                             id = id,
                             value = ""
                         }
@@ -178,7 +165,7 @@ namespace eFormFrontendDotNet.Controllers
                     data = new
                     {
                         status = "error",
-                        message = $"eForm \"{check_list.label}\" could not be deleted!",
+                        message = $"eForm \"{templateDto.Label}\" could not be deleted!",
                         id = id,
                         value = ""
                     }
@@ -189,19 +176,13 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult DeployTo(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-            string connectionStr = lines.First();
 
-            var cl_db = new Models.CheckList(connectionStr);
+            Core core = getCore();
+            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
 
-            Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
+            ViewBag.template = templateDto;
 
-            ViewBag.check_list = check_list;
-            ViewBag.check_list_sites = check_list.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
-
-            var db = new Models.Site(connectionStr);
-
-            ViewBag.sites = db.sites.ToList();
+            ViewBag.sites = core.SiteGetAll();
 
             return View();
         }
@@ -214,18 +195,14 @@ namespace eFormFrontendDotNet.Controllers
             List<int> sitesToBeRetractedFrom = new List<int>();
             List<int> sitesToBeDeployedTo = new List<int>();
 
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-            string connectionStr = lines.First();
+            Core core = getCore();
+            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
 
-            var cl_db = new Models.CheckList(connectionStr);
-            Models.check_lists check_list = cl_db.check_lists.Single(x => x.id == id);
-            List<Models.check_list_sites> checkListSites = check_list.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
-            foreach (Models.check_list_sites cls in checkListSites)
+            foreach (eFormShared.SiteName_Dto site in templateDto.DeployedSites)
             {
-                deployedSiteIds.Add((int)cls.site_id);
+                deployedSiteIds.Add((int)site.SiteUId);
             }
 
-            var site_db = new Models.Site(connectionStr);
             int i = 0;
             var keys = Request.Form.AllKeys;
             foreach (string key in keys)
@@ -237,11 +214,9 @@ namespace eFormFrontendDotNet.Controllers
 
             if (requestedSiteIds.Count == 0)
             {
-                foreach (Models.check_list_sites cls in checkListSites)
+                foreach (eFormShared.SiteName_Dto site in templateDto.DeployedSites)
                 {
-                    //int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
-                    int mUid = int.Parse(cls.microting_uid);
-                    sitesToBeRetractedFrom.Add(mUid);
+                    sitesToBeRetractedFrom.Add(site.SiteUId);
                 }
             }
             else
@@ -250,27 +225,21 @@ namespace eFormFrontendDotNet.Controllers
                 {
                     if (!deployedSiteIds.Contains(siteId))
                     {
-                        int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
-                        sitesToBeDeployedTo.Add(_siteId);
+                        sitesToBeDeployedTo.Add(siteId);
                     }
                 }
             }
             if (deployedSiteIds.Count != 0)
             {
-                //foreach (int siteId in deployedSiteIds)
-                foreach (Models.check_list_sites cls in checkListSites)
+                foreach (eFormShared.SiteName_Dto site in templateDto.DeployedSites)
                 {
-                    if (!requestedSiteIds.Contains((int)cls.site_id))
+                    if (!requestedSiteIds.Contains((int)site.SiteUId))
                     {
-                        //int _siteId = (int)site_db.sites.Single(x => x.id == siteId).microting_uid;
-                        int mUid = int.Parse(cls.microting_uid);
-                        sitesToBeRetractedFrom.Add(mUid);
+                        sitesToBeRetractedFrom.Add(site.SiteUId);
                     }
                 }
             }
-
-            Core core = getCore(false);
-
+            
             eFormData.MainElement mainElement = core.TemplatRead(id);
             mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
             mainElement.EndDate = DateTime.Now.AddYears(10);
@@ -281,14 +250,13 @@ namespace eFormFrontendDotNet.Controllers
             {
                 core.CaseDelete(mUid.ToString());
             }
-
-
+            
             JObject response = JObject.FromObject(new
             {
                 data = new
                 {
                     status = "error",
-                    message = $"eForm \"{check_list.label}\" deployed successfully!",
+                    message = $"eForm \"{templateDto.Label}\" deployed successfully!",
                     id = id,
                     value = ""
                 }

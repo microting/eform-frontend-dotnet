@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using eFormFrontendDotNet.Models;
+//using eFormFrontendDotNet.Models;
 using eFormCore;
 
 namespace eFormFrontendDotNet.Controllers
@@ -17,87 +17,28 @@ namespace eFormFrontendDotNet.Controllers
         //private 
 
         // GET: settings
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-            Setting db = new Setting(connectionStr);
-            if (db.settings.Count() < 11)
-            {
-                SettingAdd(1, "firstRunDone", "true", connectionStr);
-                SettingAdd(2, "knownSitesDone", "false", connectionStr);
-                SettingAdd(3, "logLevel", "true", connectionStr);
-                SettingAdd(4, "comToken", "", connectionStr);
-                SettingAdd(5, "comAddress", "", connectionStr);
-                SettingAdd(6, "comAddressBasic", "", connectionStr);
-                SettingAdd(7, "organizationId", "", connectionStr);
-                SettingAdd(8, "subscriberToken", "", connectionStr);
-                SettingAdd(9, "subscriberAddress", "", connectionStr);
-                SettingAdd(10, "subscriberName", "", connectionStr);
-                SettingAdd(11, "fileLocation", "datafolder/", connectionStr);
-
-            }
-            Site site = new Site(connectionStr);
-            if (site.sites.Count() < 1)
-            {
-                if (db.settings.Single(x => x.name == "comToken").value.Length > 31)
-                {
-                    if (db.settings.Single(x => x.name == "comAddress").value.Contains("https"))
-                    {
-                        if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
-                        {
-                            if (db.settings.Single(x => x.name == "organizationId").value != "")
-                            {
-                                if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
-                                {
-                                    if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
-                                    {
-                                        if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
-                                        {
-                                            if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
-                                            {
-                                                try
-                                                {
-                                                    Core core = getCore(true);
-                                                    core.Close();
-                                                    core.Start(connectionStr);
-                                                }
-                                                catch
-                                                {
-                                                    // We do not do anything, since this is only run on initial startup and it's suppose to crash.
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-            return View(await db.settings.ToListAsync());
+            return null;
         }
 
         // GET: settings/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            Setting db = new Setting(connectionStr);
-            settings settings = await db.settings.FindAsync(id);
-            if (settings == null)
-            {
-                return HttpNotFound();
-            }
-            return View(settings);
+            //string connectionStr = lines.First();
+            //Setting db = new Setting(connectionStr);
+            //settings settings = await db.settings.FindAsync(id);
+            //if (settings == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // GET: settings/Create
@@ -109,41 +50,42 @@ namespace eFormFrontendDotNet.Controllers
         // POST: settings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,name,value")] settings settings)
-        {
-            if (ModelState.IsValid)
-            {
-                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-                string connectionStr = lines.First();
-                Setting db = new Setting(connectionStr);
-                db.settings.Add(settings);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+        //        //string connectionStr = lines.First();
+        //        //Setting db = new Setting(connectionStr);
+        //        //db.settings.Add(settings);
+        //        //await db.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View(settings);
-        }
+        //    return View();
+        //}
 
         // GET: settings/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            Setting db = new Setting(connectionStr);
-            settings settings = await db.settings.FindAsync(id);
-            if (settings == null)
-            {
-                return HttpNotFound();
-            }
-            return View(settings);
+            //string connectionStr = lines.First();
+            //Setting db = new Setting(connectionStr);
+            //settings settings = await db.settings.FindAsync(id);
+            //if (settings == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(settings);
+            return View();
         }
 
         // POST: settings/Edit/5
@@ -151,52 +93,52 @@ namespace eFormFrontendDotNet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,name,value")] settings settings)
+        public ActionResult Edit()
         {
             if (ModelState.IsValid)
             {
-                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+                //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-                string connectionStr = lines.First();
-                Setting db = new Setting(connectionStr);
-                db.Entry(settings).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                //string connectionStr = lines.First();
+                //Setting db = new Setting(connectionStr);
+                //db.Entry(settings).State = EntityState.Modified;
+                //await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(settings);
+            return View();
         }
 
         // GET: settings/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            Setting db = new Setting(connectionStr);
-            settings settings = await db.settings.FindAsync(id);
-            if (settings == null)
-            {
-                return HttpNotFound();
-            }
-            return View(settings);
+            //string connectionStr = lines.First();
+            //Setting db = new Setting(connectionStr);
+            //settings settings = await db.settings.FindAsync(id);
+            //if (settings == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // POST: settings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            Setting db = new Setting(connectionStr);
-            settings settings = await db.settings.FindAsync(id);
-            db.settings.Remove(settings);
-            await db.SaveChangesAsync();
+            //string connectionStr = lines.First();
+            //Setting db = new Setting(connectionStr);
+            //settings settings = await db.settings.FindAsync(id);
+            //db.settings.Remove(settings);
+            //await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -207,38 +149,27 @@ namespace eFormFrontendDotNet.Controllers
             string source = Request.Form.Get("connection['source']");
             string catalog = Request.Form.Get("connection['catalog']");
             string auth = Request.Form.Get("connection['auth']");
+            string token = Request.Form.Get("connection['token']");
 
             string result = "Data Source=" + source + ";Initial Catalog=" + catalog + ";" + auth;
             System.IO.File.AppendAllText(Server.MapPath("~/bin/Input.txt"), result);
+            AdminTools adminTools = null;
             try
             {
-                Core core = getCore(true);
-            }
-            catch
+                 adminTools = new AdminTools(result);
+            } catch
             {
-                return RedirectToAction("Index");
+                adminTools = new AdminTools(result);
             }
+            
+            adminTools.DbSetup(token);
 
-            return RedirectToAction("Index");
+            return Redirect("/");
         }
 
         public ActionResult ConnectionMissing()
         {
             return View();
-        }
-
-        private void SettingAdd(int id, string name, string value, string connectionStr)
-        {
-            using (var db = new Setting(connectionStr))
-            {
-                settings set = new settings();
-                set.id = id;
-                set.name = name;
-                set.value = value;
-
-                db.settings.Add(set);
-                db.SaveChanges();
-            }
         }
 
     }

@@ -22,8 +22,6 @@
     SOFTWARE.
 *@
 
-@model IEnumerable<eFormFrontendDotNet.Models.settings>
-
 <header class="main-header">
     <div class="container-fluid">
         <h1 class="page-title">
@@ -76,6 +74,14 @@
                                     </td>
                                     <td>
                                         <input class="form-control" placeholder="Integrated Security=True" type="text" value="" name="connection['auth']" id="site_name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Token</strong>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="12345678909876543210adfecdfefdae" type="text" value="" name="connection['token']" id="site_name" />
                                     </td>
                                 </tr>
                             </tbody>

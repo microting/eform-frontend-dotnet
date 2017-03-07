@@ -26,7 +26,7 @@
 }
 
 <div class="container-fluid">
-    <form accept-charset="utf-8" action="/Templates/Deploy/@(ViewBag.check_list.id)" class="deploy_check_lists" id="deploy_check_lists" method="post" data-remote="true" data-type="json">
+    <form accept-charset="utf-8" action="/Templates/Deploy/@(ViewBag.template.Id)" class="deploy_check_lists" id="deploy_check_lists" method="post" data-remote="true" data-type="json">
         <table border="0" cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed table-hover dataTable no-footer" id="templates" role="grid" aria-describedby="check_lists_info" style="width: 100%;">
             <thead>
                 <tr role="row">
@@ -42,20 +42,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (eFormFrontendDotNet.Models.sites site in ViewBag.sites)
+            @foreach (eFormShared.SiteName_Dto site in ViewBag.sites)
             {
                 bool matchFound = false;
                     <tr>
                         <td>
-                            @site.microting_uid
+                            @site.SiteUId
                         </td>
                         <td>
-                            @site.name
+                            @site.SiteName
                     </td>
                     <td>
-                        @foreach (eFormFrontendDotNet.Models.check_list_sites cls in ViewBag.check_list_sites)
+                        @foreach (eFormShared.SiteName_Dto deployedSite in ViewBag.template.DeployedSites)
                         {
-                            if (cls.site_id == site.id)
+                            if (deployedSite.SiteUId == site.SiteUId)
                             {
                                 matchFound = true;
                             }
@@ -63,13 +63,13 @@
                         @if (matchFound)
                         {
                             <div>
-                                <input type="checkbox" checked name="site_id_@(site.id)" value="@(site.id)" />
+                                <input type="checkbox" checked name="site_id_@(site.SiteUId)" value="@(site.SiteUId)" />
                             </div>
                         }
                         else
                         {
                             <div>
-                                <input type="checkbox" name="site_id_@(site.id)" value="@(site.id)" />
+                                <input type="checkbox" name="site_id_@(site.SiteUId)" value="@(site.SiteUId)" />
                             </div>
                         }
 

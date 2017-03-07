@@ -32,16 +32,11 @@ namespace eFormFrontendDotNet.Controllers
     {
         public ActionResult Index(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            string connectionStr = lines.First();
-            List<Models.cases> cases = null;
-
-            var db = new Models.Case(connectionStr);
             try
             {
-                cases = db.cases.Where(x => x.check_list_id == id && x.workflow_state != "removed").ToList();
-                ViewBag.cases = cases;
+                Core core = getCore();
+                ViewBag.cases = core.CaseReadAll(id, null, null);
                 return View();
             }
             catch (Exception ex)
@@ -52,19 +47,13 @@ namespace eFormFrontendDotNet.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Update(string id)
+        public ActionResult Update(int id)
         {
             var keys = Request.Form.AllKeys;
             List<string> checkListValueList = new List<string>();
             List<string> fieldValueList = new List<string>();
             int i = 0;
-
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            string connectionStr = lines.First();
-
-            using (var db = new Models.Field(connectionStr))
-            {
+            Core core = getCore();
                 try
                 {
                     foreach (string key in keys)
@@ -77,8 +66,8 @@ namespace eFormFrontendDotNet.Controllers
                         else
                         {
                             int _field_id = int.Parse(key.Replace("f_[", "").Replace("]", ""));
-                            Models.fields field = db.fields.SingleOrDefault(x => x.id == _field_id);
-                            if (field.field_type_id == 10)
+                            eFormShared.Field_Dto fieldDto = core.FieldRead(_field_id);
+                            if (fieldDto.FieldTypeId == 10)
                             {
                                 fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]).Replace(",", "|"));
                             } else
@@ -92,19 +81,14 @@ namespace eFormFrontendDotNet.Controllers
                 catch (Exception ex)
                 {
                 }
-            }
 
             try
             {
-                Core core = getCore(false);
 
-                core.CaseUpdate(int.Parse(id), fieldValueList, checkListValueList);
-                using (var db = new Models.Case(connectionStr))
-                {
-                    int caseId = int.Parse(id);
-                    string checkListId = db.cases.Single(x => x.id == caseId).check_list_id.ToString();
-                    return Redirect($"/Cases/Index/{checkListId}");
-                }
+                core.CaseUpdate(id, fieldValueList, checkListValueList);
+
+                eFormShared.Case_Dto caseDto = core.CaseReadByCaseId(id);
+                return Redirect($"/Cases/Index/{caseDto.CheckListId}");
             }
             catch (Exception ex)
             {
@@ -119,18 +103,13 @@ namespace eFormFrontendDotNet.Controllers
 
             string connectionStr = lines.First();
 
-            Core core = getCore(false);
+            Core core = getCore();
 
             try
             {
-                string microting_uuid = null;
-                string microting_check_uid = null;
-                using (var db = new Models.Case(connectionStr))
-                {
-                    Models.cases my_case = db.cases.SingleOrDefault(x => x.id == id);
-                    microting_uuid = my_case.microting_uid;
-                    microting_check_uid = my_case.microting_check_uid;
-                }
+                eFormShared.Case_Dto caseDto = core.CaseReadByCaseId(id);
+                string microting_uuid = caseDto.MicrotingUId;
+                string microting_check_uid = caseDto.CheckUId;
                 var theCase = core.CaseRead(microting_uuid, microting_check_uid);
 
                 ViewBag.theCase = theCase;

@@ -36,7 +36,7 @@ namespace eFormFrontendDotNet.Controllers
         public ActionResult Index()
         {
 
-            Core core = getCore(false);
+            Core core = getCore();
 
             ViewBag.sites = core.SimpleSiteGetAll();            
 
@@ -52,7 +52,7 @@ namespace eFormFrontendDotNet.Controllers
         [ValidateInput(false)]
         public JsonResult Create()
         {
-            Core core = getCore(false);
+            Core core = getCore();
 
             string userFirstName = Request.Form.Get("worker['first_name']");
             string userLastName = Request.Form.Get("worker['last_name']");
@@ -93,22 +93,10 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult Edit(int id)
         {
-            string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+            Core core = getCore();
+            ViewBag.site_id = id;
+            ViewBag.simpleSite = core.SiteReadSimple(id);               
 
-            string connectionStr = lines.First();
-
-            using (var db = new Models.Worker(connectionStr))
-            {
-                try
-                {
-                    ViewBag.worker = db.workers.Single(x => x.microting_uid == id);
-                    ViewBag.worker_id = id;
-                    return View();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
             return View();
         }
 
@@ -116,21 +104,14 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-                string connectionStr = lines.First();
-                var db = new Models.Worker(connectionStr);
-                Models.workers worker = db.workers.Single(x => x.microting_uid == id);
-                Models.sites site = worker.site_workers.First().site;
-
-                Core core = getCore(false);
-                
+                Core core = getCore();
+                eFormShared.Site_Dto siteDto = core.SiteReadSimple(id);
+                eFormShared.Worker_Dto workerDto = core.WorkerRead((int)siteDto.WorkerUid);
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
-                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.email);
-                if (result)
-                {
-                    result = core.SiteUpdate((int)site.microting_uid, userFirstName + " " + userLastName);
-                }
+
+                string fullName = userFirstName + " " + userLastName;
+                core.SiteUpdateSimple(id, fullName, userFirstName, userLastName, workerDto.Email);
 
                 return RedirectToAction("Index");
             }
@@ -142,34 +123,22 @@ namespace eFormFrontendDotNet.Controllers
 
         public JsonResult Delete(int id)
         {
-            //Models.DataResponse response = new Models.DataResponse();
-            //response.model_id = id.ToString();
 
             try
             {
-                string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
+             
+                Core core = getCore();
+                eFormShared.SiteName_Dto siteNameDto = core.SiteRead(id);
 
-                string connectionStr = lines.First();
-
-
-                var db = new Models.Site(connectionStr);
-                Models.sites site = db.sites.Single(x => x.microting_uid == id);               
-                Core core = getCore(false);
-                Models.workers worker = null;
-                foreach (Models.site_workers site_worker in site.site_workers.Where(x => x.workflow_state != "removed").ToList())
-                {
-                    core.SiteWorkerDelete((int)site_worker.microting_uid);
-                    worker = site_worker.worker;
-                    core.WorkerDelete((int)worker.microting_uid);
-                }
-                if (core.SiteDelete(id))
+                bool result3 = core.SiteDeleteSimple(id);
+                if (result3)
                 {
                     JObject response = JObject.FromObject(new
                     {
                         data = new
                         {
                             status = "success",
-                            message = $"Worker \"{worker.full_name()}\" deleted successfully",
+                            message = $"Worker \"{siteNameDto.SiteName}\" deleted successfully",
                             id = id,
                             value = ""
                         }
@@ -183,7 +152,7 @@ namespace eFormFrontendDotNet.Controllers
                         data = new
                         {
                             status = "error",
-                            message = $"Worker \"{worker.full_name()}\" could not be deleted!",
+                            message = $"Worker \"{siteNameDto.SiteName}\" could not be deleted!",
                             id = id,
                             value = ""
                         }

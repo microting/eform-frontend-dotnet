@@ -1,9 +1,6 @@
 ﻿using eFormCore;
-using eFormFrontendDotNet.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace eFormFrontendDotNet.Controllers
@@ -38,13 +35,11 @@ namespace eFormFrontendDotNet.Controllers
 
         #region core
         #region coreFunctions
-        public Core getCore(bool firstRun)
+        public Core getCore()
         {
             string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
             string connectionStr = lines.First();
-
-            Setting db = new Setting(connectionStr);
 
             this.core = new Core();
             bool running = false;
@@ -59,36 +54,7 @@ namespace eFormFrontendDotNet.Controllers
             core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
 
-            if (firstRun)
-            {
-                running = core.StartSqlOnly(connectionStr);
-            }
-
-            if (db.settings.Single(x => x.name == "comToken").value.Length > 31)
-            {
-                if (db.settings.Single(x => x.name == "comAddress").value.Contains("https"))
-                {
-                    if (db.settings.Single(x => x.name == "comAddressBasic").value.Contains("https"))
-                    {
-                        if (db.settings.Single(x => x.name == "organizationId").value != "")
-                        {
-                            if (int.Parse(db.settings.Single(x => x.name == "organizationId").value) > 100)
-                            {
-                                if (db.settings.Single(x => x.name == "subscriberToken").value.Length > 31)
-                                {
-                                    if (db.settings.Single(x => x.name == "subscriberAddress").value.Contains("microting.com"))
-                                    {
-                                        if (db.settings.Single(x => x.name == "subscriberName").value.Length > 10)
-                                        {
-                                            running = core.StartSqlOnly(connectionStr);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            running = core.StartSqlOnly(connectionStr);
 
             if (running)
             {

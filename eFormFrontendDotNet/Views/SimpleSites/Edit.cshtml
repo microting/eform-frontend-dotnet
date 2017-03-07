@@ -26,14 +26,16 @@
         <h1 class="page-title">
             <div class="container">
                 Edit:
-                @ViewBag.worker.full_name()
+                @ViewBag.simpleSite.FirstName
+
+                @ViewBag.simpleSite.LastName
             </div>
         </h1>
         <div class="pull-right">
         </div>
     </div>
 </header>
-<form accept-charset="utf-8" action="/SimpleSites/Update/@(ViewBag.worker_id)" class="edit_worker" id="edit_worker" method="post">
+<form accept-charset="utf-8" action="/SimpleSites/Update/@(ViewBag.site_id)" class="edit_worker" id="edit_worker" method="post">
     <div class="container-fluid">
         <div class="bs-docs-container">
             <div class="row">
@@ -48,7 +50,7 @@
                                         <strong>First name</strong>
                                     </td>
                                     <td>
-                                        <input class="form-control" placeholder="@(ViewBag.worker.first_name)" type="text" value="@(ViewBag.worker.first_name)" name="worker['first_name']" id="first_name" />
+                                        <input class="form-control" placeholder="@(ViewBag.simpleSite.FirstName)" type="text" value="@(ViewBag.simpleSite.FirstName)" name="worker['first_name']" id="first_name" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -56,7 +58,7 @@
                                         <strong>Last name</strong>
                                     </td>
                                     <td>
-                                        <input class="form-control" placeholder="@(ViewBag.worker.last_name)" type="text" value="@(ViewBag.worker.last_name)" name="worker['last_name']" id="last_name" />
+                                        <input class="form-control" placeholder="@(ViewBag.simpleSite.LastName)" type="text" value="@(ViewBag.simpleSite.LastName)" name="worker['last_name']" id="last_name" />
                                     </td>
                                 </tr>
                             </tbody>

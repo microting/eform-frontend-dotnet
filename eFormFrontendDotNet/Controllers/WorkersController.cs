@@ -36,7 +36,7 @@ namespace eFormFrontendDotNet.Controllers
         public ActionResult Index()
         {
 
-            Core core = getCore(false);
+            Core core = getCore();
 
             ViewBag.workers = core.WorkerGetAll();
 
@@ -45,7 +45,7 @@ namespace eFormFrontendDotNet.Controllers
 
         public ActionResult Edit(int id)
         {
-            Core core = getCore(false);
+            Core core = getCore();
 
             ViewBag.worker = core.WorkerRead(id);
 
@@ -56,7 +56,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                Core core = getCore(false);
+                Core core = getCore();
                 var worker = core.WorkerRead(id);
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
@@ -74,7 +74,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             try
             {
-                Core core = getCore(false);
+                Core core = getCore();
                 var worker = core.WorkerRead(id);
                 if (core.WorkerDelete(id))
                 {

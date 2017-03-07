@@ -61,21 +61,21 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (eFormFrontendDotNet.Models.check_lists item in @ViewBag.check_lists)
+            @foreach (eFormShared.Template_Dto item in @ViewBag.templates)
             {
                 bool deployed = false;
-                <tr id="row_@(item.id)">
+                <tr id="row_@(item.Id)">
                     <td class="text-center">
-                        @item.id
+                        @item.Id
                     </td>
                     <td class="text-center">
-                        @item.created_at
+                        @item.CreatedAt
                     </td>
                     <td class="text-center">
-                        @item.updated_at
+                        @item.UpdatedAt
                     </td>
                     <td class="text-center">
-                        @item.label
+                        @item.Label
                     </td>
                     <td class="text-center">
                         @*@foreach (eFormFrontendDotNet.Models.cases deplyed_case in item.cases.ToList())
@@ -97,20 +97,17 @@
                             </span>
                         }*@
 
-                        @foreach (eFormFrontendDotNet.Models.check_list_sites check_list_site in item.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
+                        @foreach (eFormShared.SiteName_Dto site in item.DeployedSites)
                         {
-                            @check_list_site.site.name
+                            @site.SiteName
                             <br />
-                            if (check_list_site.workflow_state == "created")
-                            {
-                                deployed = true;
-                            }
+                            deployed = true;
                         }
 
                         @if (deployed)
                         {
                             <button class="needs_tooltip btn btn-ar btn-sm btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
-                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
+                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.Id))"
                                     data-bootbox-title='Edit deployment' data-bootbox-additional-classes="full-width mt-has-form"
                                     data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Edit deployment'>
                                 Edit deployment
@@ -119,7 +116,7 @@
                         else
                         {
                             <button class="needs_tooltip btn btn-ar btn-sm btn-success" type="button" data-toggle="tooltip" data-placement="top" title=""
-                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.id))"
+                                    data-bootbox-confirm-label='Save deployment' data-bootbox-confirm="load(/Templates/DeployTo/@(item.Id))"
                                     data-bootbox-title='New deployment' data-bootbox-additional-classes="full-width mt-has-form"
                                     data-onsuccess="$(&quot;.modal-body form#deploy_check_lists&quot;).submit();" data-original-title='Deploy to'>
                                 Select workers
@@ -127,20 +124,20 @@
                         }
                     </td>
                     <td class="text-center">
-                        @if (item.cases.Count > 0)
+                        @if (item.HasCases)
                         {
-                            <a href="/Cases/Index/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Show cases">
-                                <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.id)"></span>
+                            <a href="/Cases/Index/@(item.Id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.Id)" title="" type="button" data-original-title="Show cases">
+                                <span class="glyphicon glyphicon-search" data-mt-check-list-id="@(item.Id)"></span>
                             </a>
-                            <a href="/Templates/Csv/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.id)" title="" type="button" data-original-title="Download CSV">
+                            <a href="/Templates/Csv/@(item.Id)" class="needs_tooltip btn btn-ar btn-sm btn-success" data-placement="top" data-toggle="tooltip" id="csv_check_list_@(item.Id)" title="" type="button" data-original-title="Download CSV">
                                 <span class="fa fa-file-text-o"></span>
                             </a>                            
                         }
                         <button class="needs_tooltip btn btn-ar btn-danger btn-sm dangerous-action" type="button" 
-                                data-toggle="tooltip" data-placement="top" title="" data-href="/Templates/Delete/@(item.id)" 
-                                id="delete_@(item.id)" data-bootbox-confirm="eval(rowInfo(@(item.id),' @(item.created_at)','@(item.label)'))" 
+                                data-toggle="tooltip" data-placement="top" title="" data-href="/Templates/Delete/@(item.Id)" 
+                                id="delete_@(item.Id)" data-bootbox-confirm="eval(rowInfo(@(item.Id),' @(item.CreatedAt)','@(item.Label)'))" 
                                 data-bootbox-title="Are you sure you want to delete the eForm?<br> The action can not be undone!" 
-                                data-onsuccess="confirm_delete(@(item.id))" data-original-title="Delete eForm">
+                                data-onsuccess="confirm_delete(@(item.Id))" data-original-title="Delete eForm">
                             <span class="fa fa-trash-o"></span>
                         </button>
                     </td>
