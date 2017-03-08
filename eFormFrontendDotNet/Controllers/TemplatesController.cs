@@ -87,38 +87,60 @@ namespace eFormFrontendDotNet.Controllers
         public JsonResult Create()
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
-            //Models.DataResponse response = new Models.DataResponse();
             Core core = getCore();
-            eFormData.MainElement new_template = core.TemplatFromXml(tamplate_xml);
-            if (new_template != null)
+            eFormData.MainElement newTemplate = core.TemplatFromXml(tamplate_xml);
+            List<string> errors = core.TemplatValidation(newTemplate);
+            if (errors.Count() == 0)
             {
-                core.TemplatCreate(new_template);
-                JObject response = JObject.FromObject(new
+                if (newTemplate != null)
                 {
-                    data = new
+                    core.TemplatCreate(newTemplate);
+                    JObject response = JObject.FromObject(new
                     {
-                        status = "success",
-                        message = $"eForm \"{new_template.Label}\" created successfully",
-                        id = new_template.Id,
-                        value = ""
-                    }
-                });
-                return Json(response.ToString(), JsonRequestBehavior.AllowGet);
-            }
-            else
+                        data = new
+                        {
+                            status = "success",
+                            message = $"eForm \"{newTemplate.Label}\" created successfully",
+                            id = newTemplate.Id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    JObject response = JObject.FromObject(new
+                    {
+                        data = new
+                        {
+                            status = "error",
+                            message = $"eForm could not be created!",
+                            id = newTemplate.Id,
+                            value = ""
+                        }
+                    });
+                    return Json(response.ToString(), JsonRequestBehavior.AllowGet);
+                }
+            } else
             {
+                string message = "";
+                foreach (string str in errors)
+                {
+                    message += "<br>" + str;
+                }
                 JObject response = JObject.FromObject(new
                 {
                     data = new
                     {
                         status = "error",
-                        message = $"eForm could not be created!",
-                        id = new_template.Id,
+                        message = $"eForm could not be created!" + message,
+                        id = newTemplate.Id,
                         value = ""
                     }
                 });
                 return Json(response.ToString(), JsonRequestBehavior.AllowGet);
             }
+            
         }
 
         public JsonResult Delete(int id)

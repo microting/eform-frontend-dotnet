@@ -355,7 +355,7 @@ function error_message(message) {
                 nonblock: true,
                 nonblock_opacity: .2
             },
-            delay: 1000,
+            delay: 5000,
             hide: true,
             history: false
         });

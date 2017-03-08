@@ -155,7 +155,12 @@
                     break;
 
                 case 'POST':
-                    success_message(data.data.message);
+                    if (data.data.status == 'error') {
+                        error_message(data.data.message);
+                    } else {
+                        success_message(data.data.message);
+                    }
+                    
                     break;
             }
         });
