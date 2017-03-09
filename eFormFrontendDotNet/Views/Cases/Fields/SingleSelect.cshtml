@@ -23,21 +23,24 @@
 *@
 @model eFormData.FieldValue
 
-@foreach (eFormShared.KeyValuePair item in @Model.KeyValuePairList)
-{
-    if (Model.Value == item.Key)
+<select class="form-control" name="f_[@(Model.FieldId)]">
+    @foreach (eFormShared.KeyValuePair item in @Model.KeyValuePairList)
     {
-        <div class="radio">
-            <input checked id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
-            <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
-        </div>
+        if (Model.Value == item.Key)
+        {
+            <option value="@item.Key" selected>@item.Value</option>
+            @*<div class="radio">
+                    <input checked id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
+                    <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
+                </div>*@
+        }
+        else
+        {
+            <option value="@item.Key">@item.Value</option>
+            @*<div class="radio">
+                    <input id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
+                    <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
+                </div>*@
+        }
     }
-    else
-    {
-        <div class="radio">
-            <input id="f_[@(Model.FieldId)][@(item.Key)]" name="f_[@(Model.FieldId)]" type="radio" value="@item.Key" />
-            <label for="f_[@(Model.FieldId)][@(item.Key)]">@item.Value</label>
-        </div>
-    }
-}
-
+</select>

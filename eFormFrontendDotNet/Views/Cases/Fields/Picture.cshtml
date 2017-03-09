@@ -21,6 +21,17 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 *@
-@model eFormData.FieldValue
+@model eFormData.Field
 
-@Model.UploadedData
+@foreach (eFormData.FieldValue fieldValue in Model.FieldValues)
+{
+    <div class="row">
+        <div class="col-md-2">
+            @fieldValue.Id
+        </div>
+        <div class="col-md-2">
+            @fieldValue.UploadedDataObj.FileName            
+        </div>
+    </div>
+    <br />    
+}
