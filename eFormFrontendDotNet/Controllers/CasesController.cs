@@ -66,8 +66,8 @@ namespace eFormFrontendDotNet.Controllers
                         else
                         {
                             int _field_id = int.Parse(key.Replace("f_[", "").Replace("]", ""));
-                            eFormShared.Field_Dto fieldDto = core.FieldRead(_field_id);
-                            if (fieldDto.FieldTypeId == 10)
+                            eFormData.Field field = core.FieldRead(_field_id);
+                            if (field.FieldType == "MultiSelect")
                             {
                                 fieldValueList.Add(key.Replace("f_[", "").Replace("]", "") + "|" + Request.Form.Get(keys[i]).Replace(",", "|"));
                             } else

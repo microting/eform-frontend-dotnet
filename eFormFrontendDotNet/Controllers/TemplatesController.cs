@@ -268,9 +268,9 @@ namespace eFormFrontendDotNet.Controllers
             mainElement.StartDate = DateTime.Now;
             core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
 
-            foreach (int mUid in sitesToBeRetractedFrom)
+            foreach (int siteUId in sitesToBeRetractedFrom)
             {
-                core.CaseDelete(mUid.ToString());
+                core.CaseDelete(id, siteUId);
             }
             
             JObject response = JObject.FromObject(new

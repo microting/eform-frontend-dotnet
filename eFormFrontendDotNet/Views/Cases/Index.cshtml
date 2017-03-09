@@ -57,31 +57,31 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (eFormFrontendDotNet.Models.cases item in @ViewBag.cases)
+            @foreach (eFormShared.Case item in @ViewBag.cases)
             {
                 <tr>
                     <td class="text-center">
-                        @item.id
+                        @item.Id
                     </td>
                     <td class="text-center">
-                        @item.created_at
+                        @item.CreatedAt
                     </td>
                     <td class="text-center">
-                        @item.done_at
+                        @item.DoneAt
                     </td>
                     <td class="text-center">
                         @try
                         {
-                            @item.worker.full_name()
+                            @item.WorkerName
                         }
                         catch
                         {
-                            @item.done_by_user_id
+                            @*@item.done_by_user_id*@
                         }
 
                     </td>
                     <td class="text-center">
-                        @switch (item.status)
+                        @switch (item.Status)
                         {
                             case 33:
                                 {
@@ -114,10 +114,10 @@
 
 
                     <td class="text-center">
-                        @if (item.status == 100)
+                        @if (item.Status == 100)
                         {
-                            <a href="/Cases/Edit/@(item.id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.id)" title="" type="button" data-original-title="Edit case">
-                                <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.id)"></span>
+                            <a href="/Cases/Edit/@(item.Id)" class="needs_tooltip btn btn-ar btn-sm btn-default mt-edit-check-list-button" data-placement="top" data-toggle="tooltip" id="edit_check_list_@(item.Id)" title="" type="button" data-original-title="Edit case">
+                                <span class="glyphicon glyphicon-pencil" data-mt-check-list-id="@(item.Id)"></span>
                             </a>
                         }
                     </td>

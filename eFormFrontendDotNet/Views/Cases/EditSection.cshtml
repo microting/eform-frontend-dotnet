@@ -104,59 +104,62 @@
                         </td>
                     </tr>
 
-                    @foreach (eFormData.FieldValue sub_item in @dataE.DataItemList)
+                    @if (dataE.DataItemList != null)
                     {
-                        if (!sub_item.Color.IsEmpty())
+                        foreach (eFormData.Field subItem in @dataE.DataItemList)
                         {
-                            style = "background-color: #" + sub_item.Color + ";";
+                            if (!subItem.Color.IsEmpty())
+                            {
+                                style = "background-color: #" + subItem.Color + ";";
+                            }
+                            else
+                            {
+                                style = "";
+                            }
+                            <tr style="@(style)">
+                                <td>
+                                    <strong>@subItem.Label</strong>
+                                </td>
+                            </tr>
+                            <tr style="@(style)">
+                                <td>
+                                    @switch (subItem.FieldType)
+                                    {
+                                        case "CheckBox":
+                                            @Html.Partial("Fields/CheckBox", subItem);
+                                            break;
+                                        case "Comment":
+                                            @Html.Partial("Fields/Comment", subItem);
+                                            break;
+                                        case "FieldGroup":
+                                            @Html.Partial("Fields/FieldGroup", subItem);
+                                            break;
+                                        case "MultiSelect":
+                                            @Html.Partial("Fields/MultiSelect", subItem);
+                                            break;
+                                        case "SingleSelect":
+                                            @Html.Partial("Fields/SingleSelect", subItem);
+                                            break;
+                                        case "Number":
+                                            @Html.Partial("Fields/Number", subItem);
+                                            break;
+                                        case "Picture":
+                                            @Html.Partial("Fields/Picture", subItem);
+                                            break;
+                                        case "Text":
+                                            @Html.Partial("Fields/Text", subItem);
+                                            break;
+                                        case "Date":
+                                            @Html.Partial("Fields/Date", subItem);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            style = "";
-                        }
-                        <tr style="@(style)">
-                            <td>
-                                <strong>@sub_item.Label</strong>
-                            </td>
-                        </tr>
-                        <tr style="@(style)">
-                            <td>
-                                @*@sub_item.fieldType*@
-                                @switch (@sub_item.FieldType)
-                                {
-                                    case "CheckBox":
-                                        @Html.Partial("Fields/CheckBox", sub_item);
-                                        break;
-                                    case "Comment":
-                                        @Html.Partial("Fields/Comment", sub_item);
-                                        break;
-                                    case "FieldGroup":
-                                        @Html.Partial("Fields/FieldGroup", sub_item);
-                                        break;
-                                    case "MultiSelect":
-                                        @Html.Partial("Fields/MultiSelect", sub_item);
-                                        break;
-                                    case "SingleSelect":
-                                        @Html.Partial("Fields/SingleSelect", sub_item);
-                                        break;
-                                    case "Number":
-                                        @Html.Partial("Fields/Number", sub_item);
-                                        break;
-                                    case "Picture":
-                                        @Html.Partial("Fields/Picture", sub_item);
-                                        break;
-                                    case "Text":
-                                        @Html.Partial("Fields/Text", sub_item);
-                                        break;
-                                    case "Date":
-                                        @Html.Partial("Fields/Date", sub_item);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            </td>
-                        </tr>
                     }
+                    
                     @if (dataE.ExtraFieldsEnabled)
                     {
                         <tr>
@@ -165,6 +168,68 @@
                             </td>
                         </tr>
                     }
+                    @if (@dataE.DataItemGroupList != null)
+                    {
+                        foreach (eFormData.FieldGroup fieldGroup in @dataE.DataItemGroupList)
+                        {
+                            foreach (eFormData.FieldValue subItem in fieldGroup.DataItemList)
+                            {
+                                if (!subItem.Color.IsEmpty())
+                                {
+                                    style = "background-color: #" + subItem.Color + ";";
+                                }
+                                else
+                                {
+                                    style = "";
+                                }
+                                <tr style="@(style)">
+                                    <td>
+                                        <strong>@subItem.Label</strong>
+                                        @subItem.Id
+                                    </td>
+                                </tr>
+                                <tr style="@(style)">
+                                    <td>
+                                        @switch (subItem.FieldType)
+                                        {
+                                            case "CheckBox":
+                                                @Html.Partial("Fields/CheckBox", subItem);
+                                                break;
+                                            case "Comment":
+                                                @Html.Partial("Fields/Comment", subItem);
+                                                break;
+                                            case "FieldGroup":
+                                                @Html.Partial("Fields/FieldGroup", subItem);
+                                                break;
+                                            case "MultiSelect":
+                                                @Html.Partial("Fields/MultiSelect", subItem);
+                                                break;
+                                            case "SingleSelect":
+                                                @Html.Partial("Fields/SingleSelect", subItem);
+                                                break;
+                                            case "Number":
+                                                @Html.Partial("Fields/Number", subItem);
+                                                break;
+                                            case "Picture":
+                                                @Html.Partial("Fields/Picture", subItem);
+                                                break;
+                                            case "Text":
+                                                @Html.Partial("Fields/Text", subItem);
+                                                break;
+                                            case "None":
+                                                @Html.Partial("Fields/None", subItem);
+                                                break;
+                                            case "Date":
+                                                @Html.Partial("Fields/Date", subItem);
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }                    
                 </tbody>
 
             </table>
