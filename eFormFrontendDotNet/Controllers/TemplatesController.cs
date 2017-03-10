@@ -257,7 +257,10 @@ namespace eFormFrontendDotNet.Controllers
                 {
                     if (!requestedSiteIds.Contains((int)site.SiteUId))
                     {
-                        sitesToBeRetractedFrom.Add(site.SiteUId);
+                        if (!sitesToBeRetractedFrom.Contains(site.SiteUId))
+                        {
+                            sitesToBeRetractedFrom.Add(site.SiteUId);
+                        }                        
                     }
                 }
             }
