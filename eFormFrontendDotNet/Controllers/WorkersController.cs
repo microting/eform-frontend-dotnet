@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
             Core core = getCore();
 
-            ViewBag.workers = core.WorkerGetAll();
+            ViewBag.workers = core.Advanced_WorkerReadAll();
 
             return View();
         }
@@ -47,7 +47,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             Core core = getCore();
 
-            ViewBag.worker = core.WorkerRead(id);
+            ViewBag.worker = core.Advanced_WorkerRead(id);
 
             return View();
         }
@@ -57,10 +57,10 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 Core core = getCore();
-                var worker = core.WorkerRead(id);
+                var worker = core.Advanced_WorkerRead(id);
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
-                bool result = core.WorkerUpdate(id, userFirstName, userLastName, worker.Email);
+                bool result = core.Advanced_WorkerUpdate(id, userFirstName, userLastName, worker.Email);
 
                 return RedirectToAction("Index");
             }
@@ -75,8 +75,8 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 Core core = getCore();
-                var worker = core.WorkerRead(id);
-                if (core.WorkerDelete(id))
+                var worker = core.Advanced_WorkerRead(id);
+                if (core.Advanced_WorkerDelete(id))
                 {
                     JObject response = JObject.FromObject(new
                     {

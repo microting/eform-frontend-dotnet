@@ -114,6 +114,7 @@ namespace eFormFrontendDotNet.Controllers
 
                 ViewBag.theCase = theCase;
                 ViewBag.case_id = id;
+                ViewBag.filePath = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + "output/dataFolder/";
                 return View();
             }
             catch (Exception ex)

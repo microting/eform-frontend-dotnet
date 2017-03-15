@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
                 try
                 {
                     Core core = getCore();
-                    ViewBag.templates = core.TemplateSimpleReadAll();
+                    ViewBag.templates = core.TemplateItemReadAll(false);
                     return View();
                 }
                 catch (Exception ex)
@@ -70,9 +70,9 @@ namespace eFormFrontendDotNet.Controllers
             Core core = getCore();
 
             string file_name = $"{id}_{DateTime.Now.Ticks}.csv";
-            System.IO.Directory.CreateDirectory(Server.MapPath("~/bin/output/"));
+            System.IO.Directory.CreateDirectory(Server.MapPath("~/output/"));
             string file_path = Server.MapPath($"~/bin/output/{file_name}");
-            core.CasesToCsv(id, null, null, file_path);
+            core.CasesToCsv(id, null, null, file_path, string.Format("{0}://{1}{2}",Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + "output/dataFolder/");
 
             return File(file_path, "text/csv", file_name);
         }
@@ -88,13 +88,13 @@ namespace eFormFrontendDotNet.Controllers
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
             Core core = getCore();
-            eFormData.MainElement newTemplate = core.TemplatFromXml(tamplate_xml);
-            List<string> errors = core.TemplatValidation(newTemplate);
+            eFormData.MainElement newTemplate = core.TemplateFromXml(tamplate_xml);
+            List<string> errors = core.TemplateValidation(newTemplate);
             if (errors.Count() == 0)
             {
                 if (newTemplate != null)
                 {
-                    core.TemplatCreate(newTemplate);
+                    core.TemplateCreate(newTemplate);
                     JObject response = JObject.FromObject(new
                     {
                         data = new
@@ -147,7 +147,7 @@ namespace eFormFrontendDotNet.Controllers
         {
 
             Core core = getCore();
-            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
+            eFormShared.Template_Dto templateDto = core.TemplateItemRead(id);
             try
             {
                 if (core.TemplateDelete(id))
@@ -156,7 +156,7 @@ namespace eFormFrontendDotNet.Controllers
                     {
                         data = new
                         {
-                            status = "error",
+                            status = "success",
                             message = $"eForm \"{templateDto.Label}\" deleted successfully",
                             id = id,
                             value = ""
@@ -200,11 +200,11 @@ namespace eFormFrontendDotNet.Controllers
         {
 
             Core core = getCore();
-            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
+            eFormShared.Template_Dto templateDto = core.TemplateItemRead(id);
 
             ViewBag.template = templateDto;
 
-            ViewBag.sites = core.SiteGetAll();
+            ViewBag.sites = core.Advanced_SiteItemReadAll();
 
             return View();
         }
@@ -218,7 +218,7 @@ namespace eFormFrontendDotNet.Controllers
             List<int> sitesToBeDeployedTo = new List<int>();
 
             Core core = getCore();
-            eFormShared.Template_Dto templateDto = core.TemplateSimpleRead(id);
+            eFormShared.Template_Dto templateDto = core.TemplateItemRead(id);
 
             foreach (eFormShared.SiteName_Dto site in templateDto.DeployedSites)
             {
@@ -265,11 +265,14 @@ namespace eFormFrontendDotNet.Controllers
                 }
             }
             
-            eFormData.MainElement mainElement = core.TemplatRead(id);
-            mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
-            mainElement.EndDate = DateTime.Now.AddYears(10);
-            mainElement.StartDate = DateTime.Now;
-            core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
+            if (sitesToBeDeployedTo.Count() > 0)
+            {
+                eFormData.MainElement mainElement = core.TemplateRead(id);
+                mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
+                mainElement.EndDate = DateTime.Now.AddYears(10);
+                mainElement.StartDate = DateTime.Now;
+                core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
+            }
 
             foreach (int siteUId in sitesToBeRetractedFrom)
             {
@@ -280,7 +283,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 data = new
                 {
-                    status = "error",
+                    status = "success",
                     message = $"eForm \"{templateDto.Label}\" deployed successfully!",
                     id = id,
                     value = ""

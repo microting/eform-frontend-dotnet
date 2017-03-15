@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
             Core core = getCore();
 
-            ViewBag.sites = core.SimpleSiteGetAll();            
+            ViewBag.sites = core.SiteReadAll(false);            
 
             return View();
         }
@@ -58,7 +58,7 @@ namespace eFormFrontendDotNet.Controllers
             string userLastName = Request.Form.Get("worker['last_name']");
             string siteName = userFirstName + " " + userLastName;
 
-            eFormShared.Site_Dto site = core.SiteCreateSimple(siteName, userFirstName, userLastName, null);
+            eFormShared.Site_Dto site = core.SiteCreate(siteName, userFirstName, userLastName, null);
 
             if (site != null)
             {
@@ -66,7 +66,7 @@ namespace eFormFrontendDotNet.Controllers
                 {
                     data = new
                     {
-                        status = "error",
+                        status = "success",
                         message = $"Worker \"{site.SiteName}\" created successfully",
                         id = site.SiteId,
                         value = ""
@@ -95,7 +95,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             Core core = getCore();
             ViewBag.site_id = id;
-            ViewBag.simpleSite = core.SiteReadSimple(id);               
+            ViewBag.simpleSite = core.SiteRead(id);               
 
             return View();
         }
@@ -105,13 +105,13 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 Core core = getCore();
-                eFormShared.Site_Dto siteDto = core.SiteReadSimple(id);
-                eFormShared.Worker_Dto workerDto = core.WorkerRead((int)siteDto.WorkerUid);
+                eFormShared.Site_Dto siteDto = core.SiteRead(id);
+                eFormShared.Worker_Dto workerDto = core.Advanced_WorkerRead((int)siteDto.WorkerUid);
                 string userFirstName = Request.Form.Get("worker['first_name']");
                 string userLastName = Request.Form.Get("worker['last_name']");
 
                 string fullName = userFirstName + " " + userLastName;
-                core.SiteUpdateSimple(id, fullName, userFirstName, userLastName, workerDto.Email);
+                core.SiteUpdate(id, fullName, userFirstName, userLastName, workerDto.Email);
 
                 return RedirectToAction("Index");
             }
@@ -128,9 +128,9 @@ namespace eFormFrontendDotNet.Controllers
             {
              
                 Core core = getCore();
-                eFormShared.SiteName_Dto siteNameDto = core.SiteRead(id);
+                eFormShared.SiteName_Dto siteNameDto = core.Advanced_SiteItemRead(id);
 
-                bool result3 = core.SiteDeleteSimple(id);
+                bool result3 = core.Advanced_SiteItemDelete(id);
                 if (result3)
                 {
                     JObject response = JObject.FromObject(new

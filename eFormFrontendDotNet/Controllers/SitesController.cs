@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
             Core core = getCore();
 
-            ViewBag.sites = core.SiteGetAll();
+            ViewBag.sites = core.Advanced_SiteItemReadAll();
 
             return View();
         }
@@ -47,7 +47,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             Core core = getCore();
 
-            ViewBag.site = core.SiteRead(id);
+            ViewBag.site = core.Advanced_SiteItemRead(id);
             return View();
         }
 
@@ -56,8 +56,8 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 Core core = getCore();
-                var site = core.SiteRead(id);
-                core.SiteUpdate((int)site.SiteUId, Request.Form.Get("site['name']"));
+                var site = core.Advanced_SiteItemRead(id);
+                core.Advanced_SiteItemUpdate((int)site.SiteUId, Request.Form.Get("site['name']"));
 
                 return RedirectToAction("Index");
             }
@@ -73,8 +73,8 @@ namespace eFormFrontendDotNet.Controllers
             try
             {
                 Core core = getCore();
-                var site = core.SiteRead(id);
-                if (core.SiteDelete(id))
+                var site = core.Advanced_SiteItemRead(id);
+                if (core.Advanced_SiteItemDelete(id))
                 {
                     JObject response = JObject.FromObject(new
                     {
