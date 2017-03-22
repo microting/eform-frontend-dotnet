@@ -44,32 +44,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\AWSSDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.SQS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\AWSSDK.SQS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="eFormCommunicator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormCommunicator.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormCommunicator.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormCore, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormCore.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormCore.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormData, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormData.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormData.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormOffice, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormOffice.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormOffice.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormShared, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormShared.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormShared.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormSqlController, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormSqlController.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormSqlController.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="eFormSubscriber, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microting.eForm.1.5.0\lib\eFormSubscriber.dll</HintPath>
+      <HintPath>..\packages\Microting.eForm.1.5.1\lib\eFormSubscriber.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="i18n, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b54a7283d4bad1bb, processorArchitecture=MSIL">
