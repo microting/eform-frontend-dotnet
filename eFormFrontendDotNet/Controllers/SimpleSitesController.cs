@@ -130,7 +130,7 @@ namespace eFormFrontendDotNet.Controllers
                 Core core = getCore();
                 eFormShared.SiteName_Dto siteNameDto = core.Advanced_SiteItemRead(id);
 
-                bool result3 = core.Advanced_SiteItemDelete(id);
+                bool result3 = core.SiteDelete(siteNameDto.SiteUId);
                 if (result3)
                 {
                     JObject response = JObject.FromObject(new
