@@ -43,18 +43,30 @@ namespace eFormFrontendDotNet.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException.Message.Contains("Cannot open database"))
+                    if (ex.Message.Contains("PrimeDb"))
                     {
-                        try
-                        {
-                            Core core = getCore();
-                        }
-                        catch (Exception ex2)
-                        {
+                        string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-                        }
-                        return Redirect("Settings");
+                        string connectionStr = lines.First();
+                        AdminTools adminTool = new AdminTools(connectionStr, false);
+                        adminTool.DbSettingsReloadRemote();
+                        return Redirect("Templates");
                     }
+                    else
+                    {
+                        if (ex.InnerException.Message.Contains("Cannot open database"))
+                        {
+                            try
+                            {
+                                Core core = getCore();
+                            }
+                            catch (Exception ex2)
+                            {
+
+                            }
+                            return Redirect("Settings");
+                        }
+                    }                    
                     return RedirectToAction("Index");
                 }
             }
@@ -88,7 +100,9 @@ namespace eFormFrontendDotNet.Controllers
         {
             string tamplate_xml = Request.Form.Get("eFormXML");
             Core core = getCore();
+
             eFormData.MainElement newTemplate = core.TemplateFromXml(tamplate_xml);
+            newTemplate = core.TemplateUploadData(newTemplate);
             List<string> errors = core.TemplateValidation(newTemplate);
             if (errors.Count() == 0)
             {

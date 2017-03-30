@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
-//using eFormFrontendDotNet.Models;
 using eFormCore;
 
 namespace eFormFrontendDotNet.Controllers
@@ -19,7 +11,7 @@ namespace eFormFrontendDotNet.Controllers
         // GET: settings
         public ActionResult Index()
         {
-            return null;
+            return View();
         }
 
         // GET: settings/Details/5
@@ -29,15 +21,6 @@ namespace eFormFrontendDotNet.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            //string connectionStr = lines.First();
-            //Setting db = new Setting(connectionStr);
-            //settings settings = await db.settings.FindAsync(id);
-            //if (settings == null)
-            //{
-            //    return HttpNotFound();
-            //}
             return View();
         }
 
@@ -48,25 +31,6 @@ namespace eFormFrontendDotNet.Controllers
         }
 
         // POST: settings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-        //        //string connectionStr = lines.First();
-        //        //Setting db = new Setting(connectionStr);
-        //        //db.settings.Add(settings);
-        //        //await db.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View();
-        //}
 
         // GET: settings/Edit/5
         public ActionResult Edit(int? id)
@@ -75,16 +39,6 @@ namespace eFormFrontendDotNet.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            //string connectionStr = lines.First();
-            //Setting db = new Setting(connectionStr);
-            //settings settings = await db.settings.FindAsync(id);
-            //if (settings == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(settings);
             return View();
         }
 
@@ -97,12 +51,7 @@ namespace eFormFrontendDotNet.Controllers
         {
             if (ModelState.IsValid)
             {
-                //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-                //string connectionStr = lines.First();
-                //Setting db = new Setting(connectionStr);
-                //db.Entry(settings).State = EntityState.Modified;
-                //await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View();
@@ -115,15 +64,7 @@ namespace eFormFrontendDotNet.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
 
-            //string connectionStr = lines.First();
-            //Setting db = new Setting(connectionStr);
-            //settings settings = await db.settings.FindAsync(id);
-            //if (settings == null)
-            //{
-            //    return HttpNotFound();
-            //}
             return View();
         }
 
@@ -132,13 +73,6 @@ namespace eFormFrontendDotNet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //string[] lines = System.IO.File.ReadAllLines(Server.MapPath("~/bin/Input.txt"));
-
-            //string connectionStr = lines.First();
-            //Setting db = new Setting(connectionStr);
-            //settings settings = await db.settings.FindAsync(id);
-            //db.settings.Remove(settings);
-            //await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
