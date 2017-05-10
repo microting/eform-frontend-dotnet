@@ -285,7 +285,7 @@ namespace eFormFrontendDotNet.Controllers
                 mainElement.Repeated = 0; // We set this right now hardcoded, this will let the eForm be deployed until end date or we actively retract it.
                 mainElement.EndDate = DateTime.Now.AddYears(10);
                 mainElement.StartDate = DateTime.Now;
-                core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "", true);
+                core.CaseCreate(mainElement, "", sitesToBeDeployedTo, "");
             }
 
             foreach (int siteUId in sitesToBeRetractedFrom)

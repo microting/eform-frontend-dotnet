@@ -38,7 +38,7 @@ namespace eFormFrontendDotNet.Controllers
 
             Core core = getCore();
 
-            ViewBag.workers = core.Advanced_WorkerReadAll();
+            ViewBag.workers = core.Advanced_WorkerReadAll("not_removed", null, null);
 
             return View();
         }
