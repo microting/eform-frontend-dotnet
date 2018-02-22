@@ -1,23 +1,13 @@
 # eform-frontend-dotnet
 
-A ASP MVC Frontend for integrating with the Microting eForm API v1.
+!!!! WARNING !!!!
+=================
 
-## Support Platforms
+Deprecated and no longer maintained.
+Please refer to https://github.com/microting/eform-angular-frontend for new projects.
 
- - .NET Framework 4.5+
- - Windows 7 SP1
- - MS SQL 2008 R2
-
-## Get access token
-
-You need to create an account for Microting API and get your access credentials.
-
- - Call Microting at +45 66 11 10 66 to get started.
-
-## Development recommendations
-
-  - Visual Studio 2015
-  - MS SQL Server Management Studio
+!!!! WARNING !!!!
+=================
 
 ## License
 
